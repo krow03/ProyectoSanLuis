@@ -2,47 +2,58 @@ package DTO;
 
 public class UsuarioDTO
 {
+	private String idUsuario;
     private String userName;
     private String email;
-    private IncidenciaDTO[] incidencias;
-    private CentroEstudioDTO centroEstudio;
+    private int idEquipo;
+    private IncidenciaDTO[] incidenciasRealizadas;
+	
+    public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo) {
+		super();
+		this.idUsuario = idUsuario;
+		this.userName = userName;
+		this.email = email;
+		this.idEquipo = idEquipo;
+	}
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(String idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getIdEquipo() {
+		return idEquipo;
+	}
+
+	public void setIdEquipo(int idEquipo) {
+		this.idEquipo = idEquipo;
+	}
+
+	public IncidenciaDTO[] getIncidencias() {
+		return incidenciasRealizadas;
+	}
+
+	public void setIncidencias(IncidenciaDTO[] incidencias) {
+		this.incidenciasRealizadas = incidencias;
+	}
     
-    public UsuarioDTO(final String userName, final String email, final IncidenciaDTO[] incidencias, final CentroEstudioDTO centroEstudio) {
-        this.userName = userName;
-        this.email = email;
-        this.incidencias = incidencias;
-        this.centroEstudio = centroEstudio;
-    }
-    
-    public String getUserName() {
-        return this.userName;
-    }
-    
-    public void setUserName(final String userName) {
-        this.userName = userName;
-    }
-    
-    public String getEmail() {
-        return this.email;
-    }
-    
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-    
-    public IncidenciaDTO[] getIncidencias() {
-        return this.incidencias;
-    }
-    
-    public void setIncidencias(final IncidenciaDTO[] incidencias) {
-        this.incidencias = incidencias;
-    }
-    
-    public CentroEstudioDTO getCentroEstudio() {
-        return this.centroEstudio;
-    }
-    
-    public void setCentroEstudio(final CentroEstudioDTO centroEstudio) {
-        this.centroEstudio = centroEstudio;
-    }
 }

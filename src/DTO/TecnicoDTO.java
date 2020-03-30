@@ -1,14 +1,14 @@
 package DTO;
 
+import java.util.Arrays;
+
 public class TecnicoDTO extends UsuarioDTO
 {
     private int nIncidencias;
-    private IncidenciaDTO[] incidencias;
+    private IncidenciaDTO[] incidenciasAsignadas;
     
-    public TecnicoDTO(final String userName, final String email, IncidenciaDTO[] incidencias, final CentroEstudioDTO centroEstudio, final int nIncidencias, final IncidenciaDTO[] incidencias2) {
-        super(userName, email, incidencias, centroEstudio);
-        this.nIncidencias = nIncidencias;
-        incidencias = incidencias2;
+    public TecnicoDTO(String idUsuario, String userName, String email, int idEquipo) {
+        super(idUsuario,userName,email,idEquipo);
     }
     
     public int getnIncidencias() {
@@ -20,10 +20,11 @@ public class TecnicoDTO extends UsuarioDTO
     }
     
     public IncidenciaDTO[] getIncidencias() {
-        return this.incidencias;
+        return this.incidenciasAsignadas;
     }
     
     public void setIncidencias(final IncidenciaDTO[] incidencias) {
-        this.incidencias = incidencias;
+        this.incidenciasAsignadas = incidencias;
     }
+
 }

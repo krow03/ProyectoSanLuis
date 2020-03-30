@@ -11,7 +11,7 @@ public class ProveedorDTO
         this.cif = cif;
         this.nombre = nombre;
         this.email = email;
-        this.componente = new ComponenteDTO();
+        //this.componente = new ComponenteDTO();
     }
     
     public String getCif() {

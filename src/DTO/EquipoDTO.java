@@ -2,67 +2,79 @@ package DTO;
 
 public class EquipoDTO
 {
+	private int idEquipo;
+	private String ipEquipo;
     private String nombre;
-    private String ipEquipo;
     private int discoDuro;
     private int disponibleHDD;
     private int ram;
+    private int idAula;
     private ComponenteDTO[] componentes;
     
-    public EquipoDTO(final String nombre, final String ipEquipo, final int discoDuro, final int disponibleHDD, final int ram, final ComponenteDTO[] componentes) {
-        this.nombre = nombre;
-        this.ipEquipo = ipEquipo;
-        this.discoDuro = discoDuro;
-        this.disponibleHDD = disponibleHDD;
-        this.ram = ram;
-        this.componentes = componentes;
-    }
+	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, int disponibleHDD, int ram, int idAula) {
+		super();
+		this.idEquipo = idEquipo;
+		this.ipEquipo = ipEquipo;
+		this.nombre = nombre;
+		this.discoDuro = discoDuro;
+		this.disponibleHDD = disponibleHDD;
+		this.ram = ram;
+		this.idAula = idAula;
+	}
     
-    public String getNombre() {
-        return this.nombre;
-    }
     
-    public void setNombre(final String nombre) {
-        this.nombre = nombre;
-    }
+	public int getIdEquipo() {
+		return idEquipo;
+	}
+
+
+	public void setIdEquipo(int idEquipo) {
+		this.idEquipo = idEquipo;
+	}
+
+
+	public String getIpEquipo() {
+		return ipEquipo;
+	}
+	public void setIpEquipo(String ipEquipo) {
+		this.ipEquipo = ipEquipo;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public int getDiscoDuro() {
+		return discoDuro;
+	}
+	public void setDiscoDuro(int discoDuro) {
+		this.discoDuro = discoDuro;
+	}
+	public int getDisponibleHDD() {
+		return disponibleHDD;
+	}
+	public void setDisponibleHDD(int disponibleHDD) {
+		this.disponibleHDD = disponibleHDD;
+	}
+	public int getRam() {
+		return ram;
+	}
+	public void setRam(int ram) {
+		this.ram = ram;
+	}
+	public int getIdAula() {
+		return idAula;
+	}
+	public void setIdAula(int idAula) {
+		this.idAula = idAula;
+	}
+	public ComponenteDTO[] getComponentes() {
+		return componentes;
+	}
+	public void setComponentes(ComponenteDTO[] componentes) {
+		this.componentes = componentes;
+	}
+
     
-    public String getIpEquipo() {
-        return this.ipEquipo;
-    }
-    
-    public void setIpEquipo(final String ipEquipo) {
-        this.ipEquipo = ipEquipo;
-    }
-    
-    public int getDiscoDuro() {
-        return this.discoDuro;
-    }
-    
-    public void setDiscoDuro(final int discoDuro) {
-        this.discoDuro = discoDuro;
-    }
-    
-    public int getDisponibleHDD() {
-        return this.disponibleHDD;
-    }
-    
-    public void setDisponibleHDD(final int disponibleHDD) {
-        this.disponibleHDD = disponibleHDD;
-    }
-    
-    public int getRam() {
-        return this.ram;
-    }
-    
-    public void setRam(final int ram) {
-        this.ram = ram;
-    }
-    
-    public ComponenteDTO[] getComponentes() {
-        return this.componentes;
-    }
-    
-    public void setComponentes(final ComponenteDTO[] componentes) {
-        this.componentes = componentes;
-    }
 }

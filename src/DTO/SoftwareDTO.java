@@ -4,12 +4,15 @@ public class SoftwareDTO extends ComponenteDTO
 {
     private String codLiciencia;
     
-    public SoftwareDTO(final String descripcion, final int udsDisponibles, final String codLiciencia) {
-        super(descripcion, udsDisponibles);
-        this.codLiciencia = codLiciencia;
-    }
+
     
-    public String getCodLiciencia() {
+    public SoftwareDTO(int idComponente, int idEquipo, int idStock, int idProveedor, String descripcion,
+			String codLiciencia) {
+		super(idComponente, idEquipo, idStock, idProveedor, descripcion);
+		this.codLiciencia = codLiciencia;
+	}
+
+	public String getCodLiciencia() {
         return this.codLiciencia;
     }
     

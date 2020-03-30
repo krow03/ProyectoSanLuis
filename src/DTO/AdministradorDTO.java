@@ -2,7 +2,7 @@ package DTO;
 
 public class AdministradorDTO extends TecnicoDTO
 {
-    public AdministradorDTO(final String userName, final String email, final IncidenciaDTO[] incidencias, final CentroEstudioDTO centroEstudio, final int nIncidencias, final IncidenciaDTO[] incidencias2) {
-        super(userName, email, incidencias, centroEstudio, nIncidencias, incidencias2);
+    public AdministradorDTO(String idUsuario, String userName, String email, int idEquipo) {
+        super(idUsuario,userName,email,idEquipo);
     }
 }
