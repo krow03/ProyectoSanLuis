@@ -6,8 +6,18 @@ public class UsuarioDTO
     private String userName;
     private String email;
     private int idEquipo;
+    private String pass;
     private IncidenciaDTO[] incidenciasRealizadas;
 	
+    public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass) {
+		super();
+		this.idUsuario = idUsuario;
+		this.userName = userName;
+		this.email = email;
+		this.idEquipo = idEquipo;
+		this.pass = pass;
+    }
+    
     public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo) {
 		super();
 		this.idUsuario = idUsuario;
@@ -46,6 +56,14 @@ public class UsuarioDTO
 
 	public void setIdEquipo(int idEquipo) {
 		this.idEquipo = idEquipo;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	public IncidenciaDTO[] getIncidencias() {
