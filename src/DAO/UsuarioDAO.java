@@ -1,11 +1,12 @@
 package DAO;
 
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import Conexion.Conexion;
 import DTO.AdministradorDTO;
@@ -14,11 +15,12 @@ import DTO.UsuarioDTO;
 
 public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 
-	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,Equipos_idEquipos,userName,email) VALUES (?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,Equipos_idEquipos,userName,email,pass) VALUES (?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_UPDATE="UPDATE Usuarios SET userName,email = ?,? WHERE idUsuarios = ?";
 	private static final String SQL_FINDPERSONA="SELECT * FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Usuarios";
+	private static final String SQL_LOGIN="SELECT * FROM Usuarios WHERE userName like ? and pass like ?;";
 	private Conexion con = Conexion.getInstance();
 	
 	@Override
@@ -36,7 +38,8 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ps.setInt(3, t.getIdEquipo());
 			ps.setString(4, t.getUserName());
 			ps.setString(5, t.getEmail());
-		
+			ps.setString(6, DigestUtils.sha256Hex(t.getPass()));
+			
 			if (ps.executeUpdate()>0) {
 				ps.close();
 				return true;
@@ -146,4 +149,30 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		return null;
 	}
 
+	public UsuarioDTO login(String usuario, String pass) {
+		UsuarioDTO user=null;
+		pass =  DigestUtils.sha256Hex(pass);
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_LOGIN);
+			ps.setString(1, usuario);
+			ps.setString(2, pass);
+			
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()==true){
+				if(rs.getInt("Roles_idRol")==1) {
+					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					return user;
+				}else if(rs.getInt("Roles_idRol")==2) {
+					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					return tec;
+				}else if(rs.getInt("Roles_idRol")==3) {
+					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					return admin;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
 }

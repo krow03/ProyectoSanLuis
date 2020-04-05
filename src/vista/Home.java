@@ -6,12 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Gestores.GestorUsuarios;
+
 import java.awt.Color;
 import java.awt.Button;
 import java.awt.SystemColor;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -19,14 +23,15 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 
+	private GestorUsuarios gu = new GestorUsuarios();
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
+	private JTextField txtUser;
+	private JPasswordField txtPass;
 	
 	int xx,xy;
 
@@ -108,45 +113,42 @@ public class Home extends JFrame {
 		lblWeGotYou.setBounds(111, 343, 141, 27);
 		panel.add(lblWeGotYou);
 		
-		Button button = new Button("SignUp");
-		button.setForeground(Color.WHITE);
-		button.setBackground(new Color(241, 57, 83));
-		button.setBounds(395, 363, 283, 36);
-		contentPane.add(button);
+		Button btnSign = new Button("SignUp");
+		btnSign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(gu.login(txtUser.getText(), txtPass.getText())) {
+					try {
+						Main main = new Main();
+						main.setVisible(true);
+					}catch(Exception e) {
+						e.printStackTrace();	
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos","Error login", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnSign.setForeground(Color.WHITE);
+		btnSign.setBackground(new Color(241, 57, 83));
+		btnSign.setBounds(395, 257, 283, 36);
+		contentPane.add(btnSign);
 		
-		textField = new JTextField();
-		textField.setBounds(395, 83, 283, 36);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtUser = new JTextField();
+		txtUser.setBounds(395, 119, 283, 36);
+		contentPane.add(txtUser);
+		txtUser.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("USERNAME");
-		lblUsername.setBounds(395, 58, 114, 14);
+		lblUsername.setBounds(395, 92, 114, 14);
 		contentPane.add(lblUsername);
 		
-		JLabel lblEmail = new JLabel("EMAIL");
-		lblEmail.setBounds(395, 132, 54, 14);
-		contentPane.add(lblEmail);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(395, 157, 283, 36);
-		contentPane.add(textField_1);
-		
 		JLabel lblPassword = new JLabel("PASSWORD");
-		lblPassword.setBounds(395, 204, 96, 14);
+		lblPassword.setBounds(395, 168, 96, 14);
 		contentPane.add(lblPassword);
 		
-		JLabel lblRepeatPassword = new JLabel("REPEAT PASSWORD");
-		lblRepeatPassword.setBounds(395, 275, 133, 14);
-		contentPane.add(lblRepeatPassword);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(395, 229, 283, 36);
-		contentPane.add(passwordField);
-		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(395, 293, 283, 36);
-		contentPane.add(passwordField_1);
+		txtPass = new JPasswordField();
+		txtPass.setBounds(395, 195, 283, 36);
+		contentPane.add(txtPass);
 		
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
