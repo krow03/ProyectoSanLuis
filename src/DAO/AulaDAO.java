@@ -28,7 +28,7 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 			ps.setString(3, t.getRangoIps());
 			ps.setString(4, t.getNombre());
 			ps.setString(5, t.getDescripcion());
-			ps.setInt(5, t.getCapacidad());
+			ps.setInt(6, t.getCapacidad());
 		
 			if (ps.executeUpdate()>0) {
 				ps.close();

@@ -78,8 +78,4 @@ public class IncidenciaDTO
 	public void setPrioridad(int prioridad) {
 		this.prioridad = prioridad;
 	}
-    
-	
-    
-    
 }
