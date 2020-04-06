@@ -25,7 +25,7 @@ import javax.swing.border.BevelBorder;
 
 public class Main extends JFrame {
 	JComboBox comboBox;
-	JPanel panel_1;
+	JPanel aulas;
 	private JPanel contentPane;
 	int xx, xy;
 
@@ -53,7 +53,7 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 
-		/*ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
+		ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 		listaEquipos.add(new EquipoDTO("1", "192.167"));
 		listaEquipos.add(new EquipoDTO("2", "192.167"));
 		listaEquipos.add(new EquipoDTO("3", "192.167"));
@@ -63,7 +63,7 @@ public class Main extends JFrame {
 		listaEquipos.add(new EquipoDTO("7", "192.167"));
 		listaEquipos.add(new EquipoDTO("8", "192.167"));
 		listaEquipos.add(new EquipoDTO("9", "192.167"));
-		listaEquipos.add(new EquipoDTO("10", "192.167"));*/
+		listaEquipos.add(new EquipoDTO("10", "192.167"));
 
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,19 +85,7 @@ public class Main extends JFrame {
 		lvlSalida.setBounds(10, 789, 46, 64);
 		panel.add(lvlSalida);
 
-		JLabel lvlSalida_1 = new JLabel("");
-		lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
-		lvlSalida_1.addMouseListener(new MouseAdapter() {
 
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				panel_1.setVisible(true);
-				
-			}
-		});
-		lvlSalida_1.setBounds(10, 11, 46, 64);
-		panel.add(lvlSalida_1);
 
 		JLabel lvlSalida_1_1 = new JLabel("");
 		lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
@@ -109,10 +97,7 @@ public class Main extends JFrame {
 		lvlSalida_1_1_1.setBounds(10, 413, 46, 64);
 		panel.add(lvlSalida_1_1_1);
 
-		JLabel lvlSalida_1_1_2 = new JLabel("");
-		lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
-		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
-		panel.add(lvlSalida_1_1_2);
+
 
 		JLabel lvlSalida_1_1_2_1 = new JLabel("");
 		lvlSalida_1_1_2_1.setIcon(new ImageIcon(Main.class.getResource("/images/almacen.png")));
@@ -131,24 +116,92 @@ public class Main extends JFrame {
 		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbl_close.setBounds(1381, 0, 37, 27);
 		contentPane.add(lbl_close);
+		int linea1 = 0;
+		int linea2 = 0;
+		int linea3 = 0;
+		int linea4 = 0;
+		int linea5 = 0;
 
-		panel_1 = new JPanel();
-		panel_1.setBounds(91, 36, 1300, 791);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		panel_1.setVisible(false);
+		JPanel perfil = new JPanel();
+		perfil.setBackground(Color.WHITE);
+		perfil.setBounds(88, 29, 1287, 767);
+		contentPane.add(perfil);
+		perfil.setLayout(null);
+
+		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setLayout(null);
+		panel_2_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_2_1.setBounds(116, 144, 329, 448);
+		perfil.add(panel_2_1);
+
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNombre.setBounds(10, 11, 118, 14);
+		panel_2_1.add(lblNombre);
+
+		JLabel lblNewLabel_1_2 = new JLabel("Email");
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1_2.setBounds(10, 85, 71, 14);
+		panel_2_1.add(lblNewLabel_1_2);
+
+		JLabel lblNewLabel_1_1_2 = new JLabel("Ordenador asociado");
+		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1_1_2.setBounds(10, 162, 155, 14);
+		panel_2_1.add(lblNewLabel_1_1_2);
+
+		JLabel lblNewLabel_1_1_1_1 = new JLabel("Instalaciones Pendientes");
+		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1_1_1_1.setBounds(10, 319, 188, 14);
+		panel_2_1.add(lblNewLabel_1_1_1_1);
+
+		JLabel lblCaracteristicas_4 = new JLabel("");
+		lblCaracteristicas_4.setBounds(20, 36, 408, 63);
+		panel_2_1.add(lblCaracteristicas_4);
+
+		JLabel lblCaracteristicas_1_1 = new JLabel("");
+		lblCaracteristicas_1_1.setBounds(20, 135, 408, 63);
+		panel_2_1.add(lblCaracteristicas_1_1);
+
+		JLabel lblCaracteristicas_2_1 = new JLabel("");
+
+		JButton btnSolicitud = new JButton("Solicitud");
+		btnSolicitud.setBackground(new Color(51, 204, 153));
+		btnSolicitud.setForeground(Color.BLACK);
+		btnSolicitud.setBounds(604, 300, 179, 49);
+		JButton btnIncidencia = new JButton("Incidencia");
+		btnIncidencia.setBackground(new Color(51, 204, 153));
+		btnIncidencia.setForeground(Color.BLACK);
+		btnIncidencia.setBounds(622, 344, 179, 49);
+		perfil.add(btnIncidencia);
+		lblCaracteristicas_2_1.setBounds(20, 249, 408, 63);
+		panel_2_1.add(lblCaracteristicas_2_1);
+
+		JLabel lblCaracteristicas_3_1 = new JLabel("");
+		lblCaracteristicas_3_1.setBounds(20, 353, 408, 63);
+		panel_2_1.add(lblCaracteristicas_3_1);
+
+		JButton btnNewButton = new JButton("Solicitud");
+		btnNewButton.setBackground(new Color(255, 153, 102));
+		btnNewButton.setBounds(622, 251, 179, 49);
+		perfil.add(btnNewButton);
+
+		aulas = new JPanel();
+		aulas.setBounds(88, 29, 1287, 791);
+		contentPane.add(aulas);
+		aulas.setLayout(null);
+		aulas.setVisible(false);
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
 		comboBox.addItem("Seleccione un aula");
 		comboBox.addItem("Aula 1");
 		comboBox.addItem("Aula 2");
 		comboBox.setBounds(46, 44, 190, 31);
-		panel_1.add(comboBox);
+		aulas.add(comboBox);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_2.setBounds(834, 208, 456, 448);
-		panel_1.add(panel_2);
+		panel_2.setBounds(800, 208, 456, 448);
+		aulas.add(panel_2);
 		panel_2.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Caracteristicas");
@@ -174,14 +227,9 @@ public class Main extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setAutoscrolls(true);
 		panel_3.setBounds(47, 150, 691, 569);
-		panel_1.add(panel_3);
+		aulas.add(panel_3);
 
 		panel_3.setLayout(null);
-		int linea1 = 0;
-		int linea2 = 0;
-		int linea3 = 0;
-		int linea4 = 0;
-		int linea5 = 0;
 
 		JLabel lblCaracteristicas = new JLabel("");
 		lblCaracteristicas.setBounds(20, 36, 408, 63);
@@ -198,7 +246,7 @@ public class Main extends JFrame {
 		JLabel lblCaracteristicas_3 = new JLabel("");
 		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
 		panel_2.add(lblCaracteristicas_3);
-		/*for (int i = 0; i < listaEquipos.size(); i++) {
+		for (int i = 0; i < listaEquipos.size(); i++) {
 
 			int posicion1 = linea1 * 15;
 			int posicion2 = linea2 * 15;
@@ -238,12 +286,41 @@ public class Main extends JFrame {
 			lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 			panel_3.revalidate();
+			JLabel lvlSalida_1 = new JLabel("");
+			lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
+			lvlSalida_1.addMouseListener(new MouseAdapter() {
 
-		}*/
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+
+					aulas.setVisible(true);
+					perfil.setVisible(false);
+				}
+			});
+			lvlSalida_1.setBounds(10, 11, 46, 64);
+			panel.add(lvlSalida_1);
+			
+			JLabel lvlSalida_1_1_2 = new JLabel("");
+			lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
+			lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					aulas.setVisible(false);
+					perfil.setVisible(true);
+					
+				}
+			});
+			lvlSalida_1.setBounds(10, 11, 46, 64);
+			panel.add(lvlSalida_1);
+			lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
+			panel.add(lvlSalida_1_1_2);
+		}
 
 	}
+
 	public void ventana1() {
-		
-	}
 
+	}
 }

@@ -23,6 +23,12 @@ public class EquipoDTO
 	}
     
     
+	public EquipoDTO(String nombre, String ipEquipo) {
+		this.nombre = nombre;
+		this.ipEquipo = ipEquipo;
+	}
+
+
 	public int getIdEquipo() {
 		return idEquipo;
 	}

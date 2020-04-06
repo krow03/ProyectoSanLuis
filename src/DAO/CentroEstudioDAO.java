@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import Conexion.Conexion;
 import DTO.CentroEstudioDTO;
-
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class CentroEstudioDAO implements PatronDAO<CentroEstudioDTO>{
 	private static final String SQL_FIND="SELECT * FROM Usuarios WHERE idUsuarios = ?";
@@ -22,6 +22,9 @@ public class CentroEstudioDAO implements PatronDAO<CentroEstudioDTO>{
 	@Override
 	public boolean borrar(Object pk) {
 		// TODO Auto-generated method stub
+		String textoSinEncriptar="sergio"; 
+		String textoEncriptadoConMD5=DigestUtils.md5Hex(textoSinEncriptar); 
+		System.out.println("Texto Encriptado con MD5 : "+textoEncriptadoConMD5);
 		return false;
 	}
 	@Override
