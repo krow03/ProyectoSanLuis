@@ -18,7 +18,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 	private static final String SQL_UPDATE="UPDATE Equipos SET Aulas_idAulas,nombre,dicoDuro,ram,disponibleHD,ipEquipo = ?,?,?,?,?,? WHERE idEquipos = ?";
 	private static final String SQL_FIND="SELECT * FROM Equipos WHERE idEquipos = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Equipos";
-	private static final String SQL_FINDALLBYID="SELECT * FROM Equipos WHERE Aulas_idAulas = ?";
+	private static final String SQL_FINDALLBYIDAULA="SELECT * FROM Equipos WHERE Aulas_idAulas = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	@Override
@@ -128,7 +128,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 	public ArrayList<EquipoDTO> listarTodos(Object pk) {
 		ArrayList<EquipoDTO> lista = new ArrayList<EquipoDTO>();
 		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYID);
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYIDAULA);
 			ps.setString(1, pk.toString());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
