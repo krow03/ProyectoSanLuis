@@ -20,6 +20,8 @@ import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -66,11 +68,6 @@ public class Home extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		String textoSinEncriptar="jgjgjg"; 
-		JOptionPane.showMessageDialog(null, "Thank you for using Java", "Yay, java", JOptionPane.ERROR_MESSAGE);
-
-		String textoEncriptadoConSHA=DigestUtils.sha256Hex(textoSinEncriptar); 
-		System.out.println("Texto Encriptado con SHA : "+textoEncriptadoConSHA);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
 		panel.setBounds(0, 0, 346, 490);
