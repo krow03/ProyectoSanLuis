@@ -14,6 +14,10 @@ public class GestorUsuarios {
 	private static ArrayList <UsuarioDTO> listaUsers;
 	private static UsuarioDTO userOnline;
 	
+	public ArrayList <UsuarioDTO> getList() {
+		return listaUsers;
+	}
+	
 	public UsuarioDTO getUserOnline() {
 		return userOnline;
 	}
