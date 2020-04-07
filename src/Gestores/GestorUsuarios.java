@@ -3,8 +3,6 @@ package Gestores;
 import java.util.ArrayList;
 
 import DTO.UsuarioDTO;
-import DTO.TecnicoDTO;
-import DTO.AdministradorDTO;
 
 import DAO.UsuarioDAO;
 
