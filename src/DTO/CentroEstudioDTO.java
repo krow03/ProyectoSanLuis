@@ -3,14 +3,13 @@ package DTO;
 import java.util.ArrayList;
 
 public class CentroEstudioDTO {
+	
 	private int idCentro;
 	private String nombreCentro;
 	private String ciudadCentro;
-	
+
 	private ArrayList<AulaDTO> listaAulas;
 
-	
-	
 	public CentroEstudioDTO(int idCentro, String nombreCentro, String ciudadCentro) {
 		super();
 		this.idCentro = idCentro;
@@ -49,4 +48,5 @@ public class CentroEstudioDTO {
 	public void setListaAulas(ArrayList<AulaDTO> listaAulas) {
 		this.listaAulas = listaAulas;
 	}
+	
 }

@@ -3,7 +3,6 @@ package DTO;
 public class SolicitudDTO extends IncidenciaDTO
 {
     private ComponenteDTO componente;
-
 	
 
 	public SolicitudDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,

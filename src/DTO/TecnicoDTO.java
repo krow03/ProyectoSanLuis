@@ -1,30 +1,43 @@
 package DTO;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class TecnicoDTO extends UsuarioDTO
 {
+	//campo calculado
     private int nIncidencias;
-    private IncidenciaDTO[] incidenciasAsignadas;
+    //campo calculado
+    private int numAulas;
+    
+    private ArrayList<IncidenciaDTO> incidenciasAsignadas;
     
     public TecnicoDTO(String idUsuario, String userName, String email, int idEquipo) {
         super(idUsuario,userName,email,idEquipo);
     }
-    
-    public int getnIncidencias() {
-        return this.nIncidencias;
-    }
-    
-    public void setnIncidencias(final int nIncidencias) {
-        this.nIncidencias = nIncidencias;
-    }
-    
-    public IncidenciaDTO[] getIncidencias() {
-        return this.incidenciasAsignadas;
-    }
-    
-    public void setIncidencias(final IncidenciaDTO[] incidencias) {
-        this.incidenciasAsignadas = incidencias;
-    }
+
+	public int getnIncidencias() {
+		return nIncidencias;
+	}
+
+	public void setnIncidencias(int nIncidencias) {
+		this.nIncidencias = nIncidencias;
+	}
+
+	public int getNumAulas() {
+		return numAulas;
+	}
+
+	public void setNumAulas(int numAulas) {
+		this.numAulas = numAulas;
+	}
+
+	public ArrayList<IncidenciaDTO> getIncidenciasAsignadas() {
+		return incidenciasAsignadas;
+	}
+
+	public void setIncidenciasAsignadas(ArrayList<IncidenciaDTO> incidenciasAsignadas) {
+		this.incidenciasAsignadas = incidenciasAsignadas;
+	}
+
 
 }

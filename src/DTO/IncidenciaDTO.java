@@ -11,6 +11,7 @@ public class IncidenciaDTO
     private String estado;
     private String descripcion;
     private int prioridad;
+    
 	public IncidenciaDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
 			String fechaFin, String estado, String descripcion, int prioridad) {
 		super();

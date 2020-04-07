@@ -168,6 +168,7 @@ public class Main extends JFrame {
 		btnSolicitud.setBackground(new Color(51, 204, 153));
 		btnSolicitud.setForeground(Color.BLACK);
 		btnSolicitud.setBounds(604, 300, 179, 49);
+		
 		JButton btnIncidencia = new JButton("Incidencia");
 		btnIncidencia.setBackground(new Color(51, 204, 153));
 		btnIncidencia.setForeground(Color.BLACK);

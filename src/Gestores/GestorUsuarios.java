@@ -2,9 +2,9 @@ package Gestores;
 
 import java.util.ArrayList;
 
-import DTO.UsuarioDTO;
-import DTO.TecnicoDTO;
 import DTO.AdministradorDTO;
+import DTO.TecnicoDTO;
+import DTO.UsuarioDTO;
 
 import DAO.UsuarioDAO;
 
@@ -30,5 +30,13 @@ public class GestorUsuarios {
 		return false;
 	}
 	
+	public int tienePermisos() {
+		if(userOnline instanceof AdministradorDTO) {
+			return 3;
+		}else if(userOnline instanceof TecnicoDTO){
+			return 2;
+		}
+		return 1;
+	}
 	
 }
