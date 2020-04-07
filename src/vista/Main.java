@@ -27,6 +27,7 @@ import javax.swing.JList;
 import java.awt.ScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 
 public class Main extends JFrame {
 	JComboBox comboBox;
@@ -35,6 +36,7 @@ public class Main extends JFrame {
 	int xx, xy;
 	private JTable table;
 	private GestorEquipos ge = new GestorEquipos();
+	private JTable table_1;
 	/**
 	 * Launch the application.
 	 */
@@ -127,42 +129,47 @@ public class Main extends JFrame {
 
 		JPanel perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(88, 37, 1287, 767);
+		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
 		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setBackground(new Color(0x566573));
 		panel_2_1.setLayout(null);
 		panel_2_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_2_1.setBounds(116, 144, 329, 448);
+		panel_2_1.setBounds(0, 0, 462, 878);
 		perfil.add(panel_2_1);
 
 		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNombre.setBounds(10, 11, 118, 14);
+		lblNombre.setBounds(20, 300, 118, 14);
 		panel_2_1.add(lblNombre);
 
 		JLabel lblNewLabel_1_2 = new JLabel("Email");
+		lblNewLabel_1_2.setForeground(Color.WHITE);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_2.setBounds(10, 85, 71, 14);
+		lblNewLabel_1_2.setBounds(20, 376, 71, 14);
 		panel_2_1.add(lblNewLabel_1_2);
 
 		JLabel lblNewLabel_1_1_2 = new JLabel("Ordenador asociado");
+		lblNewLabel_1_1_2.setForeground(Color.WHITE);
 		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1_2.setBounds(10, 162, 155, 14);
+		lblNewLabel_1_1_2.setBounds(20, 451, 155, 14);
 		panel_2_1.add(lblNewLabel_1_1_2);
 
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Instalaciones Pendientes");
+		lblNewLabel_1_1_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1_1_1.setBounds(10, 319, 188, 14);
+		lblNewLabel_1_1_1_1.setBounds(20, 614, 188, 14);
 		panel_2_1.add(lblNewLabel_1_1_1_1);
 
 		JLabel lblCaracteristicas_4 = new JLabel("");
-		lblCaracteristicas_4.setBounds(20, 36, 408, 63);
+		lblCaracteristicas_4.setBounds(10, 327, 408, 63);
 		panel_2_1.add(lblCaracteristicas_4);
 
 		JLabel lblCaracteristicas_1_1 = new JLabel("");
-		lblCaracteristicas_1_1.setBounds(20, 135, 408, 63);
+		lblCaracteristicas_1_1.setBounds(20, 426, 408, 63);
 		panel_2_1.add(lblCaracteristicas_1_1);
 
 		JLabel lblCaracteristicas_2_1 = new JLabel("");
@@ -174,22 +181,27 @@ public class Main extends JFrame {
 		JButton btnIncidencia = new JButton("Incidencia");
 		btnIncidencia.setBackground(new Color(51, 204, 153));
 		btnIncidencia.setForeground(Color.BLACK);
-		btnIncidencia.setBounds(622, 344, 179, 49);
+		btnIncidencia.setBounds(975, 295, 179, 146);
 		perfil.add(btnIncidencia);
-		lblCaracteristicas_2_1.setBounds(20, 249, 408, 63);
+		lblCaracteristicas_2_1.setBounds(20, 540, 408, 63);
 		panel_2_1.add(lblCaracteristicas_2_1);
 
 		JLabel lblCaracteristicas_3_1 = new JLabel("");
-		lblCaracteristicas_3_1.setBounds(20, 353, 408, 63);
+		lblCaracteristicas_3_1.setBounds(20, 635, 408, 63);
 		panel_2_1.add(lblCaracteristicas_3_1);
+		
+		JLabel lblNewLabel_7 = new JLabel("");
+		lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/images/usuario (1).png")));
+		lblNewLabel_7.setBounds(58, 21, 265, 281);
+		panel_2_1.add(lblNewLabel_7);
 
 		JButton btnNewButton = new JButton("Solicitud");
 		btnNewButton.setBackground(new Color(255, 153, 102));
-		btnNewButton.setBounds(622, 251, 179, 49);
+		btnNewButton.setBounds(635, 295, 179, 146);
 		perfil.add(btnNewButton);
 
 		aulas = new JPanel();
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -251,7 +263,7 @@ public class Main extends JFrame {
 		panel_2.add(lblCaracteristicas_3);
 		
 		JPanel incidencias = new JPanel();
-		incidencias.setBounds(88, 37, 1287, 757);
+		incidencias.setBounds(88, 1000, 1287, 757);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JList list = new JList(new Object[]{"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",});
@@ -289,6 +301,86 @@ public class Main extends JFrame {
 
 		table.setBounds(690, 82, 558, 581);
 		incidencias.add(table);
+		
+		JPanel crud = new JPanel();
+		crud.setBounds(101, 1000, 1278, 767);
+		contentPane.add(crud);
+		crud.setLayout(null);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(54, 28, 1177, 89);
+		crud.add(panel_4);
+		panel_4.setLayout(null);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBounds(235, 0, 235, 89);
+		panel_4.add(panel_5);
+		panel_5.setLayout(null);
+		
+		JLabel lblNewLabel_2 = new JLabel("Eliminar");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(88, 11, 76, 20);
+		panel_5.add(lblNewLabel_2);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBounds(471, 0, 235, 89);
+		panel_4.add(panel_6);
+		panel_6.setLayout(null);
+		
+		JLabel lblNewLabel_3 = new JLabel("Modificar");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3.setBounds(82, 11, 87, 19);
+		panel_6.add(lblNewLabel_3);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBounds(706, 0, 235, 89);
+		panel_4.add(panel_7);
+		panel_7.setLayout(null);
+		
+		JLabel lblNewLabel_4 = new JLabel("Crear");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_4.setBounds(93, 11, 53, 19);
+		panel_7.add(lblNewLabel_4);
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBounds(942, 0, 235, 89);
+		panel_4.add(panel_8);
+		panel_8.setLayout(null);
+		
+		JLabel lblNewLabel_5 = new JLabel("Promocionar");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_5.setBounds(81, 11, 95, 19);
+		panel_8.add(lblNewLabel_5);
+		
+		JPanel panel_9 = new JPanel();
+		panel_9.setBounds(0, 0, 235, 89);
+		panel_4.add(panel_9);
+		panel_9.setLayout(null);
+		
+		JLabel lblNewLabel_6 = new JLabel("Degradar");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_6.setBounds(80, 11, 91, 19);
+		panel_9.add(lblNewLabel_6);
+		
+		table_1 = new JTable();
+		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		table_1.setBounds(54, 178, 1183, 544);
+		crud.add(table_1);
 		for (int i = 0; i < listaEquipos.size(); i++) {
 
 			int posicion1 = linea1 * 15;
