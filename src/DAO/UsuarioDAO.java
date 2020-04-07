@@ -17,10 +17,12 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 
 	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,Equipos_idEquipos,userName,email,pass) VALUES (?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Usuarios WHERE idUsuarios = ?";
-	private static final String SQL_UPDATE="UPDATE Usuarios SET userName,email = ?,? WHERE idUsuarios = ?";
+	private static final String SQL_UPDATE="UPDATE Usuarios SET userName = ?, email = ?, pass = ? WHERE idUsuarios = ?";
 	private static final String SQL_FINDPERSONA="SELECT * FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Usuarios";
 	private static final String SQL_LOGIN="SELECT * FROM Usuarios WHERE userName like ? and pass like ?;";
+	private static final String SQL_PROMOTE="UPDATE Usuarios SET Roles_idRol = ? WHERE idUsuarios = ?;";
+	
 	private Conexion con = Conexion.getInstance();
 	
 	@Override
@@ -72,8 +74,9 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
 			ps.setString(1, t.getUserName());
 			ps.setString(2, t.getEmail());
+			ps.setString(3, t.getPass());
 			
-			ps.setString(3, t.getIdUsuario());
+			ps.setString(4, t.getIdUsuario());
 
 			if (ps.executeUpdate()>0) return true;
 			
@@ -174,5 +177,36 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	public boolean promocionar(UsuarioDTO t) {
+		PreparedStatement ps = null;
+		try {
+			ps = con.getCon().prepareStatement(SQL_UPDATE);
+			if(t instanceof AdministradorDTO) {
+				ps.setInt(2, 3);
+			}else if(t instanceof TecnicoDTO) 
+				{ps.setInt(2, 2);
+			}else { 
+				ps.setInt(2, 1); 
+			}
+			
+			ps.setString(2, t.getIdUsuario());
+
+			if (ps.executeUpdate()>0) return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {
+				if (ps != null) ps.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return false;
 	}
 }

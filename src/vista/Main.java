@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import DTO.EquipoDTO;
+import Gestores.GestorEquipos;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
@@ -33,7 +34,7 @@ public class Main extends JFrame {
 	private JPanel contentPane;
 	int xx, xy;
 	private JTable table;
-
+	private GestorEquipos ge = new GestorEquipos();
 	/**
 	 * Launch the application.
 	 */
