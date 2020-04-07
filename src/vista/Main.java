@@ -22,12 +22,17 @@ import DTO.EquipoDTO;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
+import javax.swing.JList;
+import java.awt.ScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Main extends JFrame {
 	JComboBox comboBox;
 	JPanel aulas;
 	private JPanel contentPane;
 	int xx, xy;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -64,7 +69,7 @@ public class Main extends JFrame {
 		listaEquipos.add(new EquipoDTO("8", "192.167"));
 		listaEquipos.add(new EquipoDTO("9", "192.167"));
 		listaEquipos.add(new EquipoDTO("10", "192.167"));
-
+		System.out.println("sdfsd");
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -87,10 +92,7 @@ public class Main extends JFrame {
 
 
 
-		JLabel lvlSalida_1_1 = new JLabel("");
-		lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
-		lvlSalida_1_1.setBounds(10, 112, 46, 64);
-		panel.add(lvlSalida_1_1);
+
 
 		JLabel lvlSalida_1_1_1 = new JLabel("");
 		lvlSalida_1_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
@@ -124,7 +126,7 @@ public class Main extends JFrame {
 
 		JPanel perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(88, 29, 1287, 767);
+		perfil.setBounds(88, 37, 1287, 767);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -168,7 +170,6 @@ public class Main extends JFrame {
 		btnSolicitud.setBackground(new Color(51, 204, 153));
 		btnSolicitud.setForeground(Color.BLACK);
 		btnSolicitud.setBounds(604, 300, 179, 49);
-		
 		JButton btnIncidencia = new JButton("Incidencia");
 		btnIncidencia.setBackground(new Color(51, 204, 153));
 		btnIncidencia.setForeground(Color.BLACK);
@@ -187,7 +188,7 @@ public class Main extends JFrame {
 		perfil.add(btnNewButton);
 
 		aulas = new JPanel();
-		aulas.setBounds(88, 29, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -247,6 +248,46 @@ public class Main extends JFrame {
 		JLabel lblCaracteristicas_3 = new JLabel("");
 		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
 		panel_2.add(lblCaracteristicas_3);
+		
+		JPanel incidencias = new JPanel();
+		incidencias.setBounds(88, 37, 1287, 757);
+		contentPane.add(incidencias);
+		incidencias.setLayout(null);
+		JList list = new JList(new Object[]{"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",});
+		list.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		list.setBounds(28, 82, 558, 581);
+		incidencias.add(list);
+		
+		JButton btnNewButton_1 = new JButton("Visualizar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(list.getSelectedValue());
+			}
+		});
+		btnNewButton_1.setBounds(558, 690, 128, 45);
+		incidencias.add(btnNewButton_1);
+		
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setShowHorizontalLines(false);
+		table.setShowGrid(false);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
+				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
+				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
+				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
+				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
+			},
+			new String[] {
+				"Fecha", "Descripci\u00F3n"
+			}
+		));
+		table.getColumnModel().getColumn(1).setPreferredWidth(546);
+
+
+		table.setBounds(690, 82, 558, 581);
+		incidencias.add(table);
 		for (int i = 0; i < listaEquipos.size(); i++) {
 
 			int posicion1 = linea1 * 15;
@@ -294,8 +335,10 @@ public class Main extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 
-					aulas.setVisible(true);
-					perfil.setVisible(false);
+					aulas.setVisible(false);
+					perfil.setVisible(true);
+					incidencias.setVisible(false);
+
 				}
 			});
 			lvlSalida_1.setBounds(10, 11, 46, 64);
@@ -307,9 +350,11 @@ public class Main extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					
-					aulas.setVisible(false);
-					perfil.setVisible(true);
+					System.out.println("colegio");
+					aulas.setVisible(true);
+					perfil.setVisible(false);
+					incidencias.setVisible(false);
+
 					
 				}
 			});
@@ -317,6 +362,25 @@ public class Main extends JFrame {
 			panel.add(lvlSalida_1);
 			lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
 			panel.add(lvlSalida_1_1_2);
+			
+			JLabel lvlSalida_1_1 = new JLabel("");
+			lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
+			lvlSalida_1_1.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					aulas.setVisible(false);
+					perfil.setVisible(false);
+					incidencias.setVisible(true);
+					
+				}
+			});
+			lvlSalida_1_1.setBounds(10, 112, 46, 64);
+			panel.add(lvlSalida_1_1);
+			
+			incidencias.setVisible(false);
+
 		}
 
 	}
