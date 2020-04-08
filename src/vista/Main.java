@@ -108,6 +108,8 @@ public class Main extends JFrame {
 		lvlSalida_1_1_2_1.setIcon(new ImageIcon(Main.class.getResource("/images/almacen.png")));
 		lvlSalida_1_1_2_1.setBounds(10, 306, 46, 64);
 		panel.add(lvlSalida_1_1_2_1);
+		
+		
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
 			@Override
@@ -201,7 +203,7 @@ public class Main extends JFrame {
 		perfil.add(btnNewButton);
 
 		aulas = new JPanel();
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -263,7 +265,7 @@ public class Main extends JFrame {
 		panel_2.add(lblCaracteristicas_3);
 		
 		JPanel incidencias = new JPanel();
-		incidencias.setBounds(88, 1000, 1287, 757);
+		incidencias.setBounds(88, 37, 1287, 757);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JList list = new JList(new Object[]{"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",});
@@ -303,7 +305,9 @@ public class Main extends JFrame {
 		incidencias.add(table);
 		
 		JPanel crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
+		crud.setBackground(Color.WHITE);
+
 		contentPane.add(crud);
 		crud.setLayout(null);
 		
@@ -313,54 +317,103 @@ public class Main extends JFrame {
 		panel_4.setLayout(null);
 		
 		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(new Color(0x566573));
+		panel_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_5.setBounds(235, 0, 235, 89);
 		panel_4.add(panel_5);
 		panel_5.setLayout(null);
 		
 		JLabel lblNewLabel_2 = new JLabel("Eliminar");
+		lblNewLabel_2.setForeground(Color.WHITE);
+
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2.setBounds(88, 11, 76, 20);
+		lblNewLabel_2.setBounds(105, 32, 76, 20);
 		panel_5.add(lblNewLabel_2);
 		
+		JLabel lblNewLabel_11 = new JLabel("New label");
+		lblNewLabel_11.setIcon(new ImageIcon(Main.class.getResource("/images/eliminar.png")));
+		lblNewLabel_11.setBounds(10, 11, 69, 67);
+		panel_5.add(lblNewLabel_11);
+		
 		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(new Color(0x566573));
+
+		panel_6.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_6.setBounds(471, 0, 235, 89);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Modificar");
+		lblNewLabel_3.setForeground(Color.WHITE);
+
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(82, 11, 87, 19);
+		lblNewLabel_3.setBounds(111, 34, 87, 19);
 		panel_6.add(lblNewLabel_3);
 		
+		JLabel lblNewLabel_12 = new JLabel("");
+		lblNewLabel_12.setIcon(new ImageIcon(Main.class.getResource("/images/cambio (1).png")));
+		lblNewLabel_12.setBounds(10, 11, 75, 67);
+		panel_6.add(lblNewLabel_12);
+		
 		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(new Color(0x566573));
+
+		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_7.setBounds(706, 0, 235, 89);
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
 		
 		JLabel lblNewLabel_4 = new JLabel("Crear");
+		lblNewLabel_4.setForeground(Color.WHITE);
+
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_4.setBounds(93, 11, 53, 19);
+		lblNewLabel_4.setBounds(135, 36, 53, 19);
 		panel_7.add(lblNewLabel_4);
 		
+		JLabel lblNewLabel_13 = new JLabel("");
+		lblNewLabel_13.setIcon(new ImageIcon(Main.class.getResource("/images/anadir (1).png")));
+		lblNewLabel_13.setBounds(28, 11, 64, 67);
+		panel_7.add(lblNewLabel_13);
+		
 		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(new Color(0x566573));
+
+		panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_8.setBounds(942, 0, 235, 89);
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
 		
 		JLabel lblNewLabel_5 = new JLabel("Promocionar");
+		lblNewLabel_5.setForeground(Color.WHITE);
+
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_5.setBounds(81, 11, 95, 19);
+		lblNewLabel_5.setBounds(82, 35, 95, 19);
 		panel_8.add(lblNewLabel_5);
 		
+		JLabel lblNewLabel_10 = new JLabel("");
+		lblNewLabel_10.setBounds(2, 0, 69, 89);
+		panel_8.add(lblNewLabel_10);
+		lblNewLabel_10.setIcon(new ImageIcon(Main.class.getResource("/images/flecha-arriba (4).png")));
+		
 		JPanel panel_9 = new JPanel();
+		panel_9.setBackground(new Color(0x566573));
+
+		panel_9.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_9.setBounds(0, 0, 235, 89);
 		panel_4.add(panel_9);
 		panel_9.setLayout(null);
 		
 		JLabel lblNewLabel_6 = new JLabel("Degradar");
+		lblNewLabel_6.setForeground(Color.WHITE);
+
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_6.setBounds(80, 11, 91, 19);
+		lblNewLabel_6.setBounds(93, 37, 91, 19);
 		panel_9.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_9 = new JLabel("");
+		lblNewLabel_9.setIcon(new ImageIcon(Main.class.getResource("/images/descargar.png")));
+		lblNewLabel_9.setBounds(10, 11, 64, 67);
+		panel_9.add(lblNewLabel_9);
 		
 		table_1 = new JTable();
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -431,6 +484,7 @@ public class Main extends JFrame {
 					aulas.setVisible(false);
 					perfil.setVisible(true);
 					incidencias.setVisible(false);
+					crud.setVisible(false);
 
 				}
 			});
@@ -447,6 +501,7 @@ public class Main extends JFrame {
 					aulas.setVisible(true);
 					perfil.setVisible(false);
 					incidencias.setVisible(false);
+					crud.setVisible(false);
 
 					
 				}
@@ -455,7 +510,21 @@ public class Main extends JFrame {
 			panel.add(lvlSalida_1);
 			lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
 			panel.add(lvlSalida_1_1_2);
-			
+			JLabel lblNewLabel_8 = new JLabel("");
+			lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/images/comunicacion (2).png")));
+			lblNewLabel_8.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					aulas.setVisible(false);
+					perfil.setVisible(false);
+					incidencias.setVisible(false);
+					crud.setVisible(true);
+				}
+			});
+			lblNewLabel_8.setBounds(10, 488, 46, 39);
+			panel.add(lblNewLabel_8);
 			JLabel lvlSalida_1_1 = new JLabel("");
 			lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
 			lvlSalida_1_1.addMouseListener(new MouseAdapter() {
@@ -466,7 +535,8 @@ public class Main extends JFrame {
 					aulas.setVisible(false);
 					perfil.setVisible(false);
 					incidencias.setVisible(true);
-					
+					crud.setVisible(false);
+
 				}
 			});
 			lvlSalida_1_1.setBounds(10, 112, 46, 64);
