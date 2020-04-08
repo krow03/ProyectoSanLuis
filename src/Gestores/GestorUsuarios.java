@@ -11,6 +11,7 @@ import DAO.UsuarioDAO;
 
 
 public class GestorUsuarios {
+	
 	private UsuarioDAO udao = new UsuarioDAO();
 	private static ArrayList <UsuarioDTO> listaUsers;
 	private static UsuarioDTO userOnline;
@@ -30,9 +31,20 @@ public class GestorUsuarios {
 				cont++;
 			}
 		}
+		//si es ultimo admin devuelve true
 		if (cont < 1) return false;
 		return true;
 	}	
+	
+	public boolean autorizarAdmin() {
+		if(tienePermisos()==3) return true;
+		return false;
+	}
+	
+	public boolean autorizarTecnico() {
+		if(tienePermisos()==2) return true;
+		return false;
+	}
 	
 	private int tienePermisos() {
 		if(userOnline instanceof AdministradorDTO) {
@@ -49,11 +61,14 @@ public class GestorUsuarios {
 		return false;
 	}
 	
-	
-	
 	public boolean promocionarUsuario(UsuarioDTO user) {
 		if (user instanceof AdministradorDTO || tienePermisos()!=3) return false;
 		return udao.promocionar(user);
+	}
+	
+	public boolean promocionarDegradar(UsuarioDTO user) {
+		if (comprobarUltimoAdmin()) return false;
+		return promocionarUsuario(user);
 	}
 	
 	public boolean borrarUsuario(UsuarioDTO user) {
@@ -69,8 +84,6 @@ public class GestorUsuarios {
 		}	
 		return false;
 	}
-	
-
 	
 	public boolean modificarUsuario(UsuarioDTO user) {
 		if(tienePermisos()==3)return udao.actualizar(user);
