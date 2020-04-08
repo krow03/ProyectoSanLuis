@@ -182,7 +182,7 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 	public boolean promocionar(UsuarioDTO t) {
 		PreparedStatement ps = null;
 		try {
-			ps = con.getCon().prepareStatement(SQL_UPDATE);
+			ps = con.getCon().prepareStatement(SQL_PROMOTE);
 			if(t instanceof AdministradorDTO) {
 				ps.setInt(2, 3);
 			}else if(t instanceof TecnicoDTO) 
