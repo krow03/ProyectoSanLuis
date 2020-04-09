@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.ArrayList;
+
 public class UsuarioDTO
 {
 	private String idUsuario;
@@ -7,15 +9,22 @@ public class UsuarioDTO
     private String email;
     private int idEquipo;
     private String pass;
-    private IncidenciaDTO[] incidenciasRealizadas;
+    private ArrayList<IncidenciaDTO> incidenciasRealizadas;
 	
-    public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass) {
+    @Override
+	public String toString() {
+		return "UsuarioDTO [idUsuario=" + idUsuario + ", userName=" + userName + ", email=" + email + ", idEquipo="
+				+ idEquipo + ", pass=" + pass + ", incidenciasRealizadas=" + incidenciasRealizadas + "]";
+	}
+
+	public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass) {
 		super();
 		this.idUsuario = idUsuario;
 		this.userName = userName;
 		this.email = email;
 		this.idEquipo = idEquipo;
 		this.pass = pass;
+		this.incidenciasRealizadas= new ArrayList<IncidenciaDTO>();
     }
     
     public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo) {
@@ -66,11 +75,11 @@ public class UsuarioDTO
 		this.pass = pass;
 	}
 
-	public IncidenciaDTO[] getIncidencias() {
+	public ArrayList<IncidenciaDTO> getIncidencias() {
 		return incidenciasRealizadas;
 	}
 
-	public void setIncidencias(IncidenciaDTO[] incidencias) {
+	public void setIncidencias(ArrayList<IncidenciaDTO> incidencias) {
 		this.incidenciasRealizadas = incidencias;
 	}
     

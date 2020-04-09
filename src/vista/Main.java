@@ -19,7 +19,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import DTO.EquipoDTO;
+import DTO.IncidenciaDTO;
+import DTO.SolicitudDTO;
+import DTO.UsuarioDTO;
 import Gestores.GestorEquipos;
+import Gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
@@ -28,15 +32,21 @@ import java.awt.ScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
 
 public class Main extends JFrame {
+	private GestorUsuarios gu = new GestorUsuarios();
+	private GestorEquipos ge = new GestorEquipos();
+	
 	JComboBox comboBox;
 	JPanel aulas;
 	private JPanel contentPane;
 	int xx, xy;
 	private JTable table;
-	private GestorEquipos ge = new GestorEquipos();
 	private JTable table_1;
+	private JTextField txtNombreOnline;
+	private JTextField txtEmailOnline;
+	private JTextField txtEquipoOnline;
 	/**
 	 * Launch the application.
 	 */
@@ -60,7 +70,6 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-
 		ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 		listaEquipos.add(new EquipoDTO("1", "192.167"));
 		listaEquipos.add(new EquipoDTO("2", "192.167"));
@@ -72,7 +81,7 @@ public class Main extends JFrame {
 		listaEquipos.add(new EquipoDTO("8", "192.167"));
 		listaEquipos.add(new EquipoDTO("9", "192.167"));
 		listaEquipos.add(new EquipoDTO("10", "192.167"));
-		System.out.println("sdfsd");
+	
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -88,14 +97,16 @@ public class Main extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lvlSalida = new JLabel("");
-		lvlSalida.setIcon(new ImageIcon(Main.class.getResource("/images/salida (3).png")));
-		lvlSalida.setBounds(10, 789, 46, 64);
-		panel.add(lvlSalida);
-
-
-
-
+		JLabel lvlCerrarSesion = new JLabel("");
+		lvlCerrarSesion.setIcon(new ImageIcon(Main.class.getResource("/images/salida (3).png")));
+		lvlCerrarSesion.setBounds(10, 789, 46, 64);
+		panel.add(lvlCerrarSesion);
+		lvlCerrarSesion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				logOut();
+			}
+		});
 
 		JLabel lvlSalida_1_1_1 = new JLabel("");
 		lvlSalida_1_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
@@ -148,23 +159,23 @@ public class Main extends JFrame {
 		lblNombre.setBounds(20, 300, 118, 14);
 		panel_2_1.add(lblNombre);
 
-		JLabel lblNewLabel_1_2 = new JLabel("Email");
-		lblNewLabel_1_2.setForeground(Color.WHITE);
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_2.setBounds(20, 376, 71, 14);
-		panel_2_1.add(lblNewLabel_1_2);
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setForeground(Color.WHITE);
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblEmail.setBounds(20, 376, 71, 14);
+		panel_2_1.add(lblEmail);
 
-		JLabel lblNewLabel_1_1_2 = new JLabel("Ordenador asociado");
-		lblNewLabel_1_1_2.setForeground(Color.WHITE);
-		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1_2.setBounds(20, 451, 155, 14);
-		panel_2_1.add(lblNewLabel_1_1_2);
+		JLabel lblEquipoAsociado = new JLabel("Ordenador asociado");
+		lblEquipoAsociado.setForeground(Color.WHITE);
+		lblEquipoAsociado.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblEquipoAsociado.setBounds(20, 451, 155, 14);
+		panel_2_1.add(lblEquipoAsociado);
 
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Instalaciones Pendientes");
-		lblNewLabel_1_1_1_1.setForeground(Color.WHITE);
-		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1_1_1.setBounds(20, 614, 188, 14);
-		panel_2_1.add(lblNewLabel_1_1_1_1);
+		JLabel lblInstPendientes = new JLabel("Instalaciones Pendientes");
+		lblInstPendientes.setForeground(Color.WHITE);
+		lblInstPendientes.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblInstPendientes.setBounds(20, 614, 188, 14);
+		panel_2_1.add(lblInstPendientes);
 
 		JLabel lblCaracteristicas_4 = new JLabel("");
 		lblCaracteristicas_4.setBounds(10, 327, 408, 63);
@@ -196,6 +207,21 @@ public class Main extends JFrame {
 		lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/images/usuario (1).png")));
 		lblNewLabel_7.setBounds(58, 21, 265, 281);
 		panel_2_1.add(lblNewLabel_7);
+		
+		txtNombreOnline = new JTextField();
+		txtNombreOnline.setBounds(20, 329, 118, 22);
+		panel_2_1.add(txtNombreOnline);
+		txtNombreOnline.setColumns(10);
+		
+		txtEmailOnline = new JTextField();
+		txtEmailOnline.setColumns(10);
+		txtEmailOnline.setBounds(20, 403, 118, 22);
+		panel_2_1.add(txtEmailOnline);
+		
+		txtEquipoOnline = new JTextField();
+		txtEquipoOnline.setColumns(10);
+		txtEquipoOnline.setBounds(20, 478, 118, 22);
+		panel_2_1.add(txtEquipoOnline);
 
 		JButton btnNewButton = new JButton("Solicitud");
 		btnNewButton.setBackground(new Color(255, 153, 102));
@@ -545,9 +571,34 @@ public class Main extends JFrame {
 			incidencias.setVisible(false);
 
 		}
+		cargarUsuarioOnline();
 
 	}
-
+	public void cargarUsuarioOnline() {
+		UsuarioDTO uo = gu.getUserOnline();
+		try {
+			if(uo != null) {
+				txtNombreOnline.setText(uo.getUserName());
+				txtEmailOnline.setText(uo.getEmail());
+				txtEquipoOnline.setText(((Integer)uo.getIdEquipo()).toString());
+				for(IncidenciaDTO inci : uo.getIncidencias()) {
+					if(inci instanceof SolicitudDTO) {
+						//TODO
+					}
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void logOut() {
+		gu.logOut();
+		this.dispose();
+		Home h = new Home();
+		h.setUndecorated(true);
+		h.setVisible(true);
+	}
 	public void ventana1() {
 
 	}

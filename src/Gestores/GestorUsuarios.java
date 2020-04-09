@@ -23,7 +23,7 @@ public class GestorUsuarios {
 	public UsuarioDTO getUserOnline() {
 		return userOnline;
 	}
-	
+
 	private boolean comprobarUltimoAdmin() {
 		int cont = 0;
 		for(UsuarioDTO user : listaUsers) {
@@ -32,7 +32,7 @@ public class GestorUsuarios {
 			}
 		}
 		//si es ultimo admin devuelve true
-		if (cont < 1) return false;
+		if (cont > 1) return false;
 		return true;
 	}	
 	
@@ -59,6 +59,10 @@ public class GestorUsuarios {
 		userOnline = udao.login(user, pass);
 		if(userOnline!=null) return true;
 		return false;
+	}
+	
+	public void logOut() {
+		userOnline = null;
 	}
 	
 	public boolean promocionarUsuario(UsuarioDTO user) {

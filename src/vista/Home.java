@@ -118,7 +118,9 @@ public class Home extends JFrame {
 				if(gu.login(txtUser.getText(), txtPass.getText())) {
 					try {
 						Main main = new Main();
+						main.setUndecorated(true);
 						main.setVisible(true);
+						
 					}catch(Exception e) {
 						e.printStackTrace();	
 					}
