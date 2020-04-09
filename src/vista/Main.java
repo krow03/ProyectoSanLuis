@@ -45,10 +45,10 @@ public class Main extends JFrame {
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
 	ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-	ArrayList<AulaDTO> listaAulas = new ArrayList<AulaDTO>();
+	
 	private GestorAulas ga = new GestorAulas();
-	JComboBox comboBox;
-	JPanel aulas;
+	private JComboBox comboBox;
+	private JPanel aulas;
 	private JPanel contentPane;
 	int xx, xy;
 	private JTable table;
@@ -83,17 +83,8 @@ public class Main extends JFrame {
 		
 		ga.cargarListaAulas(1);
 		ge.cargarListaEquipos();
-		cargarDesplegableAula();
-		listaEquipos.add(new EquipoDTO("1", "192.167"));
-		listaEquipos.add(new EquipoDTO("2", "192.167"));
-		listaEquipos.add(new EquipoDTO("3", "192.167"));
-		listaEquipos.add(new EquipoDTO("4", "192.167"));
-		listaEquipos.add(new EquipoDTO("5", "192.167"));
-		listaEquipos.add(new EquipoDTO("6", "192.167"));
-		listaEquipos.add(new EquipoDTO("7", "192.167"));
-		listaEquipos.add(new EquipoDTO("8", "192.167"));
-		listaEquipos.add(new EquipoDTO("9", "192.167"));
-		listaEquipos.add(new EquipoDTO("10", "192.167"));
+		
+	
 
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -247,17 +238,11 @@ public class Main extends JFrame {
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(comboBox.getSelectedItem());
-
+				cargarEquiposAula();
 			}
 		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
 		comboBox.addItem("Seleccione un aula");
-		for (int i = 0; i < listaAulas.size(); i++) {
-			comboBox.addItem(listaAulas.get(i).getNombre());
-		}
-		comboBox.addItem("Aula 1");
-		comboBox.addItem("Aula 2");
 		comboBox.setBounds(46, 44, 190, 31);
 		aulas.add(comboBox);
 
@@ -542,6 +527,7 @@ public class Main extends JFrame {
 			lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 			panel_3.revalidate();
+		}
 			JLabel lvlSalida_1 = new JLabel("");
 			lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
 			lvlSalida_1.addMouseListener(new MouseAdapter() {
@@ -611,11 +597,9 @@ public class Main extends JFrame {
 
 			incidencias.setVisible(false);
 
-		}
-		cargarUsuarioOnline();
 		
-		cambiarPass();
-
+		cargarUsuarioOnline();
+		cargarDesplegableAula();
 	}
 	
 	private void cargarUsuarioOnline() {
@@ -643,10 +627,27 @@ public class Main extends JFrame {
 		h.setVisible(true);
 	}
 
-	public void cargarDesplegableAula() {
-		AulaDAO adao = new AulaDAO();
-		listaAulas = adao.listarTodos();
+	private void cargarDesplegableAula() {
+		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
+		
+		for (AulaDTO a : listaAulas) {
+			comboBox.addItem(a.getNombre());
+		}
+	}
 
+	private void cargarEquiposAula() {
+		
+		try {
+			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+            listaEquipos = ge.getEquiposAula(adto.getIdAula());
+            for (EquipoDTO eq : listaEquipos) {
+                System.out.println(eq.getNombre());
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private boolean actualizarPerfil() {
 		System.out.println(gu.getUserOnline());
 		UsuarioDTO u = gu.getUserOnline();

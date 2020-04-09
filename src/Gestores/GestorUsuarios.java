@@ -20,6 +20,10 @@ public class GestorUsuarios {
 		return listaUsers;
 	}
 	
+	public void recargarUserOnline(UsuarioDTO user) {
+		userOnline = user;
+	}
+	
 	public void cargarListaUsuarios() {
 		listaUsers = udao.listarTodos();
 	}
