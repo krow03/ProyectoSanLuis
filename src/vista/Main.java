@@ -61,6 +61,13 @@ public class Main extends JFrame {
 	private JTextField txtNombreOnline;
 	private JTextField txtEmailOnline;
 	private JTextField txtEquipoOnline;
+	private JTextField txtNombreEquipo;
+	private JTextField txtIp;
+	private JTextField txtDiscoDuro;
+	private JTextField txtRam;
+	private JButton btnModificarEquipo;
+	private JButton btnEliminarEquipo;
+	private JButton btnAñadirEquipo;
 
 	/**
 	 * Launch the application.
@@ -114,7 +121,7 @@ public class Main extends JFrame {
 				logOut();
 			}
 		});
-
+		
 		JLabel lvlSalida_1_1_1 = new JLabel("");
 		lvlSalida_1_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
 		lvlSalida_1_1_1.setBounds(10, 413, 46, 64);
@@ -242,6 +249,23 @@ public class Main extends JFrame {
 
 		panel_3.setLayout(null);
 
+		JButton btnModificarEquipo = new JButton("Modificar");
+		btnModificarEquipo.setEnabled(false);
+		btnModificarEquipo.setBackground(Color.ORANGE);
+		btnModificarEquipo.setBounds(768, 744, 229, 36);
+		aulas.add(btnModificarEquipo);
+		
+		JButton btnEliminarEquipo = new JButton("Eliminar");
+		btnEliminarEquipo.setEnabled(false);
+		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
+		btnEliminarEquipo.setBounds(997, 744, 229, 36);
+		aulas.add(btnEliminarEquipo);
+		
+		JButton btnAñadirEquipo = new JButton("A\u00F1adir Equipo");
+		btnAñadirEquipo.setBackground(Color.ORANGE);
+		btnAñadirEquipo.setBounds(502, 44, 229, 31);
+		aulas.add(btnAñadirEquipo);
+		
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -249,10 +273,8 @@ public class Main extends JFrame {
 				panel_3.revalidate();
 				panel_3.repaint();
 				cargarEquiposAula();
-				//panel_3.removeAll();
-
-				
-
+				btnEliminarEquipo.setEnabled(true);
+				btnModificarEquipo.setEnabled(true);
 			}
 		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -266,26 +288,26 @@ public class Main extends JFrame {
 		panel_2.setBounds(768, 44, 458, 701);
 		aulas.add(panel_2);
 		panel_2.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("Caracteristicas");
+		
+		JLabel lblNewLabel = new JLabel("Nombre");
 		lblNewLabel.setForeground(Color.WHITE);
 
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel.setBounds(10, 11, 118, 14);
 		panel_2.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Software");
+		JLabel lblNewLabel_1 = new JLabel("Ip equipo");
 		lblNewLabel_1.setForeground(Color.WHITE);
 
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(10, 110, 71, 14);
+		lblNewLabel_1.setBounds(10, 94, 71, 14);
 		panel_2.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Hardware");
+		JLabel lblNewLabel_1_1 = new JLabel("Disco duro");
 		lblNewLabel_1_1.setForeground(Color.WHITE);
 
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(10, 224, 82, 14);
+		lblNewLabel_1_1.setBounds(12, 257, 82, 14);
 		panel_2.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Instalaciones Pendientes");
@@ -295,34 +317,37 @@ public class Main extends JFrame {
 		lblNewLabel_1_1_1.setBounds(10, 319, 188, 14);
 		panel_2.add(lblNewLabel_1_1_1);
 
-		JLabel lblCaracteristicas = new JLabel("");
-		lblCaracteristicas.setBounds(20, 36, 408, 63);
-		panel_2.add(lblCaracteristicas);
-
-		JLabel lblCaracteristicas_1 = new JLabel("");
-		lblCaracteristicas_1.setBounds(20, 135, 408, 63);
-		panel_2.add(lblCaracteristicas_1);
-
-		JLabel lblCaracteristicas_2 = new JLabel("");
-		lblCaracteristicas_2.setBounds(20, 249, 408, 63);
-		panel_2.add(lblCaracteristicas_2);
-
 		JLabel lblCaracteristicas_3 = new JLabel("");
 		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
 		panel_2.add(lblCaracteristicas_3);
 		
-		JButton btnNewButton_2 = new JButton("Modificar");
-		btnNewButton_2.setEnabled(false);
-		btnNewButton_2.setBackground(Color.ORANGE);
-		btnNewButton_2.setBounds(768, 744, 229, 36);
-		aulas.add(btnNewButton_2);
+		txtNombreEquipo = new JTextField();
+		txtNombreEquipo.setColumns(10);
+		txtNombreEquipo.setBounds(10, 38, 434, 22);
+		panel_2.add(txtNombreEquipo);
 		
-		JButton btnNewButton_3 = new JButton("Eliminar");
-		btnNewButton_3.setEnabled(false);
-		btnNewButton_3.setBackground(new Color(220, 20, 60));
+		txtIp = new JTextField();
+		txtIp.setColumns(10);
+		txtIp.setBounds(10, 121, 434, 22);
+		panel_2.add(txtIp);
 		
-		btnNewButton_3.setBounds(997, 744, 229, 36);
-		aulas.add(btnNewButton_3);
+		txtDiscoDuro = new JTextField();
+		txtDiscoDuro.setColumns(10);
+		txtDiscoDuro.setBounds(10, 284, 434, 22);
+		panel_2.add(txtDiscoDuro);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("Ram");
+		lblNewLabel_1_2.setForeground(Color.WHITE);
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1_2.setBounds(10, 174, 71, 14);
+		panel_2.add(lblNewLabel_1_2);
+		
+		txtRam = new JTextField();
+		txtRam.setColumns(10);
+		txtRam.setBounds(10, 201, 434, 22);
+		panel_2.add(txtRam);
+		
+		
 
 		JPanel incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
@@ -642,13 +667,7 @@ public class Main extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-
-					/*
-					 * lblCaracteristicas.setText(listaEquipos.get(e).getNombre());
-					 * lblCaracteristicas_1.setText(listaEquipos.get(e).getNombre());
-					 * lblCaracteristicas_2.setText(listaEquipos.get(e).getNombre());
-					 * lblCaracteristicas_3.setText(listaEquipos.get(e).getNombre());
-					 */
+					cargarDatosEquipo(listaEquipos.get(e));
 				}
 			});
 			if (i < 6) {
@@ -670,6 +689,13 @@ public class Main extends JFrame {
 			lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		}
+	}
+	
+	private void cargarDatosEquipo(EquipoDTO e) {
+		txtNombreEquipo.setText(e.getNombre());
+		txtIp.setText(e.getIpEquipo());
+		txtRam.setText(((Integer)e.getRam()).toString());
+		txtDiscoDuro.setText(((Integer)e.getDiscoDuro()).toString());
 	}
 
 	private boolean actualizarPerfil() {
@@ -699,10 +725,5 @@ public class Main extends JFrame {
 			e.printStackTrace();
 		}
 		return false;
-	}
-
-	private void tal() {
-		cargarEquiposAula();
-
 	}
 }
