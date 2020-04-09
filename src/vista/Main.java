@@ -42,10 +42,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
 
 public class Main extends JFrame {
+	int linea1 = 0;
+	int linea2 = 0;
+	int linea3 = 0;
+	int linea4 = 0;
+	int linea5 = 0;
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
 	ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-	
+	JPanel panel_3;
 	private GestorAulas ga = new GestorAulas();
 	private JComboBox comboBox;
 	private JPanel aulas;
@@ -80,11 +85,9 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		
+
 		ga.cargarListaAulas(1);
 		ge.cargarListaEquipos();
-		
-	
 
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,15 +138,10 @@ public class Main extends JFrame {
 		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbl_close.setBounds(1381, 0, 37, 27);
 		contentPane.add(lbl_close);
-		int linea1 = 0;
-		int linea2 = 0;
-		int linea3 = 0;
-		int linea4 = 0;
-		int linea5 = 0;
 
 		JPanel perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 0, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -235,10 +233,26 @@ public class Main extends JFrame {
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
+
+		panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
+		panel_3.setAutoscrolls(true);
+		panel_3.setBounds(40, 150, 691, 569);
+		aulas.add(panel_3);
+
+		panel_3.setLayout(null);
+
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panel_3.removeAll();
+				panel_3.revalidate();
+				panel_3.repaint();
 				cargarEquiposAula();
+				//panel_3.removeAll();
+
+				
+
 			}
 		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -281,14 +295,6 @@ public class Main extends JFrame {
 		lblNewLabel_1_1_1.setBounds(10, 319, 188, 14);
 		panel_2.add(lblNewLabel_1_1_1);
 
-		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(Color.WHITE);
-		panel_3.setAutoscrolls(true);
-		panel_3.setBounds(40, 150, 691, 569);
-		aulas.add(panel_3);
-
-		panel_3.setLayout(null);
-
 		JLabel lblCaracteristicas = new JLabel("");
 		lblCaracteristicas.setBounds(20, 36, 408, 63);
 		panel_2.add(lblCaracteristicas);
@@ -304,10 +310,23 @@ public class Main extends JFrame {
 		JLabel lblCaracteristicas_3 = new JLabel("");
 		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
 		panel_2.add(lblCaracteristicas_3);
+		
+		JButton btnNewButton_2 = new JButton("Modificar");
+		btnNewButton_2.setEnabled(false);
+		btnNewButton_2.setBackground(Color.ORANGE);
+		btnNewButton_2.setBounds(768, 744, 229, 36);
+		aulas.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Eliminar");
+		btnNewButton_3.setEnabled(false);
+		btnNewButton_3.setBackground(new Color(220, 20, 60));
+		
+		btnNewButton_3.setBounds(997, 744, 229, 36);
+		aulas.add(btnNewButton_3);
 
 		JPanel incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 757);
+		incidencias.setBounds(88, 1000, 1287, 757);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JList list = new JList(new Object[] {
@@ -335,7 +354,7 @@ public class Main extends JFrame {
 		JButton btnNewButton_1 = new JButton("Visualizar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(list.getSelectedValue());
+				//System.out.println(list.getSelectedValue());
 			}
 		});
 		btnNewButton_1.setBounds(558, 690, 128, 45);
@@ -362,7 +381,7 @@ public class Main extends JFrame {
 		incidencias.add(table);
 
 		JPanel crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -487,121 +506,80 @@ public class Main extends JFrame {
 						"New column", "New column", "New column" }));
 		table_1.setBounds(54, 178, 1183, 544);
 		crud.add(table_1);
-		for (int i = 0; i < listaEquipos.size(); i++) {
 
-			int posicion1 = linea1 * 15;
-			int posicion2 = linea2 * 15;
+		JLabel lvlSalida_1 = new JLabel("");
+		lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
+		lvlSalida_1.addMouseListener(new MouseAdapter() {
 
-			int e = i;
-			JLabel lvlNombreEquipo = new JLabel("Equipo " + listaEquipos.get(i).getNombre());
-			JLabel lblEquipo = new JLabel("");
-			lblEquipo.setName("equipo" + i);
-			lblEquipo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
+				aulas.setVisible(false);
+				perfil.setVisible(true);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
 
-					System.out.println();
-					lblCaracteristicas.setText(listaEquipos.get(e).getNombre());
-					lblCaracteristicas_1.setText(listaEquipos.get(e).getNombre());
-					lblCaracteristicas_2.setText(listaEquipos.get(e).getNombre());
-					lblCaracteristicas_3.setText(listaEquipos.get(e).getNombre());
-				}
-			});
-			if (i < 6) {
-				lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
-				lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
-				panel_3.add(lblEquipo);
-				lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-				linea1++;
 			}
-			if (i >= 5 && i <= 11) {
-				lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
-				lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
-				panel_3.add(lblEquipo);
-				lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-				linea2++;
+		});
+		lvlSalida_1.setBounds(10, 11, 46, 64);
+		panel.add(lvlSalida_1);
+
+		JLabel lvlSalida_1_1_2 = new JLabel("");
+		lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
+		lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				aulas.setVisible(true);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+
 			}
+		});
+		lvlSalida_1.setBounds(10, 11, 46, 64);
+		panel.add(lvlSalida_1);
+		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
+		panel.add(lvlSalida_1_1_2);
+		JLabel lblNewLabel_8 = new JLabel("");
+		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/images/comunicacion (2).png")));
+		lblNewLabel_8.addMouseListener(new MouseAdapter() {
 
-			panel_3.add(lvlNombreEquipo);
-			lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 
-			panel_3.revalidate();
-		}
-			JLabel lvlSalida_1 = new JLabel("");
-			lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
-			lvlSalida_1.addMouseListener(new MouseAdapter() {
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(true);
+			}
+		});
+		lblNewLabel_8.setBounds(10, 488, 46, 39);
+		panel.add(lblNewLabel_8);
+		JLabel lvlSalida_1_1 = new JLabel("");
+		lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
+		lvlSalida_1_1.addMouseListener(new MouseAdapter() {
 
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
 
-					aulas.setVisible(false);
-					perfil.setVisible(true);
-					incidencias.setVisible(false);
-					crud.setVisible(false);
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(true);
+				crud.setVisible(false);
 
-				}
-			});
-			lvlSalida_1.setBounds(10, 11, 46, 64);
-			panel.add(lvlSalida_1);
+			}
+		});
+		lvlSalida_1_1.setBounds(10, 112, 46, 64);
+		panel.add(lvlSalida_1_1);
 
-			JLabel lvlSalida_1_1_2 = new JLabel("");
-			lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
-			lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
+		incidencias.setVisible(false);
 
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					System.out.println("colegio");
-					aulas.setVisible(true);
-					perfil.setVisible(false);
-					incidencias.setVisible(false);
-					crud.setVisible(false);
-
-				}
-			});
-			lvlSalida_1.setBounds(10, 11, 46, 64);
-			panel.add(lvlSalida_1);
-			lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
-			panel.add(lvlSalida_1_1_2);
-			JLabel lblNewLabel_8 = new JLabel("");
-			lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/images/comunicacion (2).png")));
-			lblNewLabel_8.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-
-					aulas.setVisible(false);
-					perfil.setVisible(false);
-					incidencias.setVisible(false);
-					crud.setVisible(true);
-				}
-			});
-			lblNewLabel_8.setBounds(10, 488, 46, 39);
-			panel.add(lblNewLabel_8);
-			JLabel lvlSalida_1_1 = new JLabel("");
-			lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
-			lvlSalida_1_1.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-
-					aulas.setVisible(false);
-					perfil.setVisible(false);
-					incidencias.setVisible(true);
-					crud.setVisible(false);
-
-				}
-			});
-			lvlSalida_1_1.setBounds(10, 112, 46, 64);
-			panel.add(lvlSalida_1_1);
-
-			incidencias.setVisible(false);
-
-		
 		cargarUsuarioOnline();
 		cargarDesplegableAula();
 	}
-	
+
 	private void cargarUsuarioOnline() {
 		UsuarioDTO uo = gu.getUserOnline();
 		try {
@@ -629,25 +607,71 @@ public class Main extends JFrame {
 
 	private void cargarDesplegableAula() {
 		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
-		
+
 		for (AulaDTO a : listaAulas) {
 			comboBox.addItem(a.getNombre());
 		}
 	}
 
 	private void cargarEquiposAula() {
-		
+		this.linea1 = 0;
+		this.linea2 = 0;
+		listaEquipos.clear();
+		System.out.println(listaEquipos.size());
 		try {
 			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-            listaEquipos = ge.getEquiposAula(adto.getIdAula());
-            for (EquipoDTO eq : listaEquipos) {
-                System.out.println(eq.getNombre());
-            }
+			listaEquipos = ge.getEquiposAula(adto.getIdAula());
+			for (EquipoDTO eq : listaEquipos) {
+				//System.out.println(eq.getNombre());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(listaEquipos.size());
+
+		for (int i = 0; i < listaEquipos.size(); i++) {
+
+			int posicion1 = linea1 * 15;
+			int posicion2 = linea2 * 15;
+
+			int e = i;
+			JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
+			JLabel lblEquipo = new JLabel("");
+			lblEquipo.setName(listaEquipos.get(i).getNombre());
+			lblEquipo.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+
+					/*
+					 * lblCaracteristicas.setText(listaEquipos.get(e).getNombre());
+					 * lblCaracteristicas_1.setText(listaEquipos.get(e).getNombre());
+					 * lblCaracteristicas_2.setText(listaEquipos.get(e).getNombre());
+					 * lblCaracteristicas_3.setText(listaEquipos.get(e).getNombre());
+					 */
+				}
+			});
+			if (i < 6) {
+				lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
+				lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
+				panel_3.add(lblEquipo);
+				lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+				linea1++;
+			}
+			if (i >= 5 && i <= 11) {
+				lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
+				lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
+				panel_3.add(lblEquipo);
+				lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+				linea2++;
+			}
+
+			panel_3.add(lvlNombreEquipo);
+			lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
+		}
 	}
-	
+
 	private boolean actualizarPerfil() {
 		System.out.println(gu.getUserOnline());
 		UsuarioDTO u = gu.getUserOnline();
@@ -656,24 +680,29 @@ public class Main extends JFrame {
 		System.out.println(gu.getUserOnline());
 		return gu.modificarUsuario(u);
 	}
-	
+
 	private boolean cambiarPass() {
 		UsuarioDTO u = gu.getUserOnline();
 		JTextField oldPass = new JTextField();
 		JTextField newPass = new JTextField();
 		JTextField repeatNewPass = new JTextField();
-		Object[] message = {"Old pass:", oldPass,"New pass:", newPass,"Repeat new pass:", repeatNewPass};
+		Object[] message = { "Old pass:", oldPass, "New pass:", newPass, "Repeat new pass:", repeatNewPass };
 		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
 		try {
-			if(DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
-				if(newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())){
+			if (DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
+				if (newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())) {
 					u.setPass(newPass.getText());
 					return gu.modificarUsuario(u);
 				}
 			}
-		}catch(Exception e ) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private void tal() {
+		cargarEquiposAula();
+
 	}
 }
