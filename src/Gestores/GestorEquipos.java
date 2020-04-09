@@ -9,12 +9,9 @@ public class GestorEquipos {
 	private static ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private EquipoDAO edao = new EquipoDAO();
 	
-	
 	public ArrayList<EquipoDTO> getListaEquipos(){
 		return listaEquipos;
 	}
-	
-	
 	
 	public boolean cargarListaEquipos() {
 		listaEquipos = edao.listarTodos();
@@ -32,5 +29,13 @@ public class GestorEquipos {
 			}
 		}
 		return equiposAula;
+	}
+	
+	public boolean modificarEquipoAula(EquipoDTO e) {
+		return edao.actualizar(e);
+	}
+	
+	public boolean borrarEquipo(int idEquipo) {
+		return edao.borrar(idEquipo);
 	}
 }

@@ -23,4 +23,12 @@ public class GestorAulas {
 		}
 		return null;
 	}
+	
+	public boolean modificarAula(AulaDTO a) {
+		return ad.actualizar(a);
+	}
+	
+	public boolean borrarAula(int idAula) {
+		return ad.borrar(idAula);
+	}
 }
