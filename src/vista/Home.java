@@ -125,7 +125,7 @@ public class Home extends JFrame {
 						e.printStackTrace();	
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Usuario o contrase�a incorrectos","Error login", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "User or password error","Error login", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

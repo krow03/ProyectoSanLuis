@@ -6,7 +6,7 @@ import DAO.EquipoDAO;
 import DTO.EquipoDTO;
 
 public class GestorEquipos {
-	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
+	private static ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private EquipoDAO edao = new EquipoDAO();
 	
 	
@@ -16,7 +16,7 @@ public class GestorEquipos {
 	
 	
 	
-	public boolean cargaListaEquipos() {
+	public boolean cargarListaEquipos() {
 		listaEquipos = edao.listarTodos();
 		if (listaEquipos.size()<0 ) {
 			return true;

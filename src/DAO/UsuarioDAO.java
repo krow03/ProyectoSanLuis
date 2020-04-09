@@ -105,13 +105,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
 				if(rs.getInt("Roles_idRol")==1) {
-					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					return user;
 				}else if(rs.getInt("Roles_idRol")==2) {
-					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					return tec;
 				}else if(rs.getInt("Roles_idRol")==3) {
-					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					return admin;
 				}
 			}
@@ -129,13 +129,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				if(rs.getInt("Roles_idRol")==1) {
-					UsuarioDTO user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					UsuarioDTO user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					lista.add(user);
 				}else if(rs.getInt("Roles_idRol")==2) {
-					TecnicoDTO user = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					TecnicoDTO user = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					lista.add(user);
 				}else if(rs.getInt("Roles_idRol")==3) {
-					AdministradorDTO user = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					AdministradorDTO user = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					lista.add(user);
 				}
 			}
@@ -163,13 +163,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
 				if(rs.getInt("Roles_idRol")==1) {
-					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					return user;
 				}else if(rs.getInt("Roles_idRol")==2) {
-					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					return tec;
 				}else if(rs.getInt("Roles_idRol")==3) {
-					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"));
+					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
 					return admin;
 				}
 			}

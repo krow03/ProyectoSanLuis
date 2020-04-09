@@ -1,7 +1,11 @@
 package DTO;
 
 import java.util.ArrayList;
-
+/*
+ * Rol Usuario = 1
+ * Rol Tecnico = 2
+ * Rol Admin = 3
+ * */
 public class UsuarioDTO
 {
 	private String idUsuario;

@@ -22,21 +22,28 @@ import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
 import DTO.UsuarioDTO;
+import Gestores.GestorAulas;
 import Gestores.GestorEquipos;
 import Gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.ScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
 
 public class Main extends JFrame {
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
+	private GestorAulas ga = new GestorAulas();
 	
 	JComboBox comboBox;
 	JPanel aulas;
@@ -70,6 +77,9 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		ga.cargarListaAulas(1);
+		ge.cargarListaEquipos();
+		
 		ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 		listaEquipos.add(new EquipoDTO("1", "192.167"));
 		listaEquipos.add(new EquipoDTO("2", "192.167"));
@@ -572,9 +582,11 @@ public class Main extends JFrame {
 
 		}
 		cargarUsuarioOnline();
+		
+		cambiarPass();
 
 	}
-	public void cargarUsuarioOnline() {
+	private void cargarUsuarioOnline() {
 		UsuarioDTO uo = gu.getUserOnline();
 		try {
 			if(uo != null) {
@@ -599,7 +611,30 @@ public class Main extends JFrame {
 		h.setUndecorated(true);
 		h.setVisible(true);
 	}
-	public void ventana1() {
 
+	private boolean actualizarPerfil() {
+		System.out.println(gu.getUserOnline());
+		UsuarioDTO u = gu.getUserOnline();
+		u.setUserName(txtNombreOnline.getText());
+		u.setEmail(txtEmailOnline.getText());
+		System.out.println(gu.getUserOnline());
+		return gu.modificarUsuario(u);
+	}
+	
+	private boolean cambiarPass() {
+		UsuarioDTO u = gu.getUserOnline();
+		JTextField oldPass = new JTextField();
+		JTextField newPass = new JTextField();
+		JTextField repeatNewPass = new JTextField();
+		Object[] message = {"Old pass:", oldPass,"New pass:", newPass,"Repeat new pass:", repeatNewPass};
+		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
+		if(DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
+			if(newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())){
+				System.out.println("new pass igual");
+				u.setPass(newPass.getText());
+				return gu.modificarUsuario(u);
+			}
+		}
+		return false;
 	}
 }
