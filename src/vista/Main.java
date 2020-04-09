@@ -80,6 +80,7 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		
 		ga.cargarListaAulas(1);
 		ge.cargarListaEquipos();
 		cargarDesplegableAula();
@@ -616,7 +617,8 @@ public class Main extends JFrame {
 		cambiarPass();
 
 	}
-	public void cargarUsuarioOnline() {
+	
+	private void cargarUsuarioOnline() {
 		UsuarioDTO uo = gu.getUserOnline();
 		try {
 			if (uo != null) {
@@ -661,12 +663,15 @@ public class Main extends JFrame {
 		JTextField repeatNewPass = new JTextField();
 		Object[] message = {"Old pass:", oldPass,"New pass:", newPass,"Repeat new pass:", repeatNewPass};
 		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
-		if(DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
-			if(newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())){
-				System.out.println("new pass igual");
-				u.setPass(newPass.getText());
-				return gu.modificarUsuario(u);
+		try {
+			if(DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
+				if(newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())){
+					u.setPass(newPass.getText());
+					return gu.modificarUsuario(u);
+				}
 			}
+		}catch(Exception e ) {
+			e.printStackTrace();
 		}
 		return false;
 	}
