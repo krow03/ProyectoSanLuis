@@ -11,7 +11,7 @@ import DTO.AulaDTO;
 public class AulaDAO implements PatronDAO<AulaDTO>{
 	
 	private static final String SQL_INSERT="INSERT INTO Aulas (idAulas,Centro_idCentro,rangoIps,nombre,descripcion,capacidad) VALUES (?,?,?,?,?,?)";
-	private static final String SQL_DELETE="DELETE FROM Aulas WHERE idAula = ?";
+	private static final String SQL_DELETE="DELETE FROM Aulas WHERE idAulas = ?";
 	private static final String SQL_UPDATE="UPDATE Aulas SET rangoIps,nombre,descripcion,capacidad = ?,?,?,? WHERE idAulas = ?";
 	private static final String SQL_FIND="SELECT * FROM Aulas WHERE idAulas = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Aulas";
@@ -109,7 +109,7 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				AulaDTO aula = new AulaDTO(rs.getInt("idAula"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"),rs.getInt("Centro_idCentro"));
+				AulaDTO aula = new AulaDTO(rs.getInt("idAulas"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"),rs.getInt("Centro_idCentro"));
 				lista.add(aula);
 			}
 			rs.close();

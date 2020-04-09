@@ -22,10 +22,12 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import org.apache.commons.codec.digest.DigestUtils;
+import java.awt.event.KeyAdapter;
 public class Home extends JFrame {
 
 	private GestorUsuarios gu = new GestorUsuarios();
@@ -115,20 +117,10 @@ public class Home extends JFrame {
 		Button btnSign = new Button("SignUp");
 		btnSign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(gu.login(txtUser.getText(), txtPass.getText())) {
-					try {
-						Main main = new Main();
-						main.setUndecorated(true);
-						main.setVisible(true);
-						
-					}catch(Exception e) {
-						e.printStackTrace();	
-					}
-				}else {
-					JOptionPane.showMessageDialog(null, "User or password error","Error login", JOptionPane.ERROR_MESSAGE);
-				}
+				login();
 			}
 		});
+		
 		btnSign.setForeground(Color.WHITE);
 		btnSign.setBackground(new Color(241, 57, 83));
 		btnSign.setBounds(395, 257, 283, 36);
@@ -148,6 +140,14 @@ public class Home extends JFrame {
 		contentPane.add(lblPassword);
 		
 		txtPass = new JPasswordField();
+		txtPass.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					login();
+				}
+			}
+		});
 		txtPass.setBounds(395, 195, 283, 36);
 		contentPane.add(txtPass);
 		
@@ -165,4 +165,19 @@ public class Home extends JFrame {
 		lbl_close.setBounds(693, 0, 37, 27);
 		contentPane.add(lbl_close);
 	}
+	public void login() {
+		if(gu.login(txtUser.getText(), txtPass.getText())) {
+			try {
+				Main main = new Main();
+				main.setUndecorated(true);
+				main.setVisible(true);
+				
+			}catch(Exception e) {
+				e.printStackTrace();	
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "Usuario o contrase�a incorrectos","Error login", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 }

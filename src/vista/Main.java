@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import DTO.AulaDTO;
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
@@ -34,17 +36,17 @@ import javax.swing.JOptionPane;
 import java.awt.ScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import org.apache.commons.codec.digest.DigestUtils;
-
+import DAO.AulaDAO;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
 
 public class Main extends JFrame {
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
+	ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
+	ArrayList<AulaDTO> listaAulas = new ArrayList<AulaDTO>();
 	private GestorAulas ga = new GestorAulas();
-	
 	JComboBox comboBox;
 	JPanel aulas;
 	private JPanel contentPane;
@@ -54,6 +56,7 @@ public class Main extends JFrame {
 	private JTextField txtNombreOnline;
 	private JTextField txtEmailOnline;
 	private JTextField txtEquipoOnline;
+
 	/**
 	 * Launch the application.
 	 */
@@ -79,8 +82,7 @@ public class Main extends JFrame {
 	public Main() {
 		ga.cargarListaAulas(1);
 		ge.cargarListaEquipos();
-		
-		ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
+		cargarDesplegableAula();
 		listaEquipos.add(new EquipoDTO("1", "192.167"));
 		listaEquipos.add(new EquipoDTO("2", "192.167"));
 		listaEquipos.add(new EquipoDTO("3", "192.167"));
@@ -91,7 +93,7 @@ public class Main extends JFrame {
 		listaEquipos.add(new EquipoDTO("8", "192.167"));
 		listaEquipos.add(new EquipoDTO("9", "192.167"));
 		listaEquipos.add(new EquipoDTO("10", "192.167"));
-	
+
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -123,14 +125,11 @@ public class Main extends JFrame {
 		lvlSalida_1_1_1.setBounds(10, 413, 46, 64);
 		panel.add(lvlSalida_1_1_1);
 
-
-
 		JLabel lvlSalida_1_1_2_1 = new JLabel("");
 		lvlSalida_1_1_2_1.setIcon(new ImageIcon(Main.class.getResource("/images/almacen.png")));
 		lvlSalida_1_1_2_1.setBounds(10, 306, 46, 64);
 		panel.add(lvlSalida_1_1_2_1);
-		
-		
+
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
 			@Override
@@ -212,22 +211,22 @@ public class Main extends JFrame {
 		JLabel lblCaracteristicas_3_1 = new JLabel("");
 		lblCaracteristicas_3_1.setBounds(20, 635, 408, 63);
 		panel_2_1.add(lblCaracteristicas_3_1);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("");
 		lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/images/usuario (1).png")));
 		lblNewLabel_7.setBounds(58, 21, 265, 281);
 		panel_2_1.add(lblNewLabel_7);
-		
+
 		txtNombreOnline = new JTextField();
 		txtNombreOnline.setBounds(20, 329, 118, 22);
 		panel_2_1.add(txtNombreOnline);
 		txtNombreOnline.setColumns(10);
-		
+
 		txtEmailOnline = new JTextField();
 		txtEmailOnline.setColumns(10);
 		txtEmailOnline.setBounds(20, 403, 118, 22);
 		panel_2_1.add(txtEmailOnline);
-		
+
 		txtEquipoOnline = new JTextField();
 		txtEquipoOnline.setColumns(10);
 		txtEquipoOnline.setBounds(20, 478, 118, 22);
@@ -239,47 +238,67 @@ public class Main extends JFrame {
 		perfil.add(btnNewButton);
 
 		aulas = new JPanel();
+		aulas.setBackground(Color.WHITE);
 		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
 		comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(comboBox.getSelectedItem());
+
+			}
+		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
 		comboBox.addItem("Seleccione un aula");
+		for (int i = 0; i < listaAulas.size(); i++) {
+			comboBox.addItem(listaAulas.get(i).getNombre());
+		}
 		comboBox.addItem("Aula 1");
 		comboBox.addItem("Aula 2");
 		comboBox.setBounds(46, 44, 190, 31);
 		aulas.add(comboBox);
 
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(0x566573));
 		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_2.setBounds(800, 208, 456, 448);
+		panel_2.setBounds(768, 44, 458, 701);
 		aulas.add(panel_2);
 		panel_2.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Caracteristicas");
+		lblNewLabel.setForeground(Color.WHITE);
+
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel.setBounds(10, 11, 118, 14);
 		panel_2.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Software");
+		lblNewLabel_1.setForeground(Color.WHITE);
+
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_1.setBounds(10, 110, 71, 14);
 		panel_2.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Hardware");
+		lblNewLabel_1_1.setForeground(Color.WHITE);
+
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_1_1.setBounds(10, 224, 82, 14);
 		panel_2.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Instalaciones Pendientes");
+		lblNewLabel_1_1_1.setForeground(Color.WHITE);
+
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_1_1_1.setBounds(10, 319, 188, 14);
 		panel_2.add(lblNewLabel_1_1_1);
 
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.WHITE);
 		panel_3.setAutoscrolls(true);
-		panel_3.setBounds(47, 150, 691, 569);
+		panel_3.setBounds(40, 150, 691, 569);
 		aulas.add(panel_3);
 
 		panel_3.setLayout(null);
@@ -299,16 +318,34 @@ public class Main extends JFrame {
 		JLabel lblCaracteristicas_3 = new JLabel("");
 		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
 		panel_2.add(lblCaracteristicas_3);
-		
+
 		JPanel incidencias = new JPanel();
+		incidencias.setBackground(Color.WHITE);
 		incidencias.setBounds(88, 37, 1287, 757);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
-		JList list = new JList(new Object[]{"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si","2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",});
+		JList list = new JList(new Object[] {
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si", });
 		list.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		list.setBounds(28, 82, 558, 581);
 		incidencias.add(list);
-		
+
 		JButton btnNewButton_1 = new JButton("Visualizar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -317,60 +354,58 @@ public class Main extends JFrame {
 		});
 		btnNewButton_1.setBounds(558, 690, 128, 45);
 		incidencias.add(btnNewButton_1);
-		
+
 		table = new JTable();
 		table.setShowVerticalLines(false);
 		table.setShowHorizontalLines(false);
 		table.setShowGrid(false);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
-				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
-				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
-				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
-				{"2020-06-02", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I"},
-			},
-			new String[] {
-				"Fecha", "Descripci\u00F3n"
-			}
-		));
+		table.setModel(new DefaultTableModel(new Object[][] { { "2020-06-02",
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" }, },
+				new String[] { "Fecha", "Descripci\u00F3n" }));
 		table.getColumnModel().getColumn(1).setPreferredWidth(546);
-
 
 		table.setBounds(690, 82, 558, 581);
 		incidencias.add(table);
-		
+
 		JPanel crud = new JPanel();
 		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
 		crud.setLayout(null);
-		
+
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(54, 28, 1177, 89);
 		crud.add(panel_4);
 		panel_4.setLayout(null);
-		
+
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(new Color(0x566573));
 		panel_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_5.setBounds(235, 0, 235, 89);
 		panel_4.add(panel_5);
 		panel_5.setLayout(null);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Eliminar");
 		lblNewLabel_2.setForeground(Color.WHITE);
 
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_2.setBounds(105, 32, 76, 20);
 		panel_5.add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_11 = new JLabel("New label");
 		lblNewLabel_11.setIcon(new ImageIcon(Main.class.getResource("/images/eliminar.png")));
 		lblNewLabel_11.setBounds(10, 11, 69, 67);
 		panel_5.add(lblNewLabel_11);
-		
+
 		JPanel panel_6 = new JPanel();
 		panel_6.setBackground(new Color(0x566573));
 
@@ -378,19 +413,19 @@ public class Main extends JFrame {
 		panel_6.setBounds(471, 0, 235, 89);
 		panel_4.add(panel_6);
 		panel_6.setLayout(null);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Modificar");
 		lblNewLabel_3.setForeground(Color.WHITE);
 
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_3.setBounds(111, 34, 87, 19);
 		panel_6.add(lblNewLabel_3);
-		
+
 		JLabel lblNewLabel_12 = new JLabel("");
 		lblNewLabel_12.setIcon(new ImageIcon(Main.class.getResource("/images/cambio (1).png")));
 		lblNewLabel_12.setBounds(10, 11, 75, 67);
 		panel_6.add(lblNewLabel_12);
-		
+
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(new Color(0x566573));
 
@@ -398,19 +433,19 @@ public class Main extends JFrame {
 		panel_7.setBounds(706, 0, 235, 89);
 		panel_4.add(panel_7);
 		panel_7.setLayout(null);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Crear");
 		lblNewLabel_4.setForeground(Color.WHITE);
 
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_4.setBounds(135, 36, 53, 19);
 		panel_7.add(lblNewLabel_4);
-		
+
 		JLabel lblNewLabel_13 = new JLabel("");
 		lblNewLabel_13.setIcon(new ImageIcon(Main.class.getResource("/images/anadir (1).png")));
 		lblNewLabel_13.setBounds(28, 11, 64, 67);
 		panel_7.add(lblNewLabel_13);
-		
+
 		JPanel panel_8 = new JPanel();
 		panel_8.setBackground(new Color(0x566573));
 
@@ -418,19 +453,19 @@ public class Main extends JFrame {
 		panel_8.setBounds(942, 0, 235, 89);
 		panel_4.add(panel_8);
 		panel_8.setLayout(null);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Promocionar");
 		lblNewLabel_5.setForeground(Color.WHITE);
 
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_5.setBounds(82, 35, 95, 19);
 		panel_8.add(lblNewLabel_5);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("");
 		lblNewLabel_10.setBounds(2, 0, 69, 89);
 		panel_8.add(lblNewLabel_10);
 		lblNewLabel_10.setIcon(new ImageIcon(Main.class.getResource("/images/flecha-arriba (4).png")));
-		
+
 		JPanel panel_9 = new JPanel();
 		panel_9.setBackground(new Color(0x566573));
 
@@ -438,36 +473,32 @@ public class Main extends JFrame {
 		panel_9.setBounds(0, 0, 235, 89);
 		panel_4.add(panel_9);
 		panel_9.setLayout(null);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Degradar");
 		lblNewLabel_6.setForeground(Color.WHITE);
 
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_6.setBounds(93, 37, 91, 19);
 		panel_9.add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("");
 		lblNewLabel_9.setIcon(new ImageIcon(Main.class.getResource("/images/descargar.png")));
 		lblNewLabel_9.setBounds(10, 11, 64, 67);
 		panel_9.add(lblNewLabel_9);
-		
+
 		table_1 = new JTable();
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
-			}
-		));
+				new Object[][] { { null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null },
+						{ null, null, null, null, null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column", "New column",
+						"New column", "New column", "New column" }));
 		table_1.setBounds(54, 178, 1183, 544);
 		crud.add(table_1);
 		for (int i = 0; i < listaEquipos.size(); i++) {
@@ -526,7 +557,7 @@ public class Main extends JFrame {
 			});
 			lvlSalida_1.setBounds(10, 11, 46, 64);
 			panel.add(lvlSalida_1);
-			
+
 			JLabel lvlSalida_1_1_2 = new JLabel("");
 			lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
 			lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
@@ -539,7 +570,6 @@ public class Main extends JFrame {
 					incidencias.setVisible(false);
 					crud.setVisible(false);
 
-					
 				}
 			});
 			lvlSalida_1.setBounds(10, 11, 46, 64);
@@ -552,7 +582,7 @@ public class Main extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					
+
 					aulas.setVisible(false);
 					perfil.setVisible(false);
 					incidencias.setVisible(false);
@@ -567,7 +597,7 @@ public class Main extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					
+
 					aulas.setVisible(false);
 					perfil.setVisible(false);
 					incidencias.setVisible(true);
@@ -577,7 +607,7 @@ public class Main extends JFrame {
 			});
 			lvlSalida_1_1.setBounds(10, 112, 46, 64);
 			panel.add(lvlSalida_1_1);
-			
+
 			incidencias.setVisible(false);
 
 		}
@@ -586,24 +616,23 @@ public class Main extends JFrame {
 		cambiarPass();
 
 	}
-	private void cargarUsuarioOnline() {
+	public void cargarUsuarioOnline() {
 		UsuarioDTO uo = gu.getUserOnline();
 		try {
-			if(uo != null) {
+			if (uo != null) {
 				txtNombreOnline.setText(uo.getUserName());
 				txtEmailOnline.setText(uo.getEmail());
-				txtEquipoOnline.setText(((Integer)uo.getIdEquipo()).toString());
-				for(IncidenciaDTO inci : uo.getIncidencias()) {
-					if(inci instanceof SolicitudDTO) {
-						//TODO
-					}
-				}
+				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
+				/*
+				 * for(IncidenciaDTO inci : uo.getIncidencias()) { if(inci instanceof
+				 * SolicitudDTO) { //TODO } }
+				 */
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void logOut() {
 		gu.logOut();
 		this.dispose();
@@ -611,6 +640,10 @@ public class Main extends JFrame {
 		h.setUndecorated(true);
 		h.setVisible(true);
 	}
+
+	public void cargarDesplegableAula() {
+		AulaDAO adao = new AulaDAO();
+		listaAulas = adao.listarTodos();
 
 	private boolean actualizarPerfil() {
 		System.out.println(gu.getUserOnline());
