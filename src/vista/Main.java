@@ -79,7 +79,7 @@ public class Main extends JFrame {
 	private JTextField txtRam;
 	private JButton btnModificarEquipo;
 	private JButton btnEliminarEquipo;
-	private JButton btnA�adirEquipo;
+	private JButton btnAnadirEquipo;
 	private JTable table_2;
 
 	/**
@@ -466,10 +466,10 @@ public class Main extends JFrame {
 		btnEliminarEquipo.setBounds(997, 744, 229, 36);
 		aulas.add(btnEliminarEquipo);
 
-		JButton btnA�adirEquipo = new JButton("A\u00F1adir Equipo");
-		btnA�adirEquipo.setBackground(Color.ORANGE);
-		btnA�adirEquipo.setBounds(502, 44, 229, 31);
-		aulas.add(btnA�adirEquipo);
+		JButton btnAnadirEquipo = new JButton("A\u00F1adir Equipo");
+		btnAnadirEquipo.setBackground(Color.ORANGE);
+		btnAnadirEquipo.setBounds(502, 44, 229, 31);
+		aulas.add(btnAnadirEquipo);
 
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
@@ -845,7 +845,7 @@ public class Main extends JFrame {
 			}
 		});
 		
-		btnA�adirEquipo.addActionListener(new ActionListener() {
+		btnAnadirEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String mensaje = "!Equipo creado correctamente�"; 
 				if(!crearEquipo()) mensaje = "!Error al crear el equipo�";
