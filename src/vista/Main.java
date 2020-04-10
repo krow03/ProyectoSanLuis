@@ -3,13 +3,16 @@ package vista;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import DTO.AulaDTO;
 import DTO.EquipoDTO;
@@ -40,6 +46,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import DAO.AulaDAO;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class Main extends JFrame {
 	int linea1 = 0;
@@ -47,6 +57,7 @@ public class Main extends JFrame {
 	int linea3 = 0;
 	int linea4 = 0;
 	int linea5 = 0;
+	Image img;
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
@@ -68,7 +79,8 @@ public class Main extends JFrame {
 	private JTextField txtRam;
 	private JButton btnModificarEquipo;
 	private JButton btnEliminarEquipo;
-	private JButton btnAñadirEquipo;
+	private JButton btnAï¿½adirEquipo;
+	private JTable table_2;
 
 	/**
 	 * Launch the application.
@@ -122,7 +134,7 @@ public class Main extends JFrame {
 				logOut();
 			}
 		});
-		
+
 		JLabel lvlSalida_1_1_1 = new JLabel("");
 		lvlSalida_1_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
 		lvlSalida_1_1_1.setBounds(10, 413, 46, 64);
@@ -148,7 +160,7 @@ public class Main extends JFrame {
 
 		JPanel perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -183,60 +195,253 @@ public class Main extends JFrame {
 		lblInstPendientes.setBounds(20, 614, 188, 14);
 		panel_2_1.add(lblInstPendientes);
 
-		JLabel lblCaracteristicas_4 = new JLabel("");
-		lblCaracteristicas_4.setBounds(10, 327, 408, 63);
-		panel_2_1.add(lblCaracteristicas_4);
-
-		JLabel lblCaracteristicas_1_1 = new JLabel("");
-		lblCaracteristicas_1_1.setBounds(20, 426, 408, 63);
-		panel_2_1.add(lblCaracteristicas_1_1);
-
-		JLabel lblCaracteristicas_2_1 = new JLabel("");
-
 		JButton btnSolicitud = new JButton("Solicitud");
 		btnSolicitud.setBackground(new Color(51, 204, 153));
 		btnSolicitud.setForeground(Color.BLACK);
 		btnSolicitud.setBounds(604, 300, 179, 49);
-		JButton btnIncidencia = new JButton("Incidencia");
-		btnIncidencia.setBackground(new Color(51, 204, 153));
-		btnIncidencia.setForeground(Color.BLACK);
-		btnIncidencia.setBounds(975, 295, 179, 146);
-		perfil.add(btnIncidencia);
-		lblCaracteristicas_2_1.setBounds(20, 540, 408, 63);
-		panel_2_1.add(lblCaracteristicas_2_1);
-
-		JLabel lblCaracteristicas_3_1 = new JLabel("");
-		lblCaracteristicas_3_1.setBounds(20, 635, 408, 63);
-		panel_2_1.add(lblCaracteristicas_3_1);
 
 		JLabel lblNewLabel_7 = new JLabel("");
 		lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/images/usuario (1).png")));
 		lblNewLabel_7.setBounds(58, 21, 265, 281);
 		panel_2_1.add(lblNewLabel_7);
+		JButton btnNewButton_2_1_1 = new JButton("Modificar perfil");
+		btnNewButton_2_1_1.setBounds(320, 3, 139, 32);
 
+		panel_2_1.add(btnNewButton_2_1_1);
+		btnNewButton_2_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Cambios realizados correctamente");
+				btnNewButton_2_1_1.setVisible(false);
+			}
+		});
+		btnNewButton_2_1_1.setBackground(new Color(0x43B581));
+		//txtNombreOnline = new JTextField(gu.getUserOnline().getUserName());
 		txtNombreOnline = new JTextField();
+		txtNombreOnline.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("yess");
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("nooo");
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("aaa");
+			}
+			// implement the methods
+		});
+
+		txtNombreOnline.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton_2_1_1.setVisible(true);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton_2_1_1.setVisible(true);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("aaa");
+			}
+			// implement the methods
+		});
+
 		txtNombreOnline.setBounds(20, 329, 118, 22);
+		txtNombreOnline.setBackground(new Color(0x566573));
+		btnNewButton_2_1_1.setVisible(false);
 		panel_2_1.add(txtNombreOnline);
 		txtNombreOnline.setColumns(10);
 
 		txtEmailOnline = new JTextField();
+		txtEmailOnline.setBackground(new Color(0x566573));
+
 		txtEmailOnline.setColumns(10);
 		txtEmailOnline.setBounds(20, 403, 118, 22);
 		panel_2_1.add(txtEmailOnline);
+		txtEmailOnline.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton_2_1_1.setVisible(true);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton_2_1_1.setVisible(true);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("aaa");
+			}
+			// implement the methods
+		});
 
 		txtEquipoOnline = new JTextField();
+		txtEquipoOnline.setBackground(new Color(0x566573));
+
 		txtEquipoOnline.setColumns(10);
 		txtEquipoOnline.setBounds(20, 478, 118, 22);
 		panel_2_1.add(txtEquipoOnline);
+		txtEquipoOnline.getDocument().addDocumentListener(new DocumentListener() {
 
-		JButton btnNewButton = new JButton("Solicitud");
-		btnNewButton.setBackground(new Color(255, 153, 102));
-		btnNewButton.setBounds(635, 295, 179, 146);
-		perfil.add(btnNewButton);
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton_2_1_1.setVisible(true);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton_2_1_1.setVisible(true);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("aaa");
+			}
+			// implement the methods
+		});
+
+		table_2 = new JTable();
+		table_2.setModel(new DefaultTableModel(new Object[][] { { "sf", "sdf", "sdf", "sdfs", "dsf" }, },
+				new String[] { "Centro", "RangoIp", "Nombre", "Capacidad", "Descripcion" }));
+		table_2.getColumnModel().getColumn(4).setPreferredWidth(299);
+		table_2.setBounds(472, 379, 812, 416);
+		perfil.add(table_2);
+
+		JPanel panel_4_1 = new JPanel();
+		panel_4_1.setLayout(null);
+		panel_4_1.setBounds(506, 196, 705, 89);
+		perfil.add(panel_4_1);
+
+		JButton btnNewButton_2 = new JButton("A\u00F1adir");
+		// btnNewButton_2.setForeground(new Color(0x43B581));
+		btnNewButton_2.setForeground(new Color(0x43B581));
+		btnNewButton_2.setBackground(new Color(86, 101, 115));		
+
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		try {
+			img = ImageIO.read(getClass().getResource("/images/mas (1).png"));
+			btnNewButton_2.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_2.setBounds(470, 0, 235, 89);
+		panel_4_1.add(btnNewButton_2);
+
+		JButton btnNewButton_2_1 = new JButton("Modificar");
+		btnNewButton_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnNewButton_2_1.setForeground(Color.ORANGE);
+		try {
+			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
+			btnNewButton_2_1.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_2_1.setBackground(new Color(86, 101, 115));
+		btnNewButton_2_1.setBounds(235, 0, 235, 89);
+		panel_4_1.add(btnNewButton_2_1);
+
+		JButton btnNewButton_2_2 = new JButton("Eliminar");
+		btnNewButton_2_2.setForeground(new Color(241, 57, 83));
+		btnNewButton_2_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+
+		try {
+			img = ImageIO.read(getClass().getResource("/images/eliminar (1).png"));
+			btnNewButton_2_2.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		btnNewButton_2_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_2_2.setBackground(new Color(86, 101, 115));
+		btnNewButton_2_2.setBounds(0, 0, 235, 89);
+		panel_4_1.add(btnNewButton_2_2);
+
+		JButton btnNewButton_2_3 = new JButton("Cambiar Contrase\u00F1a");
+		btnNewButton_2_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cambiarPass();
+			}
+		});
+		try {
+			img = ImageIO.read(getClass().getResource("/images/desbloquear.png"));
+			btnNewButton_2_3.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		btnNewButton_2_3.setBackground(new Color(86, 101, 115));
+		btnNewButton_2_3.setBounds(1066, 11, 235, 89);
+		perfil.add(btnNewButton_2_3);
+
+		JButton btnNewButton_2_2_1 = new JButton("Incidencia");
+		/*
+		 * try { img = ImageIO.read(getClass().getResource("/images/eliminar (1).png"));
+		 * btnNewButton_2_2_1.setIcon(new ImageIcon(img)); } catch (IOException e1) { //
+		 * TODO Auto-generated catch block e1.printStackTrace(); }
+		 */
+		btnNewButton_2_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IncidenciaUsuPanel2 upanel = new IncidenciaUsuPanel2();
+				upanel.setVisible(true);
+			}
+		});
+		btnNewButton_2_2_1.setBackground(new Color(86, 101, 115));
+		btnNewButton_2_2_1.setBounds(472, 11, 235, 89);
+		perfil.add(btnNewButton_2_2_1);
+
+		JButton btnNewButton_2_2_2 = new JButton("Solicitud");
+		btnNewButton_2_2_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SolicitudUsuPanel soPanel = new SolicitudUsuPanel();
+				soPanel.setUndecorated(true);
+				soPanel.setVisible(true);
+				
+			}
+		});
+		btnNewButton_2_2_2.setBackground(new Color(86, 101, 115));
+		btnNewButton_2_2_2.setBounds(763, 11, 235, 89);
+		perfil.add(btnNewButton_2_2_2);
 
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -254,18 +459,18 @@ public class Main extends JFrame {
 		btnModificarEquipo.setBackground(Color.ORANGE);
 		btnModificarEquipo.setBounds(768, 744, 229, 36);
 		aulas.add(btnModificarEquipo);
-		
+
 		JButton btnEliminarEquipo = new JButton("Eliminar");
 		btnEliminarEquipo.setEnabled(false);
 		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
 		btnEliminarEquipo.setBounds(997, 744, 229, 36);
 		aulas.add(btnEliminarEquipo);
-		
-		JButton btnAñadirEquipo = new JButton("A\u00F1adir Equipo");
-		btnAñadirEquipo.setBackground(Color.ORANGE);
-		btnAñadirEquipo.setBounds(502, 44, 229, 31);
-		aulas.add(btnAñadirEquipo);
-		
+
+		JButton btnAï¿½adirEquipo = new JButton("A\u00F1adir Equipo");
+		btnAï¿½adirEquipo.setBackground(Color.ORANGE);
+		btnAï¿½adirEquipo.setBounds(502, 44, 229, 31);
+		aulas.add(btnAï¿½adirEquipo);
+
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -288,7 +493,7 @@ public class Main extends JFrame {
 		panel_2.setBounds(768, 44, 458, 701);
 		aulas.add(panel_2);
 		panel_2.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Nombre");
 		lblNewLabel.setForeground(Color.WHITE);
 
@@ -320,34 +525,46 @@ public class Main extends JFrame {
 		JLabel lblCaracteristicas_3 = new JLabel("");
 		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
 		panel_2.add(lblCaracteristicas_3);
-		
+
 		txtNombreEquipo = new JTextField();
+		txtNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
 		txtNombreEquipo.setColumns(10);
+		txtNombreEquipo.setForeground(Color.WHITE);
+		txtNombreEquipo.setBackground(new Color(0x566573));
+
 		txtNombreEquipo.setBounds(10, 38, 434, 22);
 		panel_2.add(txtNombreEquipo);
-		
+
 		txtIp = new JTextField();
+		txtIp.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtIp.setColumns(10);
+		txtIp.setForeground(Color.WHITE);
+		txtIp.setBackground(new Color(0x566573));
 		txtIp.setBounds(10, 121, 434, 22);
 		panel_2.add(txtIp);
-		
+
 		txtDiscoDuro = new JTextField();
+		txtDiscoDuro.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtDiscoDuro.setColumns(10);
+		txtDiscoDuro.setForeground(Color.WHITE);
+		txtDiscoDuro.setBackground(new Color(0x566573));
 		txtDiscoDuro.setBounds(10, 284, 434, 22);
 		panel_2.add(txtDiscoDuro);
-		
+
 		JLabel lblNewLabel_1_2 = new JLabel("Ram");
 		lblNewLabel_1_2.setForeground(Color.WHITE);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_1_2.setBounds(10, 174, 71, 14);
 		panel_2.add(lblNewLabel_1_2);
-		
+
 		txtRam = new JTextField();
+		txtRam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtRam.setColumns(10);
+		txtRam.setForeground(Color.WHITE);
+		txtRam.setBackground(new Color(0x566573));
 		txtRam.setBounds(10, 201, 434, 22);
 		panel_2.add(txtRam);
-		
-		
 
 		JPanel incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
@@ -379,7 +596,7 @@ public class Main extends JFrame {
 		JButton btnNewButton_1 = new JButton("Visualizar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//System.out.println(list.getSelectedValue());
+				// System.out.println(list.getSelectedValue());
 			}
 		});
 		btnNewButton_1.setBounds(558, 690, 128, 45);
@@ -555,7 +772,7 @@ public class Main extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 				aulas.setVisible(true);
 				perfil.setVisible(false);
 				incidencias.setVisible(false);
@@ -603,8 +820,8 @@ public class Main extends JFrame {
 		
 		btnModificarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String mensaje = "!Equipo modificado correctamente¡"; 
-				if(!modificarEquipo()) mensaje = "!Error al modificar el equipo¡";
+				String mensaje = "!Equipo modificado correctamenteï¿½"; 
+				if(!modificarEquipo()) mensaje = "!Error al modificar el equipoï¿½";
 				JOptionPane.showMessageDialog(null, mensaje);
 				ge.cargarListaEquipos();
 				if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
@@ -615,10 +832,10 @@ public class Main extends JFrame {
 		
 		btnEliminarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "¿Borrar equipo?", "Eliminar Equipo", JOptionPane.OK_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo", JOptionPane.OK_OPTION);
 				if(option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Equipo borrado correctamente¡"; 
-					if(!borrarEquipo()) mensaje = "!Error al borrar el equipo¡";
+					String mensaje = "!Equipo borrado correctamenteï¿½"; 
+					if(!borrarEquipo()) mensaje = "!Error al borrar el equipoï¿½";
 					JOptionPane.showMessageDialog(null, mensaje);
 					ge.cargarListaEquipos();
 					if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
@@ -628,10 +845,10 @@ public class Main extends JFrame {
 			}
 		});
 		
-		btnAñadirEquipo.addActionListener(new ActionListener() {
+		btnAï¿½adirEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String mensaje = "!Equipo creado correctamente¡"; 
-				if(!crearEquipo()) mensaje = "!Error al crear el equipo¡";
+				String mensaje = "!Equipo creado correctamenteï¿½"; 
+				if(!crearEquipo()) mensaje = "!Error al crear el equipoï¿½";
 				JOptionPane.showMessageDialog(null, mensaje);
 				ge.cargarListaEquipos();
 				if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
@@ -680,6 +897,7 @@ public class Main extends JFrame {
 		this.linea1 = 0;
 		this.linea2 = 0;
 		listaEquipos.clear();
+		System.out.println(listaEquipos.size());
 		try {
 			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
 			listaEquipos = ge.getEquiposAula(adto.getIdAula());
@@ -721,14 +939,15 @@ public class Main extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
-	
+
 	private void cargarDatosEquipo(EquipoDTO e) {
 		txtNombreEquipo.setText(e.getNombre());
 		txtIp.setText(e.getIpEquipo());
-		txtRam.setText(((Integer)e.getRam()).toString());
-		txtDiscoDuro.setText(((Integer)e.getDiscoDuro()).toString());
 		equipoSeleccionado = e;
+		txtDiscoDuro.setText(((Integer)e.getDiscoDuro()).toString());
+		txtRam.setText(((Integer)e.getRam()).toString());
 	}
 
 	private boolean actualizarPerfil() {

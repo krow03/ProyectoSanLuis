@@ -53,13 +53,13 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Enviar");
-		btnNewButton.setBackground(new Color(0, 204, 51));
-		btnNewButton.setBounds(147, 283, 89, 41);
+		btnNewButton.setBackground(new Color(0x43B581));
+		btnNewButton.setBounds(140, 283, 89, 41);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancelar");
-		btnNewButton_1.setBackground(new Color(255, 51, 51));
-		btnNewButton_1.setBounds(293, 283, 89, 41);
+		btnNewButton_1.setBackground(new Color(0xF44444));
+		btnNewButton_1.setBounds(283, 283, 89, 41);
 		contentPane.add(btnNewButton_1);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Hardware");
