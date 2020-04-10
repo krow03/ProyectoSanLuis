@@ -49,9 +49,10 @@ public class Main extends JFrame {
 	int linea5 = 0;
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
-	ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-	JPanel panel_3;
+	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
+	private JPanel panel_3;
 	private GestorAulas ga = new GestorAulas();
+	private EquipoDTO equipoSeleccionado;
 	private JComboBox comboBox;
 	private JPanel aulas;
 	private JPanel contentPane;
@@ -136,7 +137,6 @@ public class Main extends JFrame {
 		lbl_close.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
 				System.exit(0);
 			}
 		});
@@ -600,7 +600,45 @@ public class Main extends JFrame {
 		panel.add(lvlSalida_1_1);
 
 		incidencias.setVisible(false);
-
+		
+		btnModificarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mensaje = "!Equipo modificado correctamente¡"; 
+				if(!modificarEquipo()) mensaje = "!Error al modificar el equipo¡";
+				JOptionPane.showMessageDialog(null, mensaje);
+				ge.cargarListaEquipos();
+				if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+					cargarEquiposAula();
+				}
+			}
+		});
+		
+		btnEliminarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "¿Borrar equipo?", "Eliminar Equipo", JOptionPane.OK_OPTION);
+				if(option == JOptionPane.OK_OPTION) {
+					String mensaje = "!Equipo borrado correctamente¡"; 
+					if(!borrarEquipo()) mensaje = "!Error al borrar el equipo¡";
+					JOptionPane.showMessageDialog(null, mensaje);
+					ge.cargarListaEquipos();
+					if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+						cargarEquiposAula();
+					}
+				}
+			}
+		});
+		
+		btnAñadirEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mensaje = "!Equipo creado correctamente¡"; 
+				if(!crearEquipo()) mensaje = "!Error al crear el equipo¡";
+				JOptionPane.showMessageDialog(null, mensaje);
+				ge.cargarListaEquipos();
+				if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+					cargarEquiposAula();
+				}
+			}
+		});
 		cargarUsuarioOnline();
 		cargarDesplegableAula();
 	}
@@ -642,52 +680,46 @@ public class Main extends JFrame {
 		this.linea1 = 0;
 		this.linea2 = 0;
 		listaEquipos.clear();
-		System.out.println(listaEquipos.size());
 		try {
 			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
 			listaEquipos = ge.getEquiposAula(adto.getIdAula());
-			for (EquipoDTO eq : listaEquipos) {
-				//System.out.println(eq.getNombre());
+			for (int i = 0; i < listaEquipos.size(); i++) {
+
+				int posicion1 = linea1 * 15;
+				int posicion2 = linea2 * 15;
+
+				int e = i;
+				JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
+				JLabel lblEquipo = new JLabel("");
+				lblEquipo.setName(listaEquipos.get(i).getNombre());
+				lblEquipo.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						cargarDatosEquipo(listaEquipos.get(e));
+					}
+				});
+				if (i < 6) {
+					lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
+					lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
+					panel_3.add(lblEquipo);
+					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+					linea1++;
+				}
+				if (i >= 5 && i <= 11) {
+					lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
+					lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
+					panel_3.add(lblEquipo);
+					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+					linea2++;
+				}
+
+				panel_3.add(lvlNombreEquipo);
+				lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		System.out.println(listaEquipos.size());
-
-		for (int i = 0; i < listaEquipos.size(); i++) {
-
-			int posicion1 = linea1 * 15;
-			int posicion2 = linea2 * 15;
-
-			int e = i;
-			JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
-			JLabel lblEquipo = new JLabel("");
-			lblEquipo.setName(listaEquipos.get(i).getNombre());
-			lblEquipo.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					cargarDatosEquipo(listaEquipos.get(e));
-				}
-			});
-			if (i < 6) {
-				lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
-				lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
-				panel_3.add(lblEquipo);
-				lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-				linea1++;
-			}
-			if (i >= 5 && i <= 11) {
-				lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
-				lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
-				panel_3.add(lblEquipo);
-				lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-				linea2++;
-			}
-
-			panel_3.add(lvlNombreEquipo);
-			lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
 		}
 	}
 	
@@ -696,6 +728,7 @@ public class Main extends JFrame {
 		txtIp.setText(e.getIpEquipo());
 		txtRam.setText(((Integer)e.getRam()).toString());
 		txtDiscoDuro.setText(((Integer)e.getDiscoDuro()).toString());
+		equipoSeleccionado = e;
 	}
 
 	private boolean actualizarPerfil() {
@@ -722,6 +755,41 @@ public class Main extends JFrame {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private boolean crearEquipo() {
+		try {
+			EquipoDTO e = null;
+			System.out.println(comboBox.getSelectedItem().toString());
+			if(comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+				e = new EquipoDTO(txtIp.getText(),txtNombreEquipo.getText(),Integer.parseInt(txtDiscoDuro.getText()),Double.parseDouble(txtDiscoDuro.getText()),Integer.parseInt(txtRam.getText()));
+				return ge.crearEquipo(e);
+			}else {
+				AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+				e = new EquipoDTO(txtIp.getText(),txtNombreEquipo.getText(),Integer.parseInt(txtDiscoDuro.getText()),Double.parseDouble(txtDiscoDuro.getText()),Integer.parseInt(txtRam.getText()),adto.getIdAula());
+				return ge.crearEquipoAula(e);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private boolean borrarEquipo() {
+		return ge.borrarEquipo(equipoSeleccionado.getIdEquipo());
+	}
+	
+	private boolean modificarEquipo() {
+		try {
+			equipoSeleccionado.setNombre(txtNombreEquipo.getText());
+			equipoSeleccionado.setIpEquipo(txtIp.getText());
+			equipoSeleccionado.setDiscoDuro(Integer.parseInt(txtDiscoDuro.getText()));
+			equipoSeleccionado.setRam(Integer.parseInt(txtRam.getText()));
+			return ge.modificarEquipo(equipoSeleccionado);
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return false;

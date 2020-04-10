@@ -1,17 +1,19 @@
 package DTO;
 
+import java.util.ArrayList;
+
 public class EquipoDTO
 {
 	private int idEquipo;
 	private String ipEquipo;
     private String nombre;
     private int discoDuro;
-    private int disponibleHDD;
+    private double disponibleHDD;
     private int ram;
     private int idAula;
-    private ComponenteDTO[] componentes;
+    private ArrayList<ComponenteDTO> componentes;
     
-	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, int disponibleHDD, int ram, int idAula) {
+	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, double disponibleHDD, int ram, int idAula) {
 		super();
 		this.idEquipo = idEquipo;
 		this.ipEquipo = ipEquipo;
@@ -22,10 +24,30 @@ public class EquipoDTO
 		this.idAula = idAula;
 	}
     
-    
+	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, double disponibleHDD, int ram, int idAula) {
+		super();
+		this.ipEquipo = ipEquipo;
+		this.nombre = nombre;
+		this.discoDuro = discoDuro;
+		this.disponibleHDD = disponibleHDD;
+		this.ram = ram;
+		this.idAula = idAula;
+	}
+	
+	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, double disponibleHDD, int ram) {
+		super();
+		this.ipEquipo = ipEquipo;
+		this.nombre = nombre;
+		this.discoDuro = discoDuro;
+		this.disponibleHDD = disponibleHDD;
+		this.ram = ram;
+		this.idAula = idAula;
+	}
+	
 	public EquipoDTO(String nombre, String ipEquipo) {
 		this.nombre = nombre;
 		this.ipEquipo = ipEquipo;
+		
 	}
 
 
@@ -57,10 +79,10 @@ public class EquipoDTO
 	public void setDiscoDuro(int discoDuro) {
 		this.discoDuro = discoDuro;
 	}
-	public int getDisponibleHDD() {
+	public double getDisponibleHDD() {
 		return disponibleHDD;
 	}
-	public void setDisponibleHDD(int disponibleHDD) {
+	public void setDisponibleHDD(double disponibleHDD) {
 		this.disponibleHDD = disponibleHDD;
 	}
 	public int getRam() {
@@ -75,12 +97,23 @@ public class EquipoDTO
 	public void setIdAula(int idAula) {
 		this.idAula = idAula;
 	}
-	public ComponenteDTO[] getComponentes() {
+	public ArrayList<ComponenteDTO> getComponentes() {
 		return componentes;
 	}
-	public void setComponentes(ComponenteDTO[] componentes) {
+	public void setComponentes(ArrayList<ComponenteDTO> componentes) {
 		this.componentes = componentes;
 	}
 
+	public void calcularDisponibleHD(){
+		double disponible = 0;
+		for(ComponenteDTO c : componentes) {
+			if(c instanceof SoftwareDTO) {
+				SoftwareDTO s = (SoftwareDTO) c;
+				disponible += s.getPeso();
+			}
+		}
+		 
+		this.setDisponibleHDD(this.discoDuro- disponible);
+	}
     
 }

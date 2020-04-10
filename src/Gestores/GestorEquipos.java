@@ -1,5 +1,6 @@
 package Gestores;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.EquipoDAO;
@@ -31,7 +32,13 @@ public class GestorEquipos {
 		return equiposAula;
 	}
 	
-	public boolean modificarEquipoAula(EquipoDTO e) {
+	public boolean crearEquipo(EquipoDTO e) throws SQLException {
+		return edao.insertar(e);
+	}
+	public boolean crearEquipoAula(EquipoDTO e) throws SQLException {
+		return edao.insertarEquipoAula(e);
+	}
+	public boolean modificarEquipo(EquipoDTO e) {
 		return edao.actualizar(e);
 	}
 	

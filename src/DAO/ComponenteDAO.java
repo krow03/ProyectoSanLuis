@@ -100,7 +100,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
 				if(rs.getInt("tipo")==1) {
-					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"));
+					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					return soft;
 				}else if(rs.getInt("Roles_idRol")==2) {
 					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
@@ -121,7 +121,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				if(rs.getInt("tipo")==1) {
-					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"));
+					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					lista.add(soft);
 				}else if(rs.getInt("Roles_idRol")==2) {
 					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
@@ -144,7 +144,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				if(rs.getInt("tipo")==1) {
-					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"));
+					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					lista.add(soft);
 				}else if(rs.getInt("Roles_idRol")==2) {
 					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
