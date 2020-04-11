@@ -58,12 +58,15 @@ public class Main extends JFrame {
 	private GestorAulas ga = new GestorAulas();
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private final int CENTRO_SELECCIONADO = 1;
-	
+
 	private JComboBox comboBox;
 	private Image img;
 	private JPanel panel_3;
 	private EquipoDTO equipoSeleccionado;
 	private JPanel aulas;
+	private JPanel perfil;
+	private JPanel crud;
+	private JPanel incidencias;
 	private JPanel contentPane;
 	int xx, xy;
 	private JTable table;
@@ -113,12 +116,66 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		visualizarPerfil();
+		visualiazarCrud();
+		visualizarAulas();
+		visualizarIncidencias();
+
+		// JPANEL LATERAL
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0x141d26));
 		panel.setBounds(0, 0, 65, 878);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		JLabel lvlSalida_1_1_2 = new JLabel("");
+		lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
+		lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
 
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				visualizarAulas();
+				aulas.setVisible(true);
+				cargarDesplegableAula();
+
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+
+			}
+		});
+		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
+		panel.add(lvlSalida_1_1_2);
+		JLabel lblNewLabel_8 = new JLabel("");
+		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/images/comunicacion (2).png")));
+		lblNewLabel_8.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(true);
+			}
+		});
+		lblNewLabel_8.setBounds(10, 488, 46, 39);
+		panel.add(lblNewLabel_8);
+		JLabel lvlSalida_1_1 = new JLabel("");
+		lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
+		lvlSalida_1_1.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(true);
+				crud.setVisible(false);
+
+			}
+		});
+		lvlSalida_1_1.setBounds(10, 112, 46, 64);
+		panel.add(lvlSalida_1_1);
 		JLabel lvlCerrarSesion = new JLabel("");
 		lvlCerrarSesion.setIcon(new ImageIcon(Main.class.getResource("/images/salida (3).png")));
 		lvlCerrarSesion.setBounds(10, 789, 46, 64);
@@ -130,15 +187,15 @@ public class Main extends JFrame {
 			}
 		});
 
-		JLabel lvlSalida_1_1_1 = new JLabel("");
-		lvlSalida_1_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
-		lvlSalida_1_1_1.setBounds(10, 413, 46, 64);
-		panel.add(lvlSalida_1_1_1);
+		JLabel lblPedidos = new JLabel("");
+		lblPedidos.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
+		lblPedidos.setBounds(10, 413, 46, 64);
+		panel.add(lblPedidos);
 
-		JLabel lvlSalida_1_1_2_1 = new JLabel("");
-		lvlSalida_1_1_2_1.setIcon(new ImageIcon(Main.class.getResource("/images/almacen.png")));
-		lvlSalida_1_1_2_1.setBounds(10, 306, 46, 64);
-		panel.add(lvlSalida_1_1_2_1);
+		JLabel lblStock = new JLabel("");
+		lblStock.setIcon(new ImageIcon(Main.class.getResource("/images/almacen.png")));
+		lblStock.setBounds(10, 306, 46, 64);
+		panel.add(lblStock);
 
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
@@ -153,7 +210,189 @@ public class Main extends JFrame {
 		lbl_close.setBounds(1381, 0, 37, 27);
 		contentPane.add(lbl_close);
 
-		JPanel perfil = new JPanel();
+		JLabel lvlSalida_1 = new JLabel("");
+		lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
+		lvlSalida_1.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				aulas.setVisible(false);
+				perfil.setVisible(true);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+
+			}
+		});
+		lvlSalida_1.setBounds(10, 11, 46, 64);
+		panel.add(lvlSalida_1);
+
+		incidencias.setVisible(false);
+
+		cargarUsuarioOnline();
+
+	}
+
+	private void cargarUsuarioOnline() {
+		UsuarioDTO uo = gu.getUserOnline();
+		try {
+			if (uo != null) {
+				txtNombreOnline.setText(uo.getUserName());
+				txtEmailOnline.setText(uo.getEmail());
+				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
+				/*
+				 * for(IncidenciaDTO inci : uo.getIncidencias()) { if(inci instanceof
+				 * SolicitudDTO) { //TODO } }
+				 */
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void logOut() {
+		gu.logOut();
+		this.dispose();
+		Home h = new Home();
+		h.setUndecorated(true);
+		h.setVisible(true);
+	}
+
+	private void cargarDesplegableAula() {
+		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
+
+		for (AulaDTO a : listaAulas) {
+			comboBox.addItem(a.getNombre());
+		}
+	}
+
+	private void cargarEquiposAula() {
+		int linea1 = 0;
+		int linea2 = 0;
+		int linea3 = 0;
+		int linea4 = 0;
+		int linea5 = 0;
+		listaEquipos.clear();
+		System.out.println(listaEquipos.size());
+		try {
+			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+			listaEquipos = ge.getEquiposAula(adto.getIdAula());
+			for (int i = 0; i < listaEquipos.size(); i++) {
+
+				int posicion1 = linea1 * 15;
+				int posicion2 = linea2 * 15;
+
+				int e = i;
+				JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
+				JLabel lblEquipo = new JLabel("");
+				lblEquipo.setName(listaEquipos.get(i).getNombre());
+				lblEquipo.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						cargarDatosEquipo(listaEquipos.get(e));
+					}
+				});
+				if (i < 6) {
+					lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
+					lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
+					panel_3.add(lblEquipo);
+					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+					linea1++;
+				}
+				if (i >= 5 && i <= 11) {
+					lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
+					lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
+					panel_3.add(lblEquipo);
+					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+					linea2++;
+				}
+
+				panel_3.add(lvlNombreEquipo);
+				lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void cargarDatosEquipo(EquipoDTO e) {
+		txtNombreEquipo.setText(e.getNombre());
+		txtIp.setText(e.getIpEquipo());
+		equipoSeleccionado = e;
+		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
+		txtRam.setText(((Integer) e.getRam()).toString());
+	}
+
+	private boolean actualizarPerfil() {
+		UsuarioDTO u = gu.getUserOnline();
+		u.setUserName(txtNombreOnline.getText());
+		u.setEmail(txtEmailOnline.getText());
+		return gu.modificarUsuario(u);
+	}
+
+	private boolean cambiarPass() {
+		UsuarioDTO u = gu.getUserOnline();
+		JTextField oldPass = new JTextField();
+		JTextField newPass = new JTextField();
+		JTextField repeatNewPass = new JTextField();
+		Object[] message = { "Old pass:", oldPass, "New pass:", newPass, "Repeat new pass:", repeatNewPass };
+		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
+		try {
+			if (DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
+				if (newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())) {
+					u.setPass(newPass.getText());
+					return gu.modificarUsuario(u);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean crearEquipo() {
+		try {
+			EquipoDTO e = null;
+			System.out.println(comboBox.getSelectedItem().toString());
+			if (comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+				e = new EquipoDTO(txtIp.getText(), txtNombreEquipo.getText(), Integer.parseInt(txtDiscoDuro.getText()),
+						Double.parseDouble(txtDiscoDuro.getText()), Integer.parseInt(txtRam.getText()));
+				return ge.crearEquipo(e);
+			} else {
+				AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+				e = new EquipoDTO(txtIp.getText(), txtNombreEquipo.getText(), Integer.parseInt(txtDiscoDuro.getText()),
+						Double.parseDouble(txtDiscoDuro.getText()), Integer.parseInt(txtRam.getText()),
+						adto.getIdAula());
+				return ge.crearEquipoAula(e);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean borrarEquipo() {
+		return ge.borrarEquipo(equipoSeleccionado.getIdEquipo());
+	}
+
+	private boolean modificarEquipo() {
+		try {
+			equipoSeleccionado.setNombre(txtNombreEquipo.getText());
+			equipoSeleccionado.setIpEquipo(txtIp.getText());
+			equipoSeleccionado.setDiscoDuro(Integer.parseInt(txtDiscoDuro.getText()));
+			equipoSeleccionado.setRam(Integer.parseInt(txtRam.getText()));
+			return ge.modificarEquipo(equipoSeleccionado);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private void visualizarPerfil() {
+		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
 		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
@@ -195,119 +434,94 @@ public class Main extends JFrame {
 		btnSolicitud.setForeground(Color.BLACK);
 		btnSolicitud.setBounds(604, 300, 179, 49);
 
-		JLabel lblNewLabel_7 = new JLabel("");
-		lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/images/usuario (1).png")));
-		lblNewLabel_7.setBounds(58, 21, 265, 281);
-		panel_2_1.add(lblNewLabel_7);
-		JButton btnNewButton_2_1_1 = new JButton("Modificar perfil");
-		btnNewButton_2_1_1.setBounds(320, 3, 139, 32);
+		JLabel lblFoto = new JLabel("");
+		lblFoto.setIcon(new ImageIcon(Main.class.getResource("/images/usuario (1).png")));
+		lblFoto.setBounds(58, 21, 265, 281);
+		panel_2_1.add(lblFoto);
 
-		panel_2_1.add(btnNewButton_2_1_1);
-		btnNewButton_2_1_1.addActionListener(new ActionListener() {
+		JButton bntModificarPerfil = new JButton("Modificar perfil");
+		bntModificarPerfil.setBounds(320, 3, 139, 32);
+
+		bntModificarPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Cambios realizados correctamente");
-				btnNewButton_2_1_1.setVisible(false);
+				bntModificarPerfil.setVisible(false);
 			}
 		});
-		btnNewButton_2_1_1.setBackground(new Color(0x43B581));
-		//txtNombreOnline = new JTextField(gu.getUserOnline().getUserName());
+		bntModificarPerfil.setBackground(new Color(0x43B581));
+		panel_2_1.add(bntModificarPerfil);
+		// txtNombreOnline = new JTextField(gu.getUserOnline().getUserName());
 		txtNombreOnline = new JTextField();
 		txtNombreOnline.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("yess");
+
+				bntModificarPerfil.setVisible(true);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("nooo");
+
+				bntModificarPerfil.setVisible(true);
 			}
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
+
 				System.out.println("aaa");
 			}
-			// implement the methods
+
 		});
-
-		txtNombreOnline.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				btnNewButton_2_1_1.setVisible(true);
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				btnNewButton_2_1_1.setVisible(true);
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("aaa");
-			}
-			// implement the methods
-		});
-
 		txtNombreOnline.setBounds(20, 329, 118, 22);
 		txtNombreOnline.setBackground(new Color(0x566573));
-		btnNewButton_2_1_1.setVisible(false);
 		panel_2_1.add(txtNombreOnline);
 		txtNombreOnline.setColumns(10);
 
 		txtEmailOnline = new JTextField();
 		txtEmailOnline.setBackground(new Color(0x566573));
-
 		txtEmailOnline.setColumns(10);
 		txtEmailOnline.setBounds(20, 403, 118, 22);
-		panel_2_1.add(txtEmailOnline);
 		txtEmailOnline.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				btnNewButton_2_1_1.setVisible(true);
+				bntModificarPerfil.setVisible(true);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				btnNewButton_2_1_1.setVisible(true);
+
+				bntModificarPerfil.setVisible(true);
 			}
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
+
 				System.out.println("aaa");
 			}
-			// implement the methods
+
 		});
+		panel_2_1.add(txtEmailOnline);
 
 		txtEquipoOnline = new JTextField();
 		txtEquipoOnline.setBackground(new Color(0x566573));
-
 		txtEquipoOnline.setColumns(10);
 		txtEquipoOnline.setBounds(20, 478, 118, 22);
-		panel_2_1.add(txtEquipoOnline);
+
 		txtEquipoOnline.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				btnNewButton_2_1_1.setVisible(true);
+				bntModificarPerfil.setVisible(true);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				btnNewButton_2_1_1.setVisible(true);
+				bntModificarPerfil.setVisible(true);
 			}
 
 			@Override
@@ -317,6 +531,9 @@ public class Main extends JFrame {
 			}
 			// implement the methods
 		});
+		panel_2_1.add(txtEquipoOnline);
+		// Oculto el btn despues de los inputs
+		bntModificarPerfil.setVisible(false);
 
 		table_2 = new JTable();
 		table_2.setModel(new DefaultTableModel(new Object[][] { { "sf", "sdf", "sdf", "sdfs", "dsf" }, },
@@ -333,7 +550,7 @@ public class Main extends JFrame {
 		JButton btnNewButton_2 = new JButton("A\u00F1adir");
 		// btnNewButton_2.setForeground(new Color(0x43B581));
 		btnNewButton_2.setForeground(new Color(0x43B581));
-		btnNewButton_2.setBackground(new Color(86, 101, 115));		
+		btnNewButton_2.setBackground(new Color(86, 101, 115));
 
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		try {
@@ -427,16 +644,18 @@ public class Main extends JFrame {
 				SolicitudUsuPanel soPanel = new SolicitudUsuPanel();
 				soPanel.setUndecorated(true);
 				soPanel.setVisible(true);
-				
+
 			}
 		});
 		btnNewButton_2_2_2.setBackground(new Color(86, 101, 115));
 		btnNewButton_2_2_2.setBounds(763, 11, 235, 89);
 		perfil.add(btnNewButton_2_2_2);
+	}
 
+	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -466,13 +685,56 @@ public class Main extends JFrame {
 		btnAnadirEquipo.setBounds(502, 44, 229, 31);
 		aulas.add(btnAnadirEquipo);
 
+		btnModificarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mensaje = "!Equipo modificado correctamente�";
+				if (!modificarEquipo())
+					mensaje = "!Error al modificar el equipo�";
+				JOptionPane.showMessageDialog(null, mensaje);
+				ge.cargarListaEquipos();
+				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+					cargarEquiposAula();
+				}
+			}
+		});
+
+		btnEliminarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "�Borrar equipo?", "Eliminar Equipo",
+						JOptionPane.OK_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+					String mensaje = "!Equipo borrado correctamente�";
+					if (!borrarEquipo())
+						mensaje = "!Error al borrar el equipo�";
+					JOptionPane.showMessageDialog(null, mensaje);
+					ge.cargarListaEquipos();
+					if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+						cargarEquiposAula();
+					}
+				}
+			}
+		});
+
+		btnAnadirEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mensaje = "!Equipo creado correctamente�";
+				if (!crearEquipo())
+					mensaje = "!Error al crear el equipo�";
+				JOptionPane.showMessageDialog(null, mensaje);
+				ge.cargarListaEquipos();
+				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+					cargarEquiposAula();
+				}
+			}
+		});
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_3.removeAll();
 				panel_3.revalidate();
 				panel_3.repaint();
-				cargarEquiposAula();
+				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula"))
+					cargarEquiposAula();
 				btnEliminarEquipo.setEnabled(true);
 				btnModificarEquipo.setEnabled(true);
 			}
@@ -560,65 +822,10 @@ public class Main extends JFrame {
 		txtRam.setBackground(new Color(0x566573));
 		txtRam.setBounds(10, 201, 434, 22);
 		panel_2.add(txtRam);
-
-		JPanel incidencias = new JPanel();
-		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 757);
-		contentPane.add(incidencias);
-		incidencias.setLayout(null);
-		JList list = new JList(new Object[] {
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si", });
-		list.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		list.setBounds(28, 82, 558, 581);
-		incidencias.add(list);
-
-		JButton btnNewButton_1 = new JButton("Visualizar");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println(list.getSelectedValue());
-			}
-		});
-		btnNewButton_1.setBounds(558, 690, 128, 45);
-		incidencias.add(btnNewButton_1);
-
-		table = new JTable();
-		table.setShowVerticalLines(false);
-		table.setShowHorizontalLines(false);
-		table.setShowGrid(false);
-		table.setModel(new DefaultTableModel(new Object[][] { { "2020-06-02",
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" }, },
-				new String[] { "Fecha", "Descripci\u00F3n" }));
-		table.getColumnModel().getColumn(1).setPreferredWidth(546);
-
-		table.setBounds(690, 82, 558, 581);
-		incidencias.add(table);
-
-		JPanel crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+	}
+	private void visualiazarCrud() {
+		crud = new JPanel();
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -743,270 +950,62 @@ public class Main extends JFrame {
 						"New column", "New column", "New column" }));
 		table_1.setBounds(54, 178, 1183, 544);
 		crud.add(table_1);
+	}
+	private void visualizarIncidencias() {
+		incidencias = new JPanel();
+		incidencias.setBackground(Color.WHITE);
+		incidencias.setBounds(88, 1000, 1287, 757);
+		contentPane.add(incidencias);
+		incidencias.setLayout(null);
+		JList list = new JList(new Object[] {
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
+				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si", });
+		list.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		list.setBounds(28, 82, 558, 581);
+		incidencias.add(list);
 
-		JLabel lvlSalida_1 = new JLabel("");
-		lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
-		lvlSalida_1.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(false);
-				perfil.setVisible(true);
-				incidencias.setVisible(false);
-				crud.setVisible(false);
-
-			}
-		});
-		lvlSalida_1.setBounds(10, 11, 46, 64);
-		panel.add(lvlSalida_1);
-
-		JLabel lvlSalida_1_1_2 = new JLabel("");
-		lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
-		lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(true);
-				perfil.setVisible(false);
-				incidencias.setVisible(false);
-				crud.setVisible(false);
-
-			}
-		});
-		lvlSalida_1.setBounds(10, 11, 46, 64);
-		panel.add(lvlSalida_1);
-		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
-		panel.add(lvlSalida_1_1_2);
-		JLabel lblNewLabel_8 = new JLabel("");
-		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/images/comunicacion (2).png")));
-		lblNewLabel_8.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(false);
-				perfil.setVisible(false);
-				incidencias.setVisible(false);
-				crud.setVisible(true);
-			}
-		});
-		lblNewLabel_8.setBounds(10, 488, 46, 39);
-		panel.add(lblNewLabel_8);
-		JLabel lvlSalida_1_1 = new JLabel("");
-		lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
-		lvlSalida_1_1.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(false);
-				perfil.setVisible(false);
-				incidencias.setVisible(true);
-				crud.setVisible(false);
-
-			}
-		});
-		lvlSalida_1_1.setBounds(10, 112, 46, 64);
-		panel.add(lvlSalida_1_1);
-
-		incidencias.setVisible(false);
-		
-		btnModificarEquipo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String mensaje = "!Equipo modificado correctamente�"; 
-				if(!modificarEquipo()) mensaje = "!Error al modificar el equipo�";
-				JOptionPane.showMessageDialog(null, mensaje);
-				ge.cargarListaEquipos();
-				if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-					cargarEquiposAula();
-				}
-			}
-		});
-		
-		btnEliminarEquipo.addActionListener(new ActionListener() {
+		JButton btnNewButton_1 = new JButton("Visualizar");
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "�Borrar equipo?", "Eliminar Equipo", JOptionPane.OK_OPTION);
-				if(option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Equipo borrado correctamente�"; 
-					if(!borrarEquipo()) mensaje = "!Error al borrar el equipo�";
-					JOptionPane.showMessageDialog(null, mensaje);
-					ge.cargarListaEquipos();
-					if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-						cargarEquiposAula();
-					}
-				}
+				// System.out.println(list.getSelectedValue());
 			}
 		});
-		
-		btnAnadirEquipo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String mensaje = "!Equipo creado correctamente�"; 
-				if(!crearEquipo()) mensaje = "!Error al crear el equipo�";
-				JOptionPane.showMessageDialog(null, mensaje);
-				ge.cargarListaEquipos();
-				if(!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-					cargarEquiposAula();
-				}
-			}
-		});
-		cargarUsuarioOnline();
-		cargarDesplegableAula();
-	}
+		btnNewButton_1.setBounds(558, 690, 128, 45);
+		incidencias.add(btnNewButton_1);
 
-	private void cargarUsuarioOnline() {
-		UsuarioDTO uo = gu.getUserOnline();
-		try {
-			if (uo != null) {
-				txtNombreOnline.setText(uo.getUserName());
-				txtEmailOnline.setText(uo.getEmail());
-				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
-				/*
-				 * for(IncidenciaDTO inci : uo.getIncidencias()) { if(inci instanceof
-				 * SolicitudDTO) { //TODO } }
-				 */
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setShowHorizontalLines(false);
+		table.setShowGrid(false);
+		table.setModel(new DefaultTableModel(new Object[][] { { "2020-06-02",
+				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
+				{ "2020-06-02",
+						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" }, },
+				new String[] { "Fecha", "Descripci\u00F3n" }));
+		table.getColumnModel().getColumn(1).setPreferredWidth(546);
 
-	private void logOut() {
-		gu.logOut();
-		this.dispose();
-		Home h = new Home();
-		h.setUndecorated(true);
-		h.setVisible(true);
-	}
-
-	private void cargarDesplegableAula() {
-		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
-
-		for (AulaDTO a : listaAulas) {
-			comboBox.addItem(a.getNombre());
-		}
-	}
-
-	private void cargarEquiposAula() {
-		int linea1 = 0;
-		int linea2 = 0;
-		int linea3 = 0;
-		int linea4 = 0;
-		int linea5 = 0;
-		listaEquipos.clear();
-		System.out.println(listaEquipos.size());
-		try {
-			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-			listaEquipos = ge.getEquiposAula(adto.getIdAula());
-			for (int i = 0; i < listaEquipos.size(); i++) {
-
-				int posicion1 = linea1 * 15;
-				int posicion2 = linea2 * 15;
-
-				int e = i;
-				JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
-				JLabel lblEquipo = new JLabel("");
-				lblEquipo.setName(listaEquipos.get(i).getNombre());
-				lblEquipo.addMouseListener(new MouseAdapter() {
-
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						cargarDatosEquipo(listaEquipos.get(e));
-					}
-				});
-				if (i < 6) {
-					lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
-					lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
-					panel_3.add(lblEquipo);
-					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-					linea1++;
-				}
-				if (i >= 5 && i <= 11) {
-					lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
-					lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
-					panel_3.add(lblEquipo);
-					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-					linea2++;
-				}
-
-				panel_3.add(lvlNombreEquipo);
-				lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void cargarDatosEquipo(EquipoDTO e) {
-		txtNombreEquipo.setText(e.getNombre());
-		txtIp.setText(e.getIpEquipo());
-		equipoSeleccionado = e;
-		txtDiscoDuro.setText(((Integer)e.getDiscoDuro()).toString());
-		txtRam.setText(((Integer)e.getRam()).toString());
-	}
-
-	private boolean actualizarPerfil() {
-		UsuarioDTO u = gu.getUserOnline();
-		u.setUserName(txtNombreOnline.getText());
-		u.setEmail(txtEmailOnline.getText());
-		return gu.modificarUsuario(u);
-	}
-
-	private boolean cambiarPass() {
-		UsuarioDTO u = gu.getUserOnline();
-		JTextField oldPass = new JTextField();
-		JTextField newPass = new JTextField();
-		JTextField repeatNewPass = new JTextField();
-		Object[] message = { "Old pass:", oldPass, "New pass:", newPass, "Repeat new pass:", repeatNewPass };
-		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
-		try {
-			if (DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
-				if (newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())) {
-					u.setPass(newPass.getText());
-					return gu.modificarUsuario(u);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	private boolean crearEquipo() {
-		try {
-			EquipoDTO e = null;
-			System.out.println(comboBox.getSelectedItem().toString());
-			if(comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-				e = new EquipoDTO(txtIp.getText(),txtNombreEquipo.getText(),Integer.parseInt(txtDiscoDuro.getText()),Double.parseDouble(txtDiscoDuro.getText()),Integer.parseInt(txtRam.getText()));
-				return ge.crearEquipo(e);
-			}else {
-				AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-				e = new EquipoDTO(txtIp.getText(),txtNombreEquipo.getText(),Integer.parseInt(txtDiscoDuro.getText()),Double.parseDouble(txtDiscoDuro.getText()),Integer.parseInt(txtRam.getText()),adto.getIdAula());
-				return ge.crearEquipoAula(e);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	private boolean borrarEquipo() {
-		return ge.borrarEquipo(equipoSeleccionado.getIdEquipo());
-	}
-	
-	private boolean modificarEquipo() {
-		try {
-			equipoSeleccionado.setNombre(txtNombreEquipo.getText());
-			equipoSeleccionado.setIpEquipo(txtIp.getText());
-			equipoSeleccionado.setDiscoDuro(Integer.parseInt(txtDiscoDuro.getText()));
-			equipoSeleccionado.setRam(Integer.parseInt(txtRam.getText()));
-			return ge.modificarEquipo(equipoSeleccionado);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+		table.setBounds(690, 82, 558, 581);
+		incidencias.add(table);
 	}
 }
