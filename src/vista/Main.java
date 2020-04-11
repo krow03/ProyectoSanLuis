@@ -52,19 +52,16 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 public class Main extends JFrame {
-	int linea1 = 0;
-	int linea2 = 0;
-	int linea3 = 0;
-	int linea4 = 0;
-	int linea5 = 0;
-	Image img;
+
 	private GestorUsuarios gu = new GestorUsuarios();
 	private GestorEquipos ge = new GestorEquipos();
-	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-	private JPanel panel_3;
 	private GestorAulas ga = new GestorAulas();
+	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
+	private final int CENTRO_SELECCIONADO = 1;
+	
+	private Image img;
+	private JPanel panel_3;
 	private EquipoDTO equipoSeleccionado;
-	private JComboBox comboBox;
 	private JPanel aulas;
 	private JPanel contentPane;
 	int xx, xy;
@@ -77,9 +74,7 @@ public class Main extends JFrame {
 	private JTextField txtIp;
 	private JTextField txtDiscoDuro;
 	private JTextField txtRam;
-	private JButton btnModificarEquipo;
-	private JButton btnEliminarEquipo;
-	private JButton btnAnadirEquipo;
+
 	private JTable table_2;
 
 	/**
@@ -105,8 +100,7 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-
-		ga.cargarListaAulas(1);
+		ga.cargarListaAulas(CENTRO_SELECCIONADO);
 		ge.cargarListaEquipos();
 
 		setBackground(Color.WHITE);
@@ -894,8 +888,11 @@ public class Main extends JFrame {
 	}
 
 	private void cargarEquiposAula() {
-		this.linea1 = 0;
-		this.linea2 = 0;
+		int linea1 = 0;
+		int linea2 = 0;
+		int linea3 = 0;
+		int linea4 = 0;
+		int linea5 = 0;
 		listaEquipos.clear();
 		System.out.println(listaEquipos.size());
 		try {
@@ -951,11 +948,9 @@ public class Main extends JFrame {
 	}
 
 	private boolean actualizarPerfil() {
-		System.out.println(gu.getUserOnline());
 		UsuarioDTO u = gu.getUserOnline();
 		u.setUserName(txtNombreOnline.getText());
 		u.setEmail(txtEmailOnline.getText());
-		System.out.println(gu.getUserOnline());
 		return gu.modificarUsuario(u);
 	}
 
