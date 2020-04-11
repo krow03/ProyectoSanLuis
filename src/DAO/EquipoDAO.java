@@ -12,10 +12,10 @@ import DTO.EquipoDTO;
 import DTO.TecnicoDTO;
 
 public class EquipoDAO implements PatronDAO<EquipoDTO>{
-	private static final String SQL_INSERT="INSERT INTO Equipos (idEquipos,nombre,discoDuro,ram,disponibleHD,ipEquipo) VALUES (?,?,?,?,?,?)";
-	private static final String SQL_INSERT_AULA="INSERT INTO Equipos (idEquipos,Aulas_idAulas,nombre,discoDuro,ram,disponibleHD,ipEquipo) VALUES (?,?,?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Equipos (idEquipos,nombre,discoDuro,ram,ipEquipo) VALUES (?,?,?,?,?)";
+	private static final String SQL_INSERT_AULA="INSERT INTO Equipos (idEquipos,Aulas_idAulas,nombre,discoDuro,ram,ipEquipo) VALUES (?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Equipos WHERE idEquipos = ?";
-	private static final String SQL_UPDATE="UPDATE Equipos SET Aulas_idAulas=?,nombre=?,discoDuro=?,ram=?,disponibleHD=?,ipEquipo = ? WHERE idEquipos = ?";
+	private static final String SQL_UPDATE="UPDATE Equipos SET Aulas_idAulas=?,nombre=?,discoDuro=?,ram=?,ipEquipo = ? WHERE idEquipos = ?";
 	private static final String SQL_FIND="SELECT * FROM Equipos WHERE idEquipos = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Equipos";
 	private static final String SQL_FINDALLBYIDAULA="SELECT * FROM Equipos WHERE Aulas_idAulas = ?";
@@ -30,8 +30,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 			ps.setString(3, t.getNombre());
 			ps.setInt(4, t.getDiscoDuro());
 			ps.setInt(5, t.getRam());
-			ps.setDouble(6, t.getDisponibleHDD());
-			ps.setString(7, t.getIpEquipo());
+			ps.setString(6, t.getIpEquipo());
 		
 			if (ps.executeUpdate()>0) {
 				ps.close();
@@ -50,8 +49,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 			ps.setString(2, t.getNombre());
 			ps.setInt(3, t.getDiscoDuro());
 			ps.setInt(4, t.getRam());
-			ps.setDouble(5, t.getDisponibleHDD());
-			ps.setString(6, t.getIpEquipo());
+			ps.setString(5, t.getIpEquipo());
 		
 			if (ps.executeUpdate()>0) {
 				ps.close();
@@ -86,10 +84,9 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 			ps.setString(2, t.getNombre());
 			ps.setInt(3, t.getDiscoDuro());
 			ps.setInt(4, t.getRam());
-			ps.setDouble(5, t.getDisponibleHDD());
-			ps.setString(6, t.getIpEquipo());
+			ps.setString(5, t.getIpEquipo());
 			
-			ps.setInt(7, t.getIdEquipo());
+			ps.setInt(6, t.getIdEquipo());
 
 			if (ps.executeUpdate()>0) return true;
 			
@@ -117,7 +114,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getDouble("disponibleHD"),rs.getInt("ram"),rs.getInt("Aulas_idAulas"));
+				equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getInt("ram"),rs.getInt("Aulas_idAulas"));
 				return equip;
 			}
 		} catch (SQLException e) {
@@ -133,7 +130,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				EquipoDTO equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getInt("disponibleHD"),rs.getInt("ram"),rs.getInt("Aulas_idAulas"));
+				EquipoDTO equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getInt("ram"),rs.getInt("Aulas_idAulas"));
 				lista.add(equip);
 			}
 			rs.close();
@@ -151,7 +148,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 			ps.setString(1, pk.toString());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				EquipoDTO equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getInt("disponibleHD"),rs.getInt("ram"),rs.getInt("Aulas_idAulas"));
+				EquipoDTO equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getInt("ram"),rs.getInt("Aulas_idAulas"));
 				lista.add(equip);
 			}
 			rs.close();

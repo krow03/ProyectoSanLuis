@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.ArrayList;
+
 public class AulaDTO
 {
 	private int idAula;
@@ -12,7 +14,7 @@ public class AulaDTO
 	//campo calculado
     private boolean disponibilidad;
     
-    private EquipoDTO[] equipos;
+    private ArrayList<EquipoDTO> equipos;
 
 	public AulaDTO(int idAula, String rangoIps, String nombre, String descripcion, int capacidad, int idCentro) {
 		super();
@@ -81,11 +83,11 @@ public class AulaDTO
 		this.disponibilidad = disponibilidad;
 	}
 
-	public EquipoDTO[] getEquipos() {
+	public ArrayList<EquipoDTO> getEquipos() {
 		return equipos;
 	}
 
-	public void setEquipos(EquipoDTO[] equipos) {
+	public void setEquipos(ArrayList<EquipoDTO> equipos) {
 		this.equipos = equipos;
 	}
 

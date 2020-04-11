@@ -359,12 +359,12 @@ public class Main extends JFrame {
 			System.out.println(comboBox.getSelectedItem().toString());
 			if (comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
 				e = new EquipoDTO(txtIp.getText(), txtNombreEquipo.getText(), Integer.parseInt(txtDiscoDuro.getText()),
-						Double.parseDouble(txtDiscoDuro.getText()), Integer.parseInt(txtRam.getText()));
+						Integer.parseInt(txtRam.getText()));
 				return ge.crearEquipo(e);
 			} else {
 				AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
 				e = new EquipoDTO(txtIp.getText(), txtNombreEquipo.getText(), Integer.parseInt(txtDiscoDuro.getText()),
-						Double.parseDouble(txtDiscoDuro.getText()), Integer.parseInt(txtRam.getText()),
+						Integer.parseInt(txtRam.getText()),
 						adto.getIdAula());
 				return ge.crearEquipoAula(e);
 			}

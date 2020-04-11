@@ -8,40 +8,38 @@ public class EquipoDTO
 	private String ipEquipo;
     private String nombre;
     private int discoDuro;
-    private double disponibleHDD;
     private int ram;
     private int idAula;
     private ArrayList<ComponenteDTO> componentes;
     
-	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, double disponibleHDD, int ram, int idAula) {
+    //campo calculado
+    private double disponibleHDD;
+    
+	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, int ram, int idAula) {
 		super();
 		this.idEquipo = idEquipo;
 		this.ipEquipo = ipEquipo;
 		this.nombre = nombre;
 		this.discoDuro = discoDuro;
-		this.disponibleHDD = disponibleHDD;
 		this.ram = ram;
 		this.idAula = idAula;
 	}
     
-	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, double disponibleHDD, int ram, int idAula) {
+	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, int ram, int idAula) {
 		super();
 		this.ipEquipo = ipEquipo;
 		this.nombre = nombre;
 		this.discoDuro = discoDuro;
-		this.disponibleHDD = disponibleHDD;
 		this.ram = ram;
 		this.idAula = idAula;
 	}
 	
-	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, double disponibleHDD, int ram) {
+	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, int ram) {
 		super();
 		this.ipEquipo = ipEquipo;
 		this.nombre = nombre;
 		this.discoDuro = discoDuro;
-		this.disponibleHDD = disponibleHDD;
 		this.ram = ram;
-		this.idAula = idAula;
 	}
 	
 	public EquipoDTO(String nombre, String ipEquipo) {
@@ -50,16 +48,13 @@ public class EquipoDTO
 		
 	}
 
-
 	public int getIdEquipo() {
 		return idEquipo;
 	}
 
-
 	public void setIdEquipo(int idEquipo) {
 		this.idEquipo = idEquipo;
 	}
-
 
 	public String getIpEquipo() {
 		return ipEquipo;
