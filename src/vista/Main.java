@@ -59,6 +59,7 @@ public class Main extends JFrame {
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private final int CENTRO_SELECCIONADO = 1;
 	
+	private JComboBox comboBox;
 	private Image img;
 	private JPanel panel_3;
 	private EquipoDTO equipoSeleccionado;
