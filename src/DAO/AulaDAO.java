@@ -10,9 +10,9 @@ import DTO.AulaDTO;
 
 public class AulaDAO implements PatronDAO<AulaDTO>{
 	
-	private static final String SQL_INSERT="INSERT INTO Aulas (idAulas,Centro_idCentro,rangoIps,nombre,descripcion,capacidad) VALUES (?,?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Aulas (Centro_idCentro,rangoIps,nombre,descripcion,capacidad) VALUES (?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Aulas WHERE idAulas = ?";
-	private static final String SQL_UPDATE="UPDATE Aulas SET rangoIps,nombre,descripcion,capacidad = ?,?,?,? WHERE idAulas = ?";
+	private static final String SQL_UPDATE="UPDATE Aulas SET rangoIps=?,nombre=?,descripcion=?,capacidad = ? WHERE idAulas = ?";
 	private static final String SQL_FIND="SELECT * FROM Aulas WHERE idAulas = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Aulas";
 	private static final String SQL_FINDALLBYID="SELECT * FROM Aulas WHERE centro_idCentro = ?";
@@ -20,25 +20,24 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 	
 	
 	@Override
-	public boolean insertar(AulaDTO t) throws SQLException {
-		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
-			ps.setInt(1, t.getIdAula());
-			ps.setInt(2, t.getIdCentro());
-			ps.setString(3, t.getRangoIps());
-			ps.setString(4, t.getNombre());
-			ps.setString(5, t.getDescripcion());
-			ps.setInt(6, t.getCapacidad());
-		
-			if (ps.executeUpdate()>0) {
-				ps.close();
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+    public boolean insertar(AulaDTO t) throws SQLException {
+        try {
+            PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
+            ps.setInt(1, t.getIdCentro());
+            ps.setString(2, t.getRangoIps());
+            ps.setString(3, t.getNombre());
+            ps.setString(4, t.getDescripcion());
+            ps.setInt(5, t.getCapacidad());
+
+            if (ps.executeUpdate()>0) {
+                ps.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 	@Override
 	public boolean borrar(Object pk) {

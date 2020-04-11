@@ -1,5 +1,6 @@
 package Gestores;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.AulaDAO;
@@ -16,7 +17,9 @@ public class GestorAulas {
 	public void cargarListaAulas(int idCentro) {
 		listaAulas = ad.listarTodos(idCentro);
 	}
-	
+	public boolean crearAula(AulaDTO a) throws SQLException {
+        return ad.insertar(a);
+    }
 	public AulaDTO getAulaByNombre(String nombre) {
 		for(AulaDTO a : listaAulas) {
 			if(a.getNombre().equals(nombre))return a;
