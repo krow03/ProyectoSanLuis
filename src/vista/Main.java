@@ -96,6 +96,7 @@ public class Main extends JFrame {
 				try {
 					Main frame = new Main();
 					frame.setUndecorated(true);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -119,6 +120,7 @@ public class Main extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
 		contentPane.setLayout(null);
 
 		visualizarPerfil();
@@ -162,6 +164,7 @@ public class Main extends JFrame {
 				perfil.setVisible(false);
 				incidencias.setVisible(false);
 				crud.setVisible(true);
+				crudEquipo.setVisible(false);
 			}
 		});
 		lblNewLabel_8.setBounds(10, 488, 46, 39);
@@ -212,9 +215,9 @@ public class Main extends JFrame {
 
 				aulas.setVisible(false);
 				perfil.setVisible(false);
-				incidencias.setVisible(true);
+				incidencias.setVisible(false);
 				crud.setVisible(false);
-
+				crudEquipo.setVisible(true);
 			}
 		});
 		lblEquipos.setBounds(10, 550, 46, 64);
@@ -627,6 +630,9 @@ public class Main extends JFrame {
 		btnNewButton_2_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				IncidenciaUsuPanel2 upanel = new IncidenciaUsuPanel2();
+				upanel.setUndecorated(true);
+				upanel.setLocationRelativeTo(null);
+
 				upanel.setVisible(true);
 			}
 		});
@@ -639,6 +645,8 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SolicitudUsuPanel soPanel = new SolicitudUsuPanel();
 				soPanel.setUndecorated(true);
+				soPanel.setLocationRelativeTo(null);
+				soPanel.soli("holaaa");
 				soPanel.setVisible(true);
 
 			}
@@ -956,16 +964,7 @@ public class Main extends JFrame {
 		table.getColumnModel().getColumn(1).setPreferredWidth(106);
 		table.getColumnModel().getColumn(2).setPreferredWidth(86);
 		table.getColumnModel().getColumn(3).setPreferredWidth(192);
-		AulaDAO ped = new AulaDAO();
-		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
-		array = ga.getListaAulas();
-
-		Double total;
-		for (AulaDTO e : array) {
-
-			Object[] fila = { e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
-			defaultModel.addRow(fila);
-		}
+		recargarAula();
 		table.setModel(defaultModel);
 		scrollPane.setViewportView(table);
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -992,9 +991,23 @@ public class Main extends JFrame {
 				
 				if (!crearAula(adto))mensaje="!Error al crear el equipo�";
 					JOptionPane.showMessageDialog(null, mensaje);
+					recargarAula();
+
 			}
 		});
-		btnNewButton.setBounds(416, 485, 89, 23);
+		btnNewButton.setBounds(416, 485, 235, 89);
+		btnNewButton.setForeground(new Color(0x43B581));
+		btnNewButton.setBackground(new Color(86, 101, 115));
+
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
+		try {
+			img = ImageIO.read(getClass().getResource("/images/mas (1).png"));
+			btnNewButton.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		crud.add(btnNewButton);
 		table.setVisible(true);
 		Object[] filaBlanca = { "", "", "", "" };
@@ -1013,10 +1026,12 @@ public class Main extends JFrame {
                     if (!eliminarAula(ga.getAulaByNombre(nombre).getIdAula()))
                         mensaje = "!Error al borrar el equipo�";
                     JOptionPane.showMessageDialog(null, mensaje);
+            		recargarAula();
+
                 }
 			}
 		});
-		btnNewButton_3.setBounds(545, 485, 89, 23);
+		btnNewButton_3.setBounds(545, 485, 235, 89);
 		crud.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Modificar");
@@ -1038,17 +1053,35 @@ public class Main extends JFrame {
                     if (!modificarAula(adto))
                         mensaje = "!Error al modificada el Aula�";
                     JOptionPane.showMessageDialog(null, mensaje);
+            		recargarAula();
+
                 }
 			}
 		});
-		btnNewButton_4.setBounds(667, 485, 89, 23);
+		btnNewButton_4.setBounds(667, 485, 235, 89);
 		crud.add(btnNewButton_4);
+		
+		JLabel lblNewLabel_7 = new JLabel("CRUD AULAS");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_7.setBounds(0, 0, 46, 14);
+		crud.add(lblNewLabel_7);
 		// crud.add(table);
 	}
+	private void recargarAula() {
+		AulaDAO ped = new AulaDAO();
+		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
+		array = ga.getListaAulas();
 
+		Double total;
+		for (AulaDTO e : array) {
+
+			Object[] fila = { e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
+			defaultModel.addRow(fila);
+		}
+	}
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBounds(101, 1000, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1172,14 +1205,7 @@ public class Main extends JFrame {
 		tableEquipo.getColumnModel().getColumn(2).setPreferredWidth(86);
 		tableEquipo.getColumnModel().getColumn(3).setPreferredWidth(192);
 		tableEquipo.getColumnModel().getColumn(4).setPreferredWidth(192);
-		ArrayList<EquipoDTO> array = new ArrayList<EquipoDTO>();
-		array = ge.getListaEquipos();
-
-		for (EquipoDTO e : array) {
-
-			Object[] fila = { e.getIdEquipo(), e.getNombre(), e.getIpEquipo(), e.getDiscoDuro(), e.getRam()};
-			defaultModel.addRow(fila);
-		}
+		recargar();
 		tableEquipo.setModel(defaultModel);
 		scrollPaneEquipo.setViewportView(tableEquipo);
 		
@@ -1198,13 +1224,24 @@ public class Main extends JFrame {
 				if (!crearEquipo(edto))mensaje="!Error al crear el equipo�";
 					JOptionPane.showMessageDialog(null, mensaje);
 					ge.cargarListaEquipos();
+					recargar();
+
 			}
 		});
-		btnNewButton.setBounds(416, 485, 89, 23);
+		btnNewButton.setBounds(416, 485, 235, 89);
+		btnNewButton.setForeground(new Color(241, 57, 83));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
+
+		try {
+			img = ImageIO.read(getClass().getResource("/images/eliminar (1).png"));
+			btnNewButton.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		btnNewButton.setBackground(new Color(86, 101, 115));
 		crudEquipo.add(btnNewButton);
 		tableEquipo.setVisible(true);
-		Object[] filaBlanca = { "", "", "", "" };
-		defaultModel.addRow(filaBlanca);
 
 		JButton btnNewButton_3 = new JButton("Eliminar");
 		btnNewButton_3.addActionListener(new ActionListener() {
@@ -1212,7 +1249,7 @@ public class Main extends JFrame {
 				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
 				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
 				
-				int option = JOptionPane.showConfirmDialog(null, "�Borrar equipo?", "Eliminar Equipo",
+				int option = JOptionPane.showConfirmDialog(null, "�Bor235r 89uipo?", "Eliminar Equipo",
                         JOptionPane.OK_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
                     String mensaje = "!Equipo borrado correctamente�";
@@ -1220,10 +1257,25 @@ public class Main extends JFrame {
                         mensaje = "!Error al borrar el equipo�";
                     JOptionPane.showMessageDialog(null, mensaje);
             		ge.cargarListaEquipos();
+            		
+            		recargar();
+            		
                 }
 			}
 		});
-		btnNewButton_3.setBounds(545, 485, 89, 23);
+		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnNewButton_3.setForeground(Color.ORANGE);
+		try {
+			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
+			btnNewButton_3.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		btnNewButton_3.setBackground(new Color(86, 101, 115));
+
+		btnNewButton_3.setBounds(545, 485,  235, 89);
 		crudEquipo.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Modificar");
@@ -1247,11 +1299,24 @@ public class Main extends JFrame {
      					mensaje = "!Error al modificar el equipo�";
      				JOptionPane.showMessageDialog(null, mensaje);
      				ge.cargarListaEquipos();
+     				recargar();
                 }
                
 			}
 		});
-		btnNewButton_4.setBounds(667, 485, 89, 23);
+		btnNewButton_4.setBounds(667, 485, 235, 89);
+		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnNewButton_4.setForeground(Color.ORANGE);
+		try {
+			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
+			btnNewButton_4.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		btnNewButton_4.setBackground(new Color(86, 101, 115));
+		btnNewButton_4.setBounds(235, 0, 235, 89);
 		crudEquipo.add(btnNewButton_4);
 		// crud.add(table);
 	}
@@ -1278,7 +1343,26 @@ public class Main extends JFrame {
 		return false;
 	}
 	
-	
+	private void recargar() {
+		int rowCount = defaultModel.getRowCount();
+		
+		//Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			defaultModel.removeRow(i);
+		}
+		ArrayList<EquipoDTO> array = new ArrayList<EquipoDTO>();
+		array = ge.getListaEquipos();
+
+		for (EquipoDTO e : array) {
+
+			Object[] fila = { e.getIdEquipo(), e.getNombre(), e.getIpEquipo(), e.getDiscoDuro(), e.getRam()};
+			defaultModel.addRow(fila);
+
+		}
+		Object[] fila = { "", "", "", "", ""};
+		defaultModel.addRow(fila);
+
+	}
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
@@ -1336,5 +1420,4 @@ public class Main extends JFrame {
 		table.setBounds(690, 82, 558, 581);
 		incidencias.add(table);
 	}
-	
 }
