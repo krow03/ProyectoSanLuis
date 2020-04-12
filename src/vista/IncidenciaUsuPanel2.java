@@ -8,9 +8,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import com.sun.javafx.binding.SelectBinding.AsInteger;
+
+import DTO.ComponenteDTO;
+import DTO.IncidenciaDTO;
+import DTO.SolicitudDTO;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.ButtonGroup;
@@ -20,6 +26,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 
 public class IncidenciaUsuPanel2 extends JFrame {
@@ -27,7 +35,10 @@ public class IncidenciaUsuPanel2 extends JFrame {
 	private JPanel contentPane;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton_1;
+	private JRadioButton rdbtnNewRadioButton_2;
 	private JComboBox comboBox;
+	private JTextArea textArea;
+
 	/**
 	 * Launch the application.
 	 */
@@ -38,7 +49,7 @@ public class IncidenciaUsuPanel2 extends JFrame {
 					IncidenciaUsuPanel2 frame = new IncidenciaUsuPanel2();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,31 +70,52 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		contentPane.setBackground(new Color(0x566573));
 
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Solicitud para el equipo: ");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(162, 11, 220, 14);
 		contentPane.add(lblNewLabel);
-		
+
 		JButton btnNewButton = new JButton("Enviar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(rdbtnNewRadioButton.isSelected()) {
-					
+				Calendar c2 = new GregorianCalendar();
+				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
+						+ "-" + Integer.toString(c2.get(Calendar.DATE));
+				
+				if (comboBox.getSelectedItem().toString() == "Sin seleccionar") {
+
+				} else {
+					SolicitudDTO solicitud;
+					if (rdbtnNewRadioButton.isSelected()) {
+						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
+								textArea.getText(), 0, new ComponenteDTO(0, 0, 0, 0, ""),"Hardware");
+					}
+					if (rdbtnNewRadioButton_1.isSelected()) {
+						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
+								textArea.getText(), 0, new ComponenteDTO(0, 0, 0, 0, ""),"Software");
+					}
+
+					if (rdbtnNewRadioButton_2.isSelected()) {
+						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
+								textArea.getText(), 0);
+
+					}
 				}
-				if(rdbtnNewRadioButton_1.isSelected()) {
-					
-				}
-				if(comboBox.getSelectedItem().toString() != "Sin seleccionar") {
-					
-				}
+				//LLAMAMOS AL GESTOR DE SOLICITUDES
+				//LLAMAMOS AL GESTOR DE INCIDENCIAS QUE HACE LA LOGICA DE ASIGNAR
+				//LLAMAMOS AL DAO PARA HACER LA INSERT
+				//String mensaje = "!Equipo creado correctamente�";
+				//if (!crearAula(adto))mensaje="!Error al crear el equipo�";
+				//	JOptionPane.showMessageDialog(null, mensaje);
+				dispose();
 			}
 		});
 		btnNewButton.setBackground(new Color(0x43B581));
 		btnNewButton.setBounds(140, 283, 89, 41);
 		contentPane.add(btnNewButton);
-		
+
 		JButton btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -95,14 +127,13 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		contentPane.add(btnNewButton_1);
 		ButtonGroup bg = new ButtonGroup();
 
-		
 		rdbtnNewRadioButton = new JRadioButton("Hardware");
 		rdbtnNewRadioButton.setForeground(Color.WHITE);
 		rdbtnNewRadioButton.setBounds(147, 58, 109, 23);
 		rdbtnNewRadioButton.setBackground(new Color(0x566573));
 
 		contentPane.add(rdbtnNewRadioButton);
-		
+
 		rdbtnNewRadioButton_1 = new JRadioButton("Software");
 		rdbtnNewRadioButton_1.setForeground(Color.WHITE);
 		rdbtnNewRadioButton_1.setBounds(273, 58, 109, 23);
@@ -116,22 +147,23 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		comboBox.setBounds(140, 99, 242, 20);
 		comboBox.setBackground(new Color(0x566573));
 		comboBox.addItem("Sin seleccion");
+
 		contentPane.add(comboBox);
-		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Solicitud fuera de stcok");
+
+		rdbtnNewRadioButton_2 = new JRadioButton("Solicitud fuera de stock");
 		rdbtnNewRadioButton_2.setForeground(Color.WHITE);
 		rdbtnNewRadioButton_2.setBounds(185, 126, 163, 23);
 		rdbtnNewRadioButton_2.setBackground(new Color(0x566573));
 
 		contentPane.add(rdbtnNewRadioButton_2);
-		
-		JTextArea textArea = new JTextArea();
+
+		textArea = new JTextArea();
 		textArea.setForeground(Color.WHITE);
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		textArea.setBounds(10, 172, 521, 96);
 		textArea.setBackground(new Color(0x141d26));
 		contentPane.add(textArea);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Descripcion");
 		lblNewLabel_1.setBounds(10, 154, 68, 14);
 		contentPane.add(lblNewLabel_1);

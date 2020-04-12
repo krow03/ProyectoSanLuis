@@ -1094,7 +1094,6 @@ public class Main extends JFrame {
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad, CENTRO_SELECCIONADO);
 				String mensaje = "!Equipo creado correctamente�";
-				
 				if (!crearAula(adto))mensaje="!Error al crear el equipo�";
 					JOptionPane.showMessageDialog(null, mensaje);
 					recargarAula();

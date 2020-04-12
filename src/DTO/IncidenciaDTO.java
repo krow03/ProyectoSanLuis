@@ -11,6 +11,7 @@ public class IncidenciaDTO
     private String estado;
     private String descripcion;
     private int prioridad;
+    private String tipo;
     
 	public IncidenciaDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
 			String fechaFin, String estado, String descripcion, int prioridad) {
@@ -25,6 +26,18 @@ public class IncidenciaDTO
 		this.descripcion = descripcion;
 		this.prioridad = prioridad;
 	}
+	
+	public IncidenciaDTO(String tipo,String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol, String descripcion) {
+		super();
+		this.tipo = tipo;
+		this.idRealizadaPor = idRealizadaPor;
+		this.idAsignadaA = idAsignadaA;
+		this.idEquipo = idEquipo;
+		this.fechaSol = fechaSol;
+		this.descripcion = descripcion;
+		
+	}
+
 	public int getCodigo() {
 		return codigo;
 	}

@@ -3,6 +3,7 @@ package DTO;
 public class SolicitudDTO extends IncidenciaDTO
 {
     private ComponenteDTO componente;
+    private String tipo;
 	
 
 	public SolicitudDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
@@ -12,9 +13,10 @@ public class SolicitudDTO extends IncidenciaDTO
 	}
 
 	public SolicitudDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
-			String fechaFin, String estado, String descripcion, int prioridad, ComponenteDTO componente) {
+			String fechaFin, String estado, String descripcion, int prioridad, ComponenteDTO componente,String tipo) {
 		super(codigo, idRealizadaPor, idAsignadaA, idEquipo, fechaSol, fechaFin, estado, descripcion, prioridad);
 		this.componente = componente;
+		this.tipo = tipo;
 	}
 
 	public ComponenteDTO getComponente() {

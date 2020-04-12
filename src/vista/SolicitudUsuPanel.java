@@ -74,6 +74,11 @@ public class SolicitudUsuPanel extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea.getText();
+				
+				//llamada a gestor
+				//asignar a tecnico con menos incidencias
+				//llamada a dao para insertar en la bd
+				dispose();
 			}
 		});
 		btnNewButton.setBackground(new Color(0x43B581));
