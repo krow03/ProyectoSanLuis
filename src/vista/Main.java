@@ -27,10 +27,12 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import DTO.AdministradorDTO;
 import DTO.AulaDTO;
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
+import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
 import Gestores.GestorAulas;
 import Gestores.GestorEquipos;
@@ -64,6 +66,8 @@ public class Main extends JFrame {
 	private final int CENTRO_SELECCIONADO = 1;
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
+	private String rol2;
+	private String idEquipo2;
 	private JComboBox comboBox;
 	private Image img;
 	private JPanel panel_3;
@@ -112,6 +116,7 @@ public class Main extends JFrame {
 	public Main() {
 		ga.cargarListaAulas(CENTRO_SELECCIONADO);
 		ge.cargarListaEquipos();
+		gu.cargarListaUsuarios();
 
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,11 +149,10 @@ public class Main extends JFrame {
 				visualizarAulas();
 				aulas.setVisible(true);
 				cargarDesplegableAula();
-
 				perfil.setVisible(false);
 				incidencias.setVisible(false);
 				crud.setVisible(false);
-
+				crudEquipo.setVisible(false);
 			}
 		});
 		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
@@ -178,9 +182,9 @@ public class Main extends JFrame {
 
 				aulas.setVisible(false);
 				perfil.setVisible(false);
-				incidencias.setVisible(false);
+				incidencias.setVisible(true);
 				crud.setVisible(false);
-				crudEquipo.setVisible(true);
+				crudEquipo.setVisible(false);
 			}
 		});
 		lvlSalida_1_1.setBounds(10, 112, 46, 64);
@@ -247,15 +251,12 @@ public class Main extends JFrame {
 				perfil.setVisible(true);
 				incidencias.setVisible(false);
 				crud.setVisible(false);
+				crudEquipo.setVisible(false);
 
 			}
 		});
 		lvlSalida_1.setBounds(10, 11, 46, 64);
 		panel.add(lvlSalida_1);
-
-		
-		
-		incidencias.setVisible(false);
 
 		cargarUsuarioOnline();
 
@@ -545,6 +546,49 @@ public class Main extends JFrame {
 		panel_4_1.setBounds(506, 196, 705, 89);
 		perfil.add(panel_4_1);
 
+		JScrollPane scrollPane2 = new JScrollPane();
+		scrollPane2.setBounds(506, 300, 795, 500);
+		perfil.add(scrollPane2);
+		JTable table2 = new JTable();
+		table2.setFillsViewportHeight(true);
+		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "DNI", "Rol" , "Nombre","Apellidos","Email", "Direccion","Telefono","User Name",  "Password","Id Equipo" }));
+		table2.setModel(defaultModel2);
+		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
+		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
+		table2.getColumnModel().getColumn(2).setPreferredWidth(86);
+		table2.getColumnModel().getColumn(3).setPreferredWidth(192);
+		table2.getColumnModel().getColumn(4).setPreferredWidth(192);
+		table2.getColumnModel().getColumn(5).setPreferredWidth(192);
+		table2.getColumnModel().getColumn(6).setPreferredWidth(192);
+		table2.getColumnModel().getColumn(7).setPreferredWidth(192);
+		table2.getColumnModel().getColumn(8).setPreferredWidth(192);
+		table2.getColumnModel().getColumn(9).setPreferredWidth(192);
+		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+		array = gu.getList();
+		String rol = "";
+		Double total;
+		for (UsuarioDTO e : array) {
+			if(e instanceof AdministradorDTO) {
+				rol = "admin";
+			}else if(e instanceof TecnicoDTO){
+				rol = "tecnico";
+			}else {
+				rol = "usuario";
+			}
+			Object[] fila = { e.getIdUsuario(), rol,e.getNombre(),e.getApellidos(), e.getEmail(),e.getDireccion(),e.getTelefono(), e.getUserName(), e.getPass(),e.getIdEquipo() };
+			defaultModel2.addRow(fila);
+		}
+		table2.setModel(defaultModel2);
+		scrollPane2.setViewportView(table2);
+		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            nombreSeleccionado = table2.getValueAt(table2.getSelectedRow(), 0).toString();
+	        }
+	    });
+		
+		
 		JButton btnNewButton_2 = new JButton("A\u00F1adir");
 		// btnNewButton_2.setForeground(new Color(0x43B581));
 		btnNewButton_2.setForeground(new Color(0x43B581));
@@ -560,7 +604,23 @@ public class Main extends JFrame {
 		}
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try {
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String nombre = model.getValueAt(table2.getSelectedRow(), 1).toString();
+				String apellidos = model.getValueAt(table2.getSelectedRow(), 2).toString();
+				String email = model.getValueAt(table2.getSelectedRow(), 3).toString();
+				String direccion = model.getValueAt(table2.getSelectedRow(), 4).toString();
+				String telefono = model.getValueAt(table2.getSelectedRow(), 5).toString();
+				String userName = model.getValueAt(table2.getSelectedRow(), 6).toString();
+				String pass = model.getValueAt(table2.getSelectedRow(), 7).toString();
+				//int idEquipo = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 9).toString());
+				UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+				JoptionCombos frame = new JoptionCombos(user);
+				frame.setVisible(true);
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_2.setBounds(470, 0, 235, 89);
@@ -622,11 +682,6 @@ public class Main extends JFrame {
 		perfil.add(btnNewButton_2_3);
 
 		JButton btnNewButton_2_2_1 = new JButton("Incidencia");
-		/*
-		 * try { img = ImageIO.read(getClass().getResource("/images/eliminar (1).png"));
-		 * btnNewButton_2_2_1.setIcon(new ImageIcon(img)); } catch (IOException e1) { //
-		 * TODO Auto-generated catch block e1.printStackTrace(); }
-		 */
 		btnNewButton_2_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				IncidenciaUsuPanel2 upanel = new IncidenciaUsuPanel2();
@@ -646,7 +701,7 @@ public class Main extends JFrame {
 				SolicitudUsuPanel soPanel = new SolicitudUsuPanel();
 				soPanel.setUndecorated(true);
 				soPanel.setLocationRelativeTo(null);
-				soPanel.soli("holaaa");
+
 				soPanel.setVisible(true);
 
 			}
@@ -656,40 +711,91 @@ public class Main extends JFrame {
 		perfil.add(btnNewButton_2_2_2);
 		
 		
-		JScrollPane scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(506, 300, 795, 500);
-		perfil.add(scrollPane2);
-		JTable table2 = new JTable();
-		table2.setFillsViewportHeight(true);
-		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "Nombre", "Rango Ip", "Capacidad", "Descripcion" }));
-		table2.setModel(defaultModel2);
-		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
-		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
-		table2.getColumnModel().getColumn(2).setPreferredWidth(86);
-		table2.getColumnModel().getColumn(3).setPreferredWidth(192);
-		AulaDAO ped = new AulaDAO();
-		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
-		array = ga.getListaAulas();
+		
+		
+		JButton btnNewButton = new JButton("Añadir");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+							
+				
+			}
+		});
+		btnNewButton.setBounds(416, 485, 89, 23);
+		perfil.add(btnNewButton);
+		table2.setVisible(true);
+		Object[] filaBlanca = { "", "", "", "" };
+		defaultModel2.addRow(filaBlanca);
 
-		Double total;
-		for (AulaDTO e : array) {
-
-			Object[] fila = { e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
-			defaultModel.addRow(fila);
+		JButton btnNewButton_3 = new JButton("Eliminar");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				int id = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 0).toString());
+				
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo",
+                        JOptionPane.OK_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    String mensaje = "!Equipo borrado correctamenteï¿½";
+                    if (!borrarEquipo(id))
+                        mensaje = "!Error al borrar el equipoï¿½";
+                    JOptionPane.showMessageDialog(null, mensaje);
+            		ge.cargarListaEquipos();
+                }
+			}
+		});
+		btnNewButton_3.setBounds(545, 485, 89, 23);
+		perfil.add(btnNewButton_3);
+		
+		JButton btnNewButton_4 = new JButton("Modificar");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				
+				int id = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 0).toString());
+				String nombre = model.getValueAt(table2.getSelectedRow(), 1).toString();
+				String ip = model.getValueAt(table2.getSelectedRow(), 2).toString();
+				int discoDuro = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 3).toString());
+				int ram = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 4).toString());
+				
+				EquipoDTO edto = new EquipoDTO(id,ip,nombre, discoDuro,ram);
+				
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
+                        JOptionPane.OK_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                	String mensaje = "!Equipo modificado correctamenteï¿½";
+     				if (!modificarEquipo(edto))
+     					mensaje = "!Error al modificar el equipoï¿½";
+     				JOptionPane.showMessageDialog(null, mensaje);
+     				ge.cargarListaEquipos();
+                }
+               
+			}
+		});
+		btnNewButton_4.setBounds(667, 485, 89, 23);
+		perfil.add(btnNewButton_4);
+	}
+	
+	private boolean crearUsuario(UsuarioDTO udto) {
+		try {
+				return gu.altaUsuario(udto);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		table2.setModel(defaultModel2);
-		scrollPane2.setViewportView(table2);
-		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	            nombreSeleccionado = table2.getValueAt(table2.getSelectedRow(), 0).toString();
-	        }
-	    });
-		
-		
+		return false;
+	}
+
+	private boolean borrarUsuario(String idUsuario) {
+		return gu.borrarUsuario(idUsuario);
+	}
+
+	private boolean modificarusuario(UsuarioDTO udto) {
+		try {
+			return gu.modificarUsuario(udto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	private void visualizarAulas() {
@@ -1289,7 +1395,7 @@ public class Main extends JFrame {
 				int discoDuro = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 3).toString());
 				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
 				
-				EquipoDTO edto = new EquipoDTO(id,ip, nombre, discoDuro,ram);
+				EquipoDTO edto = new EquipoDTO(id,ip,nombre, discoDuro,ram);
 				
 				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
                         JOptionPane.OK_OPTION);
@@ -1318,7 +1424,6 @@ public class Main extends JFrame {
 		btnNewButton_4.setBackground(new Color(86, 101, 115));
 		btnNewButton_4.setBounds(235, 0, 235, 89);
 		crudEquipo.add(btnNewButton_4);
-		// crud.add(table);
 	}
 	
 	private boolean crearEquipo(EquipoDTO edto) {

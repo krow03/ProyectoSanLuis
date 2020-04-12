@@ -83,14 +83,14 @@ public class GestorUsuarios {
 		return promocionarUsuario(user);
 	}
 	
-	public boolean borrarUsuario(UsuarioDTO user) {
-		if(!comprobarUltimoAdmin() && tienePermisos()==3) return udao.borrar(user.getIdUsuario());
-		return false;
+	public boolean borrarUsuario(String idUsuario) {
+		/*if(!comprobarUltimoAdmin() && tienePermisos()==3)*/ return udao.borrar(idUsuario);
+		//return false;
 	}
 	
 	public boolean altaUsuario(UsuarioDTO user) {
 		try {
-			if(tienePermisos()==3)return udao.insertar(user);	
+			/*if(tienePermisos()==3)*/return udao.insertar(user);	
 		}catch(SQLException sqle){
 			sqle.printStackTrace();
 		}	
@@ -98,7 +98,7 @@ public class GestorUsuarios {
 	}
 	
 	public boolean modificarUsuario(UsuarioDTO user) {
-		if(tienePermisos()==3)return udao.actualizar(user);
-		return false;
+		/*if(tienePermisos()==3)*/return udao.actualizar(user);
+		//return false;
 	}
 }

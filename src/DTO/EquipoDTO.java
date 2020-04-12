@@ -11,7 +11,7 @@ public class EquipoDTO
     private int ram;
     private int idAula;
     private ArrayList<ComponenteDTO> componentes;
-    
+   
     //campo calculado
     private double disponibleHDD;
     
@@ -33,17 +33,18 @@ public class EquipoDTO
 		this.ram = ram;
 		this.idAula = idAula;
 	}
-	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, int ram) {
-		super();
-		this.ipEquipo = ipEquipo;
-		this.nombre = nombre;
-		this.discoDuro = discoDuro;
-		this.ram = ram;
-	}
 	
 	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, int ram) {
+        super();
+        this.idEquipo = idEquipo;
+        this.ipEquipo = ipEquipo;
+        this.nombre = nombre;
+        this.discoDuro = discoDuro;
+        this.ram = ram;
+    }
+	
+	public EquipoDTO(String ipEquipo, String nombre, int discoDuro, int ram) {
 		super();
-		this.idEquipo = idEquipo;
 		this.ipEquipo = ipEquipo;
 		this.nombre = nombre;
 		this.discoDuro = discoDuro;

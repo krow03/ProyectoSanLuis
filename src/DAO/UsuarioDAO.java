@@ -15,9 +15,10 @@ import DTO.UsuarioDTO;
 
 public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 
-	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,Equipos_idEquipos,userName,email,pass) VALUES (?,?,?,?,?,?)";
+	private static final String SQL_INSERT_ASSIGN_EQUIP="INSERT INTO Usuarios (idUsuarios,Roles_idRol,Equipos_idEquipos,userName,email,pass,direccion,telefono,nombre,apellidos) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,userName,email,pass,direccion,telefono,nombre,apellidos) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Usuarios WHERE idUsuarios = ?";
-	private static final String SQL_UPDATE="UPDATE Usuarios SET userName = ?, email = ?, pass = ? WHERE idUsuarios = ?";
+	private static final String SQL_UPDATE="UPDATE Usuarios SET userName = ?, email = ?, pass = ?,direccion=?,telefono=?,nombre=?,apellidos=?,Equipos_idEquipos=? WHERE idUsuarios = ?";
 	private static final String SQL_FINDPERSONA="SELECT * FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Usuarios";
 	private static final String SQL_LOGIN="SELECT * FROM Usuarios WHERE userName like ? and pass like ?;";
@@ -25,22 +26,22 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 	
 	private Conexion con = Conexion.getInstance();
 	
-	@Override
-	public boolean insertar(UsuarioDTO t) throws SQLException {
+
+	public boolean insertarConEquipo(UsuarioDTO t) throws SQLException {
 		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT_ASSIGN_EQUIP);
 			ps.setString(1, t.getIdUsuario());
-			if(t instanceof AdministradorDTO) {
-				ps.setInt(2, 3);
-			}else if(t instanceof TecnicoDTO) 
-				{ps.setInt(2, 2);
-			}else { 
-				ps.setInt(2, 1); 
-			}
+			if(t instanceof AdministradorDTO) ps.setInt(2, 3);
+			else if(t instanceof TecnicoDTO) ps.setInt(2, 2);
+			else ps.setInt(2, 1); 
 			ps.setInt(3, t.getIdEquipo());
 			ps.setString(4, t.getUserName());
 			ps.setString(5, t.getEmail());
 			ps.setString(6, DigestUtils.sha256Hex(t.getPass()));
+			ps.setString(7, t.getDireccion());
+			ps.setString(8, t.getTelefono());
+			ps.setString(9, t.getNombre());
+			ps.setString(10, t.getApellidos());
 			
 			if (ps.executeUpdate()>0) {
 				ps.close();
@@ -51,7 +52,30 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		}
 		return false;
 	}
-
+	public boolean insertar(UsuarioDTO t) throws SQLException {
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
+			ps.setString(1, t.getIdUsuario());
+			if(t instanceof AdministradorDTO) ps.setInt(2, 3);
+			else if(t instanceof TecnicoDTO) ps.setInt(2, 2);
+			else ps.setInt(2, 1); 
+			ps.setString(3, t.getUserName());
+			ps.setString(4, t.getEmail());
+			ps.setString(5, DigestUtils.sha256Hex(t.getPass()));
+			ps.setString(6, t.getDireccion());
+			ps.setString(7, t.getTelefono());
+			ps.setString(8, t.getNombre());
+			ps.setString(9, t.getApellidos());
+			
+			if (ps.executeUpdate()>0) {
+				ps.close();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	@Override
 	public boolean borrar(Object pk) {
 		try {
@@ -75,8 +99,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ps.setString(1, t.getUserName());
 			ps.setString(2, t.getEmail());
 			ps.setString(3, t.getPass());
+			ps.setString(4, t.getDireccion());
+			ps.setString(5, t.getTelefono());
+			ps.setString(6, t.getNombre());
+			ps.setString(7, t.getApellidos());
+			ps.setInt(8, t.getIdEquipo());
 			
-			ps.setString(4, t.getIdUsuario());
+			ps.setString(9, t.getIdUsuario());
 
 			if (ps.executeUpdate()>0) return true;
 			
@@ -105,13 +134,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
 				if(rs.getInt("Roles_idRol")==1) {
-					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					return user;
 				}else if(rs.getInt("Roles_idRol")==2) {
-					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					return tec;
 				}else if(rs.getInt("Roles_idRol")==3) {
-					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					return admin;
 				}
 			}
@@ -129,13 +158,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				if(rs.getInt("Roles_idRol")==1) {
-					UsuarioDTO user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					UsuarioDTO user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					lista.add(user);
 				}else if(rs.getInt("Roles_idRol")==2) {
-					TecnicoDTO user = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					TecnicoDTO user = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					lista.add(user);
 				}else if(rs.getInt("Roles_idRol")==3) {
-					AdministradorDTO user = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					AdministradorDTO user = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					lista.add(user);
 				}
 			}
@@ -163,13 +192,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
 				if(rs.getInt("Roles_idRol")==1) {
-					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					user = new UsuarioDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					return user;
 				}else if(rs.getInt("Roles_idRol")==2) {
-					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					TecnicoDTO tec = new TecnicoDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					return tec;
 				}else if(rs.getInt("Roles_idRol")==3) {
-					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"));
+					AdministradorDTO admin = new AdministradorDTO(rs.getString("idUsuarios"),rs.getString("userName"),rs.getString("email"),rs.getInt("Equipos_idEquipos"),rs.getString("pass"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("direccion"),rs.getString("telefono"));
 					return admin;
 				}
 			}

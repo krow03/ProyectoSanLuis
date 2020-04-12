@@ -11,8 +11,8 @@ public class TecnicoDTO extends UsuarioDTO
     
     private ArrayList<IncidenciaDTO> incidenciasAsignadas;
     
-    public TecnicoDTO(String idUsuario, String userName, String email, int idEquipo,String pass) {
-        super(idUsuario,userName,email,idEquipo,pass);
+    public TecnicoDTO(String idUsuario, String userName, String email, int idEquipo,String pass,String nombre,String apellidos,String direccion,String telefono) {
+        super(idUsuario,userName,email,idEquipo,pass,nombre,apellidos, direccion, telefono);
     }
 
 	public int getnIncidencias() {

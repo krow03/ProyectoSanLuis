@@ -22,6 +22,16 @@ public class GestorEquipos {
 		return false;
 	}
 	
+	public ArrayList<EquipoDTO> getEquiposDisponiblesEnAulas() {
+		ArrayList<EquipoDTO> equiposDisp = new ArrayList<EquipoDTO>();
+		for(EquipoDTO equipo : listaEquipos) {
+			if(equipo.getIdAula()>0) {
+				equiposDisp.add(equipo);
+			}
+		}
+		return equiposDisp;
+	}
+	
 	public ArrayList<EquipoDTO> getEquiposAula(int idAula) {
 		ArrayList<EquipoDTO> equiposAula = new ArrayList<EquipoDTO>();
 		for(EquipoDTO equipo : listaEquipos) {

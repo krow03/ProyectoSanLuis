@@ -9,6 +9,10 @@ import java.util.ArrayList;
 public class UsuarioDTO
 {
 	private String idUsuario;
+	private String nombre;
+	private String apellidos;
+	private String telefono;
+	private String direccion;
     private String userName;
     private String email;
     private int idEquipo;
@@ -21,14 +25,17 @@ public class UsuarioDTO
 				+ idEquipo + ", pass=" + pass + ", incidenciasRealizadas=" + incidenciasRealizadas + "]";
 	}
 
-	public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass) {
+	public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass, String nombre,String apellidos,String direccion,String telefono) {
 		super();
 		this.idUsuario = idUsuario;
 		this.userName = userName;
 		this.email = email;
 		this.idEquipo = idEquipo;
 		this.pass = pass;
-		this.incidenciasRealizadas= new ArrayList<IncidenciaDTO>();
+		this.nombre=nombre;
+		this.apellidos=apellidos;
+		this.direccion=direccion;
+		this.telefono=telefono;
     }
     
     public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo) {
@@ -85,6 +92,38 @@ public class UsuarioDTO
 
 	public void setIncidencias(ArrayList<IncidenciaDTO> incidencias) {
 		this.incidenciasRealizadas = incidencias;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
     
 }
