@@ -1186,12 +1186,12 @@ public class Main extends JFrame {
 		JButton btnNewButton = new JButton("Añadir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				int id = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString());
-				String nombre = model.getValueAt(table.getSelectedRow(), 1).toString();
-				String ip = model.getValueAt(table.getSelectedRow(), 2).toString();
-				int discoDuro = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 3).toString());
-				int ram = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 4).toString());
+				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
+				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
+				String nombre = model.getValueAt(tableEquipo.getSelectedRow(), 1).toString();
+				String ip = model.getValueAt(tableEquipo.getSelectedRow(), 2).toString();
+				int discoDuro = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 3).toString());
+				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
 				
 				EquipoDTO edto = new EquipoDTO(ip, nombre, discoDuro,ram);
 				String mensaje = "!Equipo creado correctamenteï¿½";			
@@ -1209,8 +1209,8 @@ public class Main extends JFrame {
 		JButton btnNewButton_3 = new JButton("Eliminar");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				int id = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString());
+				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
+				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
 				
 				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo",
                         JOptionPane.OK_OPTION);
@@ -1229,13 +1229,13 @@ public class Main extends JFrame {
 		JButton btnNewButton_4 = new JButton("Modificar");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
 				
-				int id = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString());
-				String nombre = model.getValueAt(table.getSelectedRow(), 1).toString();
-				String ip = model.getValueAt(table.getSelectedRow(), 2).toString();
-				int discoDuro = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 3).toString());
-				int ram = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 4).toString());
+				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
+				String nombre = model.getValueAt(tableEquipo.getSelectedRow(), 1).toString();
+				String ip = model.getValueAt(tableEquipo.getSelectedRow(), 2).toString();
+				int discoDuro = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 3).toString());
+				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
 				
 				EquipoDTO edto = new EquipoDTO(id,ip, nombre, discoDuro,ram);
 				
