@@ -42,6 +42,15 @@ public class EquipoDTO
 		this.ram = ram;
 	}
 	
+	public EquipoDTO(int idEquipo,String ipEquipo, String nombre, int discoDuro, int ram) {
+		super();
+		this.idEquipo = idEquipo;
+		this.ipEquipo = ipEquipo;
+		this.nombre = nombre;
+		this.discoDuro = discoDuro;
+		this.ram = ram;
+	}
+	
 	public EquipoDTO(String nombre, String ipEquipo) {
 		this.nombre = nombre;
 		this.ipEquipo = ipEquipo;

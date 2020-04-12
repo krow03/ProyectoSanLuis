@@ -71,6 +71,7 @@ public class Main extends JFrame {
 	private JPanel aulas;
 	private JPanel perfil;
 	private JPanel crud;
+	private JPanel crudEquipo;
 	private JPanel incidencias;
 	private JPanel contentPane;
 	private String nombreSeleccionado;
@@ -123,9 +124,10 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 
 		visualizarPerfil();
-		visualiazarCrud();
+		visualizarCrudAulas();
 		visualizarAulas();
 		visualizarIncidencias();
+		visualizarCrudEquipos();
 
 		// JPANEL LATERAL
 		JPanel panel = new JPanel();
@@ -175,9 +177,9 @@ public class Main extends JFrame {
 
 				aulas.setVisible(false);
 				perfil.setVisible(false);
-				incidencias.setVisible(true);
+				incidencias.setVisible(false);
 				crud.setVisible(false);
-
+				crudEquipo.setVisible(true);
 			}
 		});
 		lvlSalida_1_1.setBounds(10, 112, 46, 64);
@@ -195,7 +197,7 @@ public class Main extends JFrame {
 
 		JLabel lblPedidos = new JLabel("");
 		lblPedidos.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
-		lblPedidos.setBounds(10, 413, 46, 64);
+		lblPedidos.setBounds(10, 400, 46, 64);
 		panel.add(lblPedidos);
 
 		JLabel lblStock = new JLabel("");
@@ -203,6 +205,23 @@ public class Main extends JFrame {
 		lblStock.setBounds(10, 306, 46, 64);
 		panel.add(lblStock);
 
+		JLabel lblEquipos = new JLabel("");
+		lblEquipos.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
+		lblEquipos.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(true);
+				crud.setVisible(false);
+
+			}
+		});
+		lblEquipos.setBounds(10, 550, 46, 64);
+		panel.add(lblEquipos);
+		
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
 			@Override
@@ -233,6 +252,8 @@ public class Main extends JFrame {
 		lvlSalida_1.setBounds(10, 11, 46, 64);
 		panel.add(lvlSalida_1);
 
+		
+		
 		incidencias.setVisible(false);
 
 		cargarUsuarioOnline();
@@ -372,42 +393,7 @@ public class Main extends JFrame {
 		return false;
 	}
 
-	private boolean crearEquipo() {
-		try {
-			EquipoDTO e = null;
-			System.out.println(comboBox.getSelectedItem().toString());
-			if (comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-				e = new EquipoDTO(txtIp.getText(), txtNombreEquipo.getText(), Integer.parseInt(txtDiscoDuro.getText()),
-						Integer.parseInt(txtRam.getText()));
-				return ge.crearEquipo(e);
-			} else {
-				AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-				e = new EquipoDTO(txtIp.getText(), txtNombreEquipo.getText(), Integer.parseInt(txtDiscoDuro.getText()),
-						Integer.parseInt(txtRam.getText()), adto.getIdAula());
-				return ge.crearEquipoAula(e);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	private boolean borrarEquipo() {
-		return ge.borrarEquipo(equipoSeleccionado.getIdEquipo());
-	}
-
-	private boolean modificarEquipo() {
-		try {
-			equipoSeleccionado.setNombre(txtNombreEquipo.getText());
-			equipoSeleccionado.setIpEquipo(txtIp.getText());
-			equipoSeleccionado.setDiscoDuro(Integer.parseInt(txtDiscoDuro.getText()));
-			equipoSeleccionado.setRam(Integer.parseInt(txtRam.getText()));
-			return ge.modificarEquipo(equipoSeleccionado);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+	
 
 	private void visualizarPerfil() {
 		perfil = new JPanel();
@@ -705,44 +691,19 @@ public class Main extends JFrame {
 
 		btnModificarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String mensaje = "!Equipo modificado correctamenteï¿½";
-				if (!modificarEquipo())
-					mensaje = "!Error al modificar el equipoï¿½";
-				JOptionPane.showMessageDialog(null, mensaje);
-				ge.cargarListaEquipos();
-				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-					cargarEquiposAula();
-				}
+				
 			}
 		});
 
 		btnEliminarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo",
-						JOptionPane.OK_OPTION);
-				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Equipo borrado correctamenteï¿½";
-					if (!borrarEquipo())
-						mensaje = "!Error al borrar el equipoï¿½";
-					JOptionPane.showMessageDialog(null, mensaje);
-					ge.cargarListaEquipos();
-					if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-						cargarEquiposAula();
-					}
-				}
+				
 			}
 		});
 
 		btnAnadirEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String mensaje = "!Equipo creado correctamenteï¿½";
-				if (!crearEquipo())
-					mensaje = "!Error al crear el equipoï¿½";
-				JOptionPane.showMessageDialog(null, mensaje);
-				ge.cargarListaEquipos();
-				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
-					cargarEquiposAula();
-				}
+				
 			}
 		});
 		comboBox = new JComboBox();
@@ -842,9 +803,9 @@ public class Main extends JFrame {
 		panel_2.add(txtRam);
 	}
 
-	private void visualiazarCrud() {
+	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1057,6 +1018,239 @@ public class Main extends JFrame {
 		// crud.add(table);
 	}
 
+	private void visualizarCrudEquipos() {
+		crudEquipo = new JPanel();
+		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBackground(Color.WHITE);
+
+		contentPane.add(crudEquipo);
+		crudEquipo.setLayout(null);
+
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(54, 28, 1177, 89);
+		crudEquipo.add(panel_4);
+		panel_4.setLayout(null);
+
+		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(new Color(0x566573));
+		panel_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_5.setBounds(235, 0, 235, 89);
+		panel_4.add(panel_5);
+		panel_5.setLayout(null);
+
+		JLabel lblNewLabel_2 = new JLabel("Eliminar");
+		lblNewLabel_2.setForeground(Color.WHITE);
+
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(105, 32, 76, 20);
+		panel_5.add(lblNewLabel_2);
+
+		JLabel lblNewLabel_11 = new JLabel("New label");
+		lblNewLabel_11.setIcon(new ImageIcon(Main.class.getResource("/images/eliminar.png")));
+		lblNewLabel_11.setBounds(10, 11, 69, 67);
+		panel_5.add(lblNewLabel_11);
+
+		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(new Color(0x566573));
+
+		panel_6.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_6.setBounds(471, 0, 235, 89);
+		panel_4.add(panel_6);
+		panel_6.setLayout(null);
+
+		JLabel lblNewLabel_3 = new JLabel("Modificar");
+		lblNewLabel_3.setForeground(Color.WHITE);
+
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3.setBounds(111, 34, 87, 19);
+		panel_6.add(lblNewLabel_3);
+
+		JLabel lblNewLabel_12 = new JLabel("");
+		lblNewLabel_12.setIcon(new ImageIcon(Main.class.getResource("/images/cambio (1).png")));
+		lblNewLabel_12.setBounds(10, 11, 75, 67);
+		panel_6.add(lblNewLabel_12);
+
+		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(new Color(0x566573));
+
+		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_7.setBounds(706, 0, 235, 89);
+		panel_4.add(panel_7);
+		panel_7.setLayout(null);
+
+		JLabel lblNewLabel_4 = new JLabel("Crear");
+		lblNewLabel_4.setForeground(Color.WHITE);
+
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_4.setBounds(135, 36, 53, 19);
+		panel_7.add(lblNewLabel_4);
+
+		JLabel lblNewLabel_13 = new JLabel("");
+		lblNewLabel_13.setIcon(new ImageIcon(Main.class.getResource("/images/anadir (1).png")));
+		lblNewLabel_13.setBounds(28, 11, 64, 67);
+		panel_7.add(lblNewLabel_13);
+
+		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(new Color(0x566573));
+
+		panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_8.setBounds(942, 0, 235, 89);
+		panel_4.add(panel_8);
+		panel_8.setLayout(null);
+
+		JLabel lblNewLabel_5 = new JLabel("Promocionar");
+		lblNewLabel_5.setForeground(Color.WHITE);
+
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_5.setBounds(82, 35, 95, 19);
+		panel_8.add(lblNewLabel_5);
+
+		JLabel lblNewLabel_10 = new JLabel("");
+		lblNewLabel_10.setBounds(2, 0, 69, 89);
+		panel_8.add(lblNewLabel_10);
+		lblNewLabel_10.setIcon(new ImageIcon(Main.class.getResource("/images/flecha-arriba (4).png")));
+
+		JPanel panel_9 = new JPanel();
+		panel_9.setBackground(new Color(0x566573));
+
+		panel_9.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_9.setBounds(0, 0, 235, 89);
+		panel_4.add(panel_9);
+		panel_9.setLayout(null);
+
+		JLabel lblNewLabel_6 = new JLabel("Degradar");
+		lblNewLabel_6.setForeground(Color.WHITE);
+
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_6.setBounds(93, 37, 91, 19);
+		panel_9.add(lblNewLabel_6);
+
+		JLabel lblNewLabel_9 = new JLabel("");
+		lblNewLabel_9.setIcon(new ImageIcon(Main.class.getResource("/images/descargar.png")));
+		lblNewLabel_9.setBounds(10, 11, 64, 67);
+		panel_9.add(lblNewLabel_9);
+
+		JScrollPane scrollPaneEquipo = new JScrollPane();
+		scrollPaneEquipo.setBounds(76, 244, 1155, 168);
+		crudEquipo.add(scrollPaneEquipo);
+		JTable tableEquipo = new JTable();
+		tableEquipo.setFillsViewportHeight(true);
+		tableEquipo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel = (new DefaultTableModel(new Object[][] {},
+				new String[] { "Id","Nombre", "IP", "Disco Duro", "Ram" }));
+		tableEquipo.setModel(defaultModel);
+		tableEquipo.getColumnModel().getColumn(0).setPreferredWidth(86);
+		tableEquipo.getColumnModel().getColumn(1).setPreferredWidth(106);
+		tableEquipo.getColumnModel().getColumn(2).setPreferredWidth(86);
+		tableEquipo.getColumnModel().getColumn(3).setPreferredWidth(192);
+		tableEquipo.getColumnModel().getColumn(4).setPreferredWidth(192);
+		ArrayList<EquipoDTO> array = new ArrayList<EquipoDTO>();
+		array = ge.getListaEquipos();
+
+		for (EquipoDTO e : array) {
+
+			Object[] fila = { e.getIdEquipo(), e.getNombre(), e.getIpEquipo(), e.getDiscoDuro(), e.getRam()};
+			defaultModel.addRow(fila);
+		}
+		tableEquipo.setModel(defaultModel);
+		scrollPaneEquipo.setViewportView(tableEquipo);
+		
+		JButton btnNewButton = new JButton("Añadir");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				int id = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString());
+				String nombre = model.getValueAt(table.getSelectedRow(), 1).toString();
+				String ip = model.getValueAt(table.getSelectedRow(), 2).toString();
+				int discoDuro = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 3).toString());
+				int ram = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 4).toString());
+				
+				EquipoDTO edto = new EquipoDTO(ip, nombre, discoDuro,ram);
+				String mensaje = "!Equipo creado correctamenteï¿½";			
+				if (!crearEquipo(edto))mensaje="!Error al crear el equipoï¿½";
+					JOptionPane.showMessageDialog(null, mensaje);
+					ge.cargarListaEquipos();
+			}
+		});
+		btnNewButton.setBounds(416, 485, 89, 23);
+		crudEquipo.add(btnNewButton);
+		tableEquipo.setVisible(true);
+		Object[] filaBlanca = { "", "", "", "" };
+		defaultModel.addRow(filaBlanca);
+
+		JButton btnNewButton_3 = new JButton("Eliminar");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				int id = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString());
+				
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo",
+                        JOptionPane.OK_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    String mensaje = "!Equipo borrado correctamenteï¿½";
+                    if (!borrarEquipo(id))
+                        mensaje = "!Error al borrar el equipoï¿½";
+                    JOptionPane.showMessageDialog(null, mensaje);
+            		ge.cargarListaEquipos();
+                }
+			}
+		});
+		btnNewButton_3.setBounds(545, 485, 89, 23);
+		crudEquipo.add(btnNewButton_3);
+		
+		JButton btnNewButton_4 = new JButton("Modificar");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				
+				int id = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString());
+				String nombre = model.getValueAt(table.getSelectedRow(), 1).toString();
+				String ip = model.getValueAt(table.getSelectedRow(), 2).toString();
+				int discoDuro = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 3).toString());
+				int ram = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 4).toString());
+				
+				EquipoDTO edto = new EquipoDTO(id,ip, nombre, discoDuro,ram);
+				
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
+                        JOptionPane.OK_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                	String mensaje = "!Equipo modificado correctamenteï¿½";
+     				if (!modificarEquipo(edto))
+     					mensaje = "!Error al modificar el equipoï¿½";
+     				JOptionPane.showMessageDialog(null, mensaje);
+     				ge.cargarListaEquipos();
+                }
+               
+			}
+		});
+		btnNewButton_4.setBounds(667, 485, 89, 23);
+		crudEquipo.add(btnNewButton_4);
+		// crud.add(table);
+	}
+	
+	private boolean crearEquipo(EquipoDTO edto) {
+		try {
+				return ge.crearEquipo(edto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean borrarEquipo(int idEquipo) {
+		return ge.borrarEquipo(idEquipo);
+	}
+
+	private boolean modificarEquipo(EquipoDTO edto) {
+		try {
+			return ge.modificarEquipo(edto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
