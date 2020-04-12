@@ -63,7 +63,7 @@ public class Main extends JFrame {
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private final int CENTRO_SELECCIONADO = 1;
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
-
+	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
 	private JComboBox comboBox;
 	private Image img;
 	private JPanel panel_3;
@@ -85,8 +85,6 @@ public class Main extends JFrame {
 	private JTextField txtIp;
 	private JTextField txtDiscoDuro;
 	private JTextField txtRam;
-
-	private JTable table_2;
 
 	/**
 	 * Launch the application.
@@ -398,7 +396,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -539,13 +537,6 @@ public class Main extends JFrame {
 		// Oculto el btn despues de los inputs
 		bntModificarPerfil.setVisible(false);
 
-		table_2 = new JTable();
-		table_2.setModel(new DefaultTableModel(new Object[][] { { "sf", "sdf", "sdf", "sdfs", "dsf" }, },
-				new String[] { "Centro", "RangoIp", "Nombre", "Capacidad", "Descripcion" }));
-		table_2.getColumnModel().getColumn(4).setPreferredWidth(299);
-		table_2.setBounds(472, 379, 812, 416);
-		perfil.add(table_2);
-
 		JPanel panel_4_1 = new JPanel();
 		panel_4_1.setLayout(null);
 		panel_4_1.setBounds(506, 196, 705, 89);
@@ -566,6 +557,7 @@ public class Main extends JFrame {
 		}
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnNewButton_2.setBounds(470, 0, 235, 89);
@@ -654,6 +646,42 @@ public class Main extends JFrame {
 		btnNewButton_2_2_2.setBackground(new Color(86, 101, 115));
 		btnNewButton_2_2_2.setBounds(763, 11, 235, 89);
 		perfil.add(btnNewButton_2_2_2);
+		
+		
+		JScrollPane scrollPane2 = new JScrollPane();
+		scrollPane2.setBounds(506, 300, 795, 500);
+		perfil.add(scrollPane2);
+		JTable table2 = new JTable();
+		table2.setFillsViewportHeight(true);
+		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "Nombre", "Rango Ip", "Capacidad", "Descripcion" }));
+		table2.setModel(defaultModel2);
+		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
+		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
+		table2.getColumnModel().getColumn(2).setPreferredWidth(86);
+		table2.getColumnModel().getColumn(3).setPreferredWidth(192);
+		AulaDAO ped = new AulaDAO();
+		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
+		array = ga.getListaAulas();
+
+		Double total;
+		for (AulaDTO e : array) {
+
+			Object[] fila = { e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
+			defaultModel.addRow(fila);
+		}
+		table2.setModel(defaultModel2);
+		scrollPane2.setViewportView(table2);
+		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	            nombreSeleccionado = table2.getValueAt(table2.getSelectedRow(), 0).toString();
+	        }
+	    });
+		
+		
 	}
 
 	private void visualizarAulas() {
@@ -1308,4 +1336,5 @@ public class Main extends JFrame {
 		table.setBounds(690, 82, 558, 581);
 		incidencias.add(table);
 	}
+	
 }
