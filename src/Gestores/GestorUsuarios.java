@@ -12,9 +12,10 @@ import DAO.UsuarioDAO;
 
 public class GestorUsuarios {
 	
+	private static final AdministradorDTO USER_ONLINE=new AdministradorDTO("1","a","a",0,"a","a","a","a","a");
 	private UsuarioDAO udao = new UsuarioDAO();
 	private static ArrayList <UsuarioDTO> listaUsers;
-	private static UsuarioDTO userOnline;
+	private static UsuarioDTO userOnline=USER_ONLINE;
 	
 	public ArrayList <UsuarioDTO> getList() {
 		return listaUsers;
@@ -39,6 +40,7 @@ public class GestorUsuarios {
 				cont++;
 			}
 		}
+		System.out.println(cont);
 		//si es ultimo admin devuelve true
 		if (cont > 1) return false;
 		return true;
@@ -73,24 +75,26 @@ public class GestorUsuarios {
 		userOnline = null;
 	}
 	
-	public boolean promocionarUsuario(UsuarioDTO user) {
-		if (user instanceof AdministradorDTO || tienePermisos()!=3) return false;
-		return udao.promocionar(user);
+	public boolean promocionarUsuario(String pk, String rol) {
+		if (rol.equals("admin") || !autorizarAdmin()) return false;
+		return udao.promocionar(pk,rol);
 	}
 	
-	public boolean promocionarDegradar(UsuarioDTO user) {
-		if (comprobarUltimoAdmin()) return false;
-		return promocionarUsuario(user);
+	public boolean degradarUsuario(String pk,String rol) {
+		if (comprobarUltimoAdmin() || !autorizarAdmin()) return false;
+		return udao.degradar(pk,rol);
 	}
 	
 	public boolean borrarUsuario(String idUsuario) {
-		/*if(!comprobarUltimoAdmin() && tienePermisos()==3)*/ return udao.borrar(idUsuario);
-		//return false;
+		if(!comprobarUltimoAdmin() && tienePermisos()==3) return udao.borrar(idUsuario);
+		return false;
 	}
 	
 	public boolean altaUsuario(UsuarioDTO user) {
 		try {
-			/*if(tienePermisos()==3)*/return udao.insertar(user);	
+			if(tienePermisos()==3)
+			if(user.getIdEquipo()==0) return udao.insertar(user);	
+			else return udao.insertarConEquipo(user);
 		}catch(SQLException sqle){
 			sqle.printStackTrace();
 		}	
@@ -98,7 +102,9 @@ public class GestorUsuarios {
 	}
 	
 	public boolean modificarUsuario(UsuarioDTO user) {
-		/*if(tienePermisos()==3)*/return udao.actualizar(user);
-		//return false;
+		if(tienePermisos()==3)
+			if(user.getIdEquipo()==0) return udao.actualizar(user);	
+			else return udao.actualizarConEquipo(user);
+		return false;
 	}
 }

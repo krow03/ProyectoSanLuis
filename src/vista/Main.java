@@ -543,7 +543,7 @@ public class Main extends JFrame {
 
 		JPanel panel_4_1 = new JPanel();
 		panel_4_1.setLayout(null);
-		panel_4_1.setBounds(506, 196, 705, 89);
+		panel_4_1.setBounds(506, 196, 793, 89);
 		perfil.add(panel_4_1);
 
 		JScrollPane scrollPane2 = new JScrollPane();
@@ -605,25 +605,25 @@ public class Main extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-				DefaultTableModel model = (DefaultTableModel) table2.getModel();
-				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
-				String nombre = model.getValueAt(table2.getSelectedRow(), 1).toString();
-				String apellidos = model.getValueAt(table2.getSelectedRow(), 2).toString();
-				String email = model.getValueAt(table2.getSelectedRow(), 3).toString();
-				String direccion = model.getValueAt(table2.getSelectedRow(), 4).toString();
-				String telefono = model.getValueAt(table2.getSelectedRow(), 5).toString();
-				String userName = model.getValueAt(table2.getSelectedRow(), 6).toString();
-				String pass = model.getValueAt(table2.getSelectedRow(), 7).toString();
-				//int idEquipo = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 9).toString());
-				UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-				JoptionCombos frame = new JoptionCombos(user);
-				frame.setVisible(true);
+					DefaultTableModel model = (DefaultTableModel) table2.getModel();
+					String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+					String nombre = model.getValueAt(table2.getSelectedRow(), 2).toString();
+					String apellidos = model.getValueAt(table2.getSelectedRow(), 3).toString();
+					String email = model.getValueAt(table2.getSelectedRow(), 4).toString();
+					String direccion = model.getValueAt(table2.getSelectedRow(), 5).toString();
+					String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
+					String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
+					String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
+					//int idEquipo = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 9).toString());
+					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					JoptionCombos frame = new JoptionCombos(user,false);
+					frame.setVisible(true);
 				}catch(Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
-		btnNewButton_2.setBounds(470, 0, 235, 89);
+		btnNewButton_2.setBounds(488, 0, 188, 89);
 		panel_4_1.add(btnNewButton_2);
 
 		JButton btnNewButton_2_1 = new JButton("Modificar");
@@ -638,10 +638,22 @@ public class Main extends JFrame {
 		}
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String nombre = model.getValueAt(table2.getSelectedRow(), 2).toString();
+				String apellidos = model.getValueAt(table2.getSelectedRow(), 3).toString();
+				String email = model.getValueAt(table2.getSelectedRow(), 4).toString();
+				String direccion = model.getValueAt(table2.getSelectedRow(), 5).toString();
+				String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
+				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
+				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
+				UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+				JoptionCombos frame = new JoptionCombos(user,true);
+				frame.setVisible(true);
 			}
 		});
 		btnNewButton_2_1.setBackground(new Color(86, 101, 115));
-		btnNewButton_2_1.setBounds(235, 0, 235, 89);
+		btnNewButton_2_1.setBounds(301, 0, 188, 89);
 		panel_4_1.add(btnNewButton_2_1);
 
 		JButton btnNewButton_2_2 = new JButton("Eliminar");
@@ -658,11 +670,52 @@ public class Main extends JFrame {
 
 		btnNewButton_2_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String mensaje = "!Usuario borrado correctamenteï¿½";
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar usuario?", "Eliminar Usuario",
+                        JOptionPane.OK_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    if (!borrarUsuario(id))mensaje="!Error al borrar el usuarioï¿½";
+    				JOptionPane.showMessageDialog(null, mensaje);
+    				gu.cargarListaUsuarios();
+                }
+				
 			}
 		});
 		btnNewButton_2_2.setBackground(new Color(86, 101, 115));
-		btnNewButton_2_2.setBounds(0, 0, 235, 89);
+		btnNewButton_2_2.setBounds(115, 0, 188, 89);
 		panel_4_1.add(btnNewButton_2_2);
+		
+		JButton btnDegradar = new JButton("Degradar");
+		btnDegradar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
+				String mensaje = "!Error al degradar usuario!";
+				if(gu.degradarUsuario(id,rol)) mensaje = "¡Usuario degradado!";
+				JOptionPane.showMessageDialog(null, mensaje);
+				gu.cargarListaUsuarios();
+			}
+		});
+		btnDegradar.setBounds(0, 0, 117, 89);
+		panel_4_1.add(btnDegradar);
+		
+		JButton btnPromover = new JButton("Promocionar");
+		btnPromover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DefaultTableModel model = (DefaultTableModel) table2.getModel();
+				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
+				String mensaje = "!Error al pomocionar usuario!";
+				if(gu.promocionarUsuario(id,rol)) mensaje = "¡Usuario promocionado!";
+				JOptionPane.showMessageDialog(null, mensaje);
+				gu.cargarListaUsuarios();
+			}
+		});
+		btnPromover.setBounds(676, 0, 117, 89);
+		panel_4_1.add(btnPromover);
 
 		JButton btnNewButton_2_3 = new JButton("Cambiar Contrase\u00F1a");
 		btnNewButton_2_3.addActionListener(new ActionListener() {
@@ -678,7 +731,7 @@ public class Main extends JFrame {
 			e1.printStackTrace();
 		}
 		btnNewButton_2_3.setBackground(new Color(86, 101, 115));
-		btnNewButton_2_3.setBounds(1066, 11, 235, 89);
+		btnNewButton_2_3.setBounds(1066, 11, 233, 89);
 		perfil.add(btnNewButton_2_3);
 
 		JButton btnNewButton_2_2_1 = new JButton("Incidencia");
@@ -692,7 +745,7 @@ public class Main extends JFrame {
 			}
 		});
 		btnNewButton_2_2_1.setBackground(new Color(86, 101, 115));
-		btnNewButton_2_2_1.setBounds(472, 11, 235, 89);
+		btnNewButton_2_2_1.setBounds(506, 11, 235, 89);
 		perfil.add(btnNewButton_2_2_1);
 
 		JButton btnNewButton_2_2_2 = new JButton("Solicitud");
@@ -707,95 +760,12 @@ public class Main extends JFrame {
 			}
 		});
 		btnNewButton_2_2_2.setBackground(new Color(86, 101, 115));
-		btnNewButton_2_2_2.setBounds(763, 11, 235, 89);
+		btnNewButton_2_2_2.setBounds(782, 11, 235, 89);
 		perfil.add(btnNewButton_2_2_2);
-		
-		
-		
-		
-		JButton btnNewButton = new JButton("Añadir");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-							
-				
-			}
-		});
-		btnNewButton.setBounds(416, 485, 89, 23);
-		perfil.add(btnNewButton);
-		table2.setVisible(true);
-		Object[] filaBlanca = { "", "", "", "" };
-		defaultModel2.addRow(filaBlanca);
-
-		JButton btnNewButton_3 = new JButton("Eliminar");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table2.getModel();
-				int id = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 0).toString());
-				
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                    String mensaje = "!Equipo borrado correctamenteï¿½";
-                    if (!borrarEquipo(id))
-                        mensaje = "!Error al borrar el equipoï¿½";
-                    JOptionPane.showMessageDialog(null, mensaje);
-            		ge.cargarListaEquipos();
-                }
-			}
-		});
-		btnNewButton_3.setBounds(545, 485, 89, 23);
-		perfil.add(btnNewButton_3);
-		
-		JButton btnNewButton_4 = new JButton("Modificar");
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table2.getModel();
-				
-				int id = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 0).toString());
-				String nombre = model.getValueAt(table2.getSelectedRow(), 1).toString();
-				String ip = model.getValueAt(table2.getSelectedRow(), 2).toString();
-				int discoDuro = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 3).toString());
-				int ram = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 4).toString());
-				
-				EquipoDTO edto = new EquipoDTO(id,ip,nombre, discoDuro,ram);
-				
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                	String mensaje = "!Equipo modificado correctamenteï¿½";
-     				if (!modificarEquipo(edto))
-     					mensaje = "!Error al modificar el equipoï¿½";
-     				JOptionPane.showMessageDialog(null, mensaje);
-     				ge.cargarListaEquipos();
-                }
-               
-			}
-		});
-		btnNewButton_4.setBounds(667, 485, 89, 23);
-		perfil.add(btnNewButton_4);
-	}
-	
-	private boolean crearUsuario(UsuarioDTO udto) {
-		try {
-				return gu.altaUsuario(udto);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 	private boolean borrarUsuario(String idUsuario) {
 		return gu.borrarUsuario(idUsuario);
-	}
-
-	private boolean modificarusuario(UsuarioDTO udto) {
-		try {
-			return gu.modificarUsuario(udto);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 	private void visualizarAulas() {

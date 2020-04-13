@@ -18,7 +18,8 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 	private static final String SQL_INSERT_ASSIGN_EQUIP="INSERT INTO Usuarios (idUsuarios,Roles_idRol,Equipos_idEquipos,userName,email,pass,direccion,telefono,nombre,apellidos) VALUES (?,?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,userName,email,pass,direccion,telefono,nombre,apellidos) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Usuarios WHERE idUsuarios = ?";
-	private static final String SQL_UPDATE="UPDATE Usuarios SET userName = ?, email = ?, pass = ?,direccion=?,telefono=?,nombre=?,apellidos=?,Equipos_idEquipos=? WHERE idUsuarios = ?";
+	private static final String SQL_UPDATE_ASSIGN_EQUIP="UPDATE Usuarios SET userName = ?, email = ?, pass = ?,direccion=?,telefono=?,nombre=?,apellidos=?,Equipos_idEquipos=? WHERE idUsuarios = ?";
+	private static final String SQL_UPDATE="UPDATE Usuarios SET userName = ?, email = ?, pass = ?,direccion=?,telefono=?,nombre=?,apellidos=? WHERE idUsuarios = ?";
 	private static final String SQL_FINDPERSONA="SELECT * FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Usuarios";
 	private static final String SQL_LOGIN="SELECT * FROM Usuarios WHERE userName like ? and pass like ?;";
@@ -96,6 +97,37 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
+			ps.setString(1, t.getUserName());
+			ps.setString(2, t.getEmail());
+			ps.setString(3, t.getPass());
+			ps.setString(4, t.getDireccion());
+			ps.setString(5, t.getTelefono());
+			ps.setString(6, t.getNombre());
+			ps.setString(7, t.getApellidos());
+			
+			ps.setString(8, t.getIdUsuario());
+
+			if (ps.executeUpdate()>0) return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {
+				if (ps != null) ps.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return false;
+	}
+	
+	public boolean actualizarConEquipo(UsuarioDTO t) {
+		PreparedStatement ps = null;
+		try {
+			ps = con.getCon().prepareStatement(SQL_UPDATE_ASSIGN_EQUIP);
 			ps.setString(1, t.getUserName());
 			ps.setString(2, t.getEmail());
 			ps.setString(3, t.getPass());
@@ -208,19 +240,52 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		return user;
 	}
 	
-	public boolean promocionar(UsuarioDTO t) {
+	public boolean promocionar(String pk, String rol) {
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_PROMOTE);
-			if(t instanceof AdministradorDTO) {
-				ps.setInt(2, 3);
-			}else if(t instanceof TecnicoDTO) 
-				{ps.setInt(2, 2);
-			}else { 
-				ps.setInt(2, 1); 
+			if(rol.equals("tecnico")) {
+				ps.setInt(1, 3);
+			}else if(rol.equals("usuario")) {
+				ps.setInt(1, 2);
 			}
 			
-			ps.setString(2, t.getIdUsuario());
+			ps.setString(2, pk);
+
+			if (ps.executeUpdate()>0) return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {
+				if (ps != null) ps.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return false;
+	}
+	
+	public boolean degradar(String pk, String rol) {
+		PreparedStatement ps = null;
+		System.out.println("adsad");
+		try {
+			ps = con.getCon().prepareStatement(SQL_PROMOTE);
+			if(rol.equals("admin")) {
+				System.out.println("admin");
+				ps.setInt(1, 2);
+			}else if(rol.equals("tecnico")) {
+				System.out.println("tec");
+				ps.setInt(1, 1);
+			}else if(rol.equals("usuario")) {
+				System.out.println("us");
+				return false;
+			}
+			
+			ps.setString(2, pk);
 
 			if (ps.executeUpdate()>0) return true;
 			
