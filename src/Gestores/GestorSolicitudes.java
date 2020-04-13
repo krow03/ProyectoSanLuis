@@ -1,5 +1,6 @@
 package Gestores;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.IncidenciaDAO;
@@ -64,6 +65,13 @@ public class GestorSolicitudes {
 			if(idto.getIdRealizadaPor().equals(id)) listaRealizadas.add(idto);
 		}
 		return listaRealizadas;
+	}
+	
+	public boolean crearIncidencia(IncidenciaDTO sdto) throws SQLException {
+		return idao.insertarSolicitud(sdto);
+	}
+	public boolean modificarIncidencia(IncidenciaDTO idto) {
+		return idao.actualizar(idto);
 	}
 	
 	public IncidenciaDTO getIncidencia(int id) {

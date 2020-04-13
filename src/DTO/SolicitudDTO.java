@@ -24,6 +24,14 @@ public class SolicitudDTO extends IncidenciaDTO
 	public void setComponente(ComponenteDTO componente) {
 		this.componente = componente;
 	}
+
+	public int getIdComponente() {
+		return idComponente;
+	}
+
+	public void setIdComponente(int idComponente) {
+		this.idComponente = idComponente;
+	}
     
     
 }

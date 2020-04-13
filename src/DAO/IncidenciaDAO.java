@@ -11,7 +11,8 @@ import DTO.SolicitudDTO;
 
 public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 
-	private static final String SQL_INSERT="INSERT INTO SolInci (idSolInci,Realizada,Asignada,Equipos_idEquipos,tipo,fechaSol,fechaFin,estado,descripcion,prioridad) VALUES (?,?,?,?,?,?)";
+	private static final String SQL_INSERT_SOLICITUD="INSERT INTO SolInci (idSolInci,Realizada,Asignada,Equipos_idEquipos,tipo,fechaSol,fechaFin,estado,descripcion,prioridad,Componentes_idComponentes) VALUES (?,?,?,?,?,?,?)";
+	private static final String SQL_INSERT_INCIDENCIA="INSERT INTO SolInci (idSolInci,Realizada,Asignada,Equipos_idEquipos,tipo,fechaSol,fechaFin,estado,descripcion,prioridad) VALUES (?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM SolInci WHERE idSolInci = ?";
 	private static final String SQL_UPDATE="UPDATE SolInci SET Asignada,fechaFin,estado,descripcion,prioridad = ?,?,?,?,? WHERE idSolInci = ?";
 	private static final String SQL_FIND="SELECT * FROM SolInci WHERE idSolInci = ?";
@@ -25,21 +26,42 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 	@Override
 	public boolean insertar(IncidenciaDTO t) throws SQLException {
 		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT_INCIDENCIA);
 			ps.setInt(1, t.getCodigo());
 			ps.setString(2, t.getIdRealizadaPor());
 			ps.setString(3, t.getIdAsignadaA());
 			ps.setInt(4, t.getIdEquipo());
-			if(t instanceof SolicitudDTO) {
-				ps.setInt(5, 2);
-			}else {
-				ps.setInt(5, 1);
-			}
+			ps.setString(5, "inci");
 			ps.setString(6, t.getFechaSol());
 			ps.setString(7, t.getFechaFin());
 			ps.setString(8,t.getEstado());
 			ps.setString(9,t.getDescripcion());
 			ps.setInt(10, t.getPrioridad());
+			if (ps.executeUpdate()>0) {
+				ps.close();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean insertarSolicitud(IncidenciaDTO t) throws SQLException {
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT_SOLICITUD);
+			ps.setInt(1, t.getCodigo());
+			ps.setString(2, t.getIdRealizadaPor());
+			ps.setString(3, t.getIdAsignadaA());
+			ps.setInt(4, t.getIdEquipo());
+			ps.setString(5, "sol");
+			ps.setString(6, t.getFechaSol());
+			ps.setString(7, t.getFechaFin());
+			ps.setString(8,t.getEstado());
+			ps.setString(9,t.getDescripcion());
+			ps.setInt(10, t.getPrioridad());
+			ps.setInt(11, ((SolicitudDTO) t).getIdComponente());
+			
 			if (ps.executeUpdate()>0) {
 				ps.close();
 				return true;
@@ -108,7 +130,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 					inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					return inci;
 				}else if(rs.getString("tipo").equals("sol")) {
-					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
+					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"),rs.getInt("Componentes_idComponentes"));
 					return sol;
 				}
 			}
@@ -129,7 +151,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 					IncidenciaDTO inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					lista.add(inci);
 				}else{
-					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
+					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"),rs.getInt("Componentes_idComponentes"));
 					lista.add(sol);
 				}
 			}
@@ -152,7 +174,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 					IncidenciaDTO inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					lista.add(inci);
 				}else{
-					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
+					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"),rs.getInt("Componentes_idComponentes"));
 					lista.add(sol);
 				}
 			}
@@ -173,7 +195,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 					IncidenciaDTO inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					lista.add(inci);
 				}else{
-					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
+					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"),rs.getInt("Componentes_idComponentes"));
 					lista.add(sol);
 				}
 			}
@@ -194,7 +216,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 					IncidenciaDTO inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					lista.add(inci);
 				}else{
-					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
+					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"),rs.getInt("Componentes_idComponentes"));
 					lista.add(sol);
 				}
 			}
