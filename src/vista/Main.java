@@ -35,7 +35,9 @@ import DTO.SolicitudDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
 import Gestores.GestorAulas;
+import Gestores.GestorComponentes;
 import Gestores.GestorEquipos;
+import Gestores.GestorSolicitudes;
 import Gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
@@ -60,6 +62,8 @@ import java.beans.PropertyChangeEvent;
 public class Main extends JFrame {
 
 	private GestorUsuarios gu = new GestorUsuarios();
+	private GestorSolicitudes gs = new GestorSolicitudes();
+	private GestorComponentes gc = new GestorComponentes();
 	private GestorEquipos ge = new GestorEquipos();
 	private GestorAulas ga = new GestorAulas();
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
@@ -80,6 +84,7 @@ public class Main extends JFrame {
 	private JPanel contentPane;
 	private String nombreSeleccionado;
 	int xx, xy;
+	private JPanel stock;
 	private JTable table;
 	private JTable table_1;
 	private JTextField txtNombreOnline;
@@ -117,7 +122,8 @@ public class Main extends JFrame {
 		ga.cargarListaAulas(CENTRO_SELECCIONADO);
 		ge.cargarListaEquipos();
 		gu.cargarListaUsuarios();
-
+		gc.cargarLista();
+		gs.cargarLista();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -400,7 +406,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 0, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -1440,58 +1446,135 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 757);
+		incidencias.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
-		JList list = new JList(new Object[] {
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si",
-				"2020-06-02 Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha si", });
-		list.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		list.setBounds(28, 82, 558, 581);
-		incidencias.add(list);
+		JScrollPane scrollPaneIncidencias = new JScrollPane();
+		scrollPaneIncidencias.setBounds(650, 30, 611, 667);
+		incidencias.add(scrollPaneIncidencias);
+		JTable tableIncidencias = new JTable();
+		tableIncidencias.setFillsViewportHeight(true);
+		tableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "COD", "FECHA" , "Descripcion" }));
+		tableIncidencias.setModel(defaultModel2);
+		tableIncidencias.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableIncidencias.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableIncidencias.getColumnModel().getColumn(2).setPreferredWidth(450);
 
+		ArrayList<IncidenciaDTO> array = new ArrayList<IncidenciaDTO>();
+		array = gs.getListaSol();
+		
+		for (IncidenciaDTO e : array) {
+
+			Object[] fila = { e.getCodigo(),e.getFechaSol(),e.getDescripcion() };
+			defaultModel2.addRow(fila);
+		}
+		tableIncidencias.setModel(defaultModel2);
+		scrollPaneIncidencias.setViewportView(tableIncidencias);
+		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            nombreSeleccionado = tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+	        }
+	    });
+
+		
+
+		JScrollPane scrollPane2 = new JScrollPane();
+		scrollPane2.setBounds(20, 30, 611, 667);
+		incidencias.add(scrollPane2);
+		JTable tableSolicitudes = new JTable();
+		tableSolicitudes.setFillsViewportHeight(true);
+		tableSolicitudes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "COD", "FECHA" , "Descripcion" }));
+		tableSolicitudes.setModel(defaultModel2);
+		tableSolicitudes.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableSolicitudes.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableSolicitudes.getColumnModel().getColumn(2).setPreferredWidth(450);
+		ArrayList<IncidenciaDTO> array2 = new ArrayList<IncidenciaDTO>();
+		array2 = gs.getListaAsignadasA(gu.getUserOnline().getIdUsuario());
+		
+		for (IncidenciaDTO e : array2) {
+			
+			Object[] fila = { e.getCodigo(),e.getFechaSol(),e.getDescripcion() };
+			defaultModel2.addRow(fila);
+		}
+		tableSolicitudes.setModel(defaultModel2);
+		scrollPane2.setViewportView(tableSolicitudes);
+		
+		JLabel lblNewLabel_14 = new JLabel("Solicitudes");
+		lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_14.setForeground(Color.BLACK);
+		lblNewLabel_14.setBounds(264, 11, 122, 14);
+		incidencias.add(lblNewLabel_14);
+		
+		JLabel lblNewLabel_15 = new JLabel("Incidencias");
+		lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_15.setBounds(903, 11, 89, 14);
+		incidencias.add(lblNewLabel_15);
 		JButton btnNewButton_1 = new JButton("Visualizar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// System.out.println(list.getSelectedValue());
+				
+				if(tableSolicitudes.getSelectedRow() != -1) {
+					System.out.println();
+					IncidenciaTecPanel3 sotec = new IncidenciaTecPanel3(gs.getIncidencia(Integer.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString())));
+					sotec.setUndecorated(true);
+					sotec.setLocationRelativeTo(null);
+					sotec.setVisible(true);
+				}
+				if(tableIncidencias.getSelectedRow() != -1) {
+					SolicitudTecPanel2 sotec = new SolicitudTecPanel2(Integer.parseInt(tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString()),tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 3).toString());
+					sotec.setUndecorated(true);
+					sotec.setLocationRelativeTo(null);
+					sotec.setVisible(true);
+				}
 			}
 		});
-		btnNewButton_1.setBounds(558, 690, 128, 45);
+		btnNewButton_1.setBounds(570, 730, 128, 45);
 		incidencias.add(btnNewButton_1);
+	}
+	private void visualizarIncidencias2() {
+		stock = new JPanel();
+		stock.setBackground(Color.WHITE);
+		stock.setBounds(88, 37, 1287, 780);
+		contentPane.add(incidencias);
+		stock.setLayout(null);
+		JScrollPane scrollPaneIncidencias = new JScrollPane();
+		scrollPaneIncidencias.setBounds(650, 30, 611, 667);
+		stock.add(scrollPaneIncidencias);
+		JTable tableIncidencias = new JTable();
+		tableIncidencias.setFillsViewportHeight(true);
+		tableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "COD", "FECHA" , "Descripcion" }));
+		tableIncidencias.setModel(defaultModel2);
+		tableIncidencias.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableIncidencias.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableIncidencias.getColumnModel().getColumn(2).setPreferredWidth(450);
 
-		table = new JTable();
-		table.setShowVerticalLines(false);
-		table.setShowHorizontalLines(false);
-		table.setShowGrid(false);
-		table.setModel(new DefaultTableModel(new Object[][] { { "2020-06-02",
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" },
-				{ "2020-06-02",
-						"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. I" }, },
-				new String[] { "Fecha", "Descripci\u00F3n" }));
-		table.getColumnModel().getColumn(1).setPreferredWidth(546);
-
-		table.setBounds(690, 82, 558, 581);
-		incidencias.add(table);
+		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+		array = gu.getList();
+		String rol = "";
+		Double total;
+		for (UsuarioDTO e : array) {
+			if(e instanceof AdministradorDTO) {
+				rol = "admin";
+			}else if(e instanceof TecnicoDTO){
+				rol = "tecnico";
+			}else {
+				rol = "usuario";
+			}
+			Object[] fila = { e.getIdUsuario(), rol,e.getNombre(),e.getApellidos() };
+			defaultModel2.addRow(fila);
+		}
+		tableIncidencias.setModel(defaultModel2);
+		scrollPaneIncidencias.setViewportView(tableIncidencias);
+		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            nombreSeleccionado = tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+	        }
+	    });
 	}
 }

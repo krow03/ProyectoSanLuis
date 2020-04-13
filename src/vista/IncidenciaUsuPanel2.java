@@ -90,11 +90,11 @@ public class IncidenciaUsuPanel2 extends JFrame {
 					SolicitudDTO solicitud;
 					if (rdbtnNewRadioButton.isSelected()) {
 						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
-								textArea.getText(), 0, new ComponenteDTO(0, 0, 0, 0, ""),"Hardware");
+								textArea.getText(), 0, 1);
 					}
 					if (rdbtnNewRadioButton_1.isSelected()) {
 						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
-								textArea.getText(), 0, new ComponenteDTO(0, 0, 0, 0, ""),"Software");
+								textArea.getText(), 0, 1);
 					}
 
 					if (rdbtnNewRadioButton_2.isSelected()) {

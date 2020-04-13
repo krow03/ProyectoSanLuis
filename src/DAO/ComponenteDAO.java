@@ -99,7 +99,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				if(rs.getInt("tipo")==1) {
+				if(!rs.getString("tipo").equals("soft")) {
 					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					return soft;
 				}else if(rs.getInt("Roles_idRol")==2) {
@@ -120,10 +120,10 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				if(rs.getInt("tipo")==1) {
+				if(!rs.getString("tipo").equals("soft")) {
 					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					lista.add(soft);
-				}else if(rs.getInt("Roles_idRol")==2) {
+				}else if(rs.getString("tipo").equals("hard")) {
 					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
 					lista.add(hard);
 				}
@@ -143,7 +143,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				if(rs.getInt("tipo")==1) {
+				if(!rs.getString("tipo").equals("soft")) {
 					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					lista.add(soft);
 				}else if(rs.getInt("Roles_idRol")==2) {

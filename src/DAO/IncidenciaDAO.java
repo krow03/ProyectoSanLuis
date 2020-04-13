@@ -104,10 +104,10 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				if(rs.getInt("tipo")==1) {
+				if(rs.getString("tipo").equals("inci")) {
 					inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					return inci;
-				}else if(rs.getInt("Roles_idRol")==2) {
+				}else if(rs.getString("tipo").equals("sol")) {
 					SolicitudDTO sol = new SolicitudDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					return sol;
 				}
@@ -125,7 +125,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				if(rs.getInt("tipo")==1) {
+				if(rs.getString("tipo").equals("inci")) {
 					IncidenciaDTO inci = new IncidenciaDTO(rs.getInt("idSolInci"),rs.getString("Realizada"),rs.getString("Asignada"),rs.getInt("Equipos_idEquipos"),rs.getDate("fechaSol").toString(),rs.getDate("fechaFin").toString(),rs.getString("estado"),rs.getString("descripcion"),rs.getInt("prioridad"));
 					lista.add(inci);
 				}else{

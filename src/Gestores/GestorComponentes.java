@@ -15,7 +15,7 @@ public class GestorComponentes {
 		return listaComponentes;
 	}
 	
-	private void cargarLista() {
+	public void cargarLista() {
 		listaComponentes=cdao.listarTodos();
 	}
 	

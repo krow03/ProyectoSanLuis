@@ -20,7 +20,7 @@ public class GestorSolicitudes {
 		return listaSoli;
 	}
 	
-	private void cargarLista() {
+	public void cargarLista() {
 		listaSoli=idao.listarTodos();
 	}
 	
@@ -49,8 +49,10 @@ public class GestorSolicitudes {
 	}
 	
 	public ArrayList<IncidenciaDTO> getListaAsignadasA(String id) {
+		System.out.println("hgola");
 		ArrayList<IncidenciaDTO> listaAsignadas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
+			System.out.println(idto.getIdAsignadaA());
 			if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
 		}
 		return listaAsignadas;
