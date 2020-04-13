@@ -4,14 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DTO.AdministradorDTO;
+import DTO.IncidenciaDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
 
 import DAO.UsuarioDAO;
 
-
 public class GestorUsuarios {
-	
+	private GestorSolicitudes gs = new GestorSolicitudes();
 	private static final AdministradorDTO USER_ONLINE=new AdministradorDTO("1","a","a",0,"a","a","a","a","a");
 	private UsuarioDAO udao = new UsuarioDAO();
 	private static ArrayList <UsuarioDTO> listaUsers;
@@ -27,6 +27,7 @@ public class GestorUsuarios {
 	
 	public void cargarListaUsuarios() {
 		listaUsers = udao.listarTodos();
+		cargarListaIncidencias();
 	}
 	
 	public UsuarioDTO getUserOnline() {
@@ -106,5 +107,21 @@ public class GestorUsuarios {
 			if(user.getIdEquipo()==0) return udao.actualizar(user);	
 			else return udao.actualizarConEquipo(user);
 		return false;
+	}
+	
+	
+	public void cargarListaIncidencias() {
+		for(UsuarioDTO udto : listaUsers) {
+			 udto.setIncidencias(gs.getListaAsignadasA(udto.getIdUsuario()));
+		}
+	}
+	public UsuarioDTO getTecnicoMenosIncidencias() {
+		UsuarioDTO userMenosInci = listaUsers.get(0);
+		for(UsuarioDTO udto : listaUsers) {
+			if(udto.getIncidencias().size()<userMenosInci.getIncidencias().size()) {
+				userMenosInci = udto;
+			}
+		}
+		return userMenosInci;
 	}
 }
