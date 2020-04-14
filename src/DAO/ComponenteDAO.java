@@ -14,9 +14,9 @@ import DTO.SoftwareDTO;
 
 public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 
-	private static final String SQL_INSERT="INSERT INTO Componentes (idComponentes,Equipos_idEquipos,Stock_idStock,Proveedores_idProveedores,descripcion,tipo) VALUES (?,?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Componentes (idComponentes,Equipos_idEquipos,Stock_idStock,descripcion,tipo) VALUES (?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Componentes WHERE idComponentes = ?";
-	private static final String SQL_UPDATE="UPDATE Componentes SET Equipo_idEquipos,Proveedores_idProveedores,descripcion = ?,?,? WHERE idComponentes = ?";
+	private static final String SQL_UPDATE="UPDATE Componentes SET Equipo_idEquipos=?,descripcion = ? WHERE idComponentes = ?";
 	private static final String SQL_FINDPERSONA="SELECT * FROM Componentes WHERE idComponentes = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Componentes";
 	private static final String SQL_FINDALLBYID="SELECT * FROM Componentes WHERE Equipos_idEquipos = ?";
@@ -29,12 +29,11 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ps.setInt(1, t.getIdComponente());
 			ps.setInt(2, t.getIdEquipo());
 			ps.setInt(3, t.getIdStock());
-			ps.setInt(4, t.getIdProveedor());
-			ps.setString(5, t.getDescripcion());
+			ps.setString(4, t.getDescripcion());
 			if(t instanceof HardwareDTO) {
-				ps.setInt(6, 2);
+				ps.setInt(5, 2);
 			}else if(t instanceof SoftwareDTO) 
-				{ps.setInt(6, 1);
+				{ps.setInt(5, 1);
 			}
 			
 			if (ps.executeUpdate()>0) {
@@ -68,10 +67,9 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 		try {
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
 			ps.setInt(1, t.getIdEquipo());
-			ps.setInt(2, t.getIdProveedor());
-			ps.setString(3, t.getDescripcion());
+			ps.setString(2, t.getDescripcion());
 			
-			ps.setInt(4, t.getIdComponente());
+			ps.setInt(3, t.getIdComponente());
 
 			if (ps.executeUpdate()>0) return true;
 			
@@ -100,10 +98,10 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
 				if(!rs.getString("tipo").equals("soft")) {
-					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
+					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					return soft;
 				}else if(rs.getInt("Roles_idRol")==2) {
-					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
+					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
 					return hard;
 				}
 			}
@@ -121,10 +119,10 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				if(!rs.getString("tipo").equals("soft")) {
-					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
+					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					lista.add(soft);
 				}else if(rs.getString("tipo").equals("hard")) {
-					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
+					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
 					lista.add(hard);
 				}
 			}
@@ -144,10 +142,10 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				if(!rs.getString("tipo").equals("soft")) {
-					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
+					SoftwareDTO soft = new SoftwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getString("descripcion"),rs.getString("codLicencia"),rs.getDouble("peso"));
 					lista.add(soft);
 				}else if(rs.getInt("Roles_idRol")==2) {
-					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getInt("Proveedores_idProveedores"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
+					HardwareDTO hard = new HardwareDTO(rs.getInt("idComponentes"),rs.getInt("Equipos_idEquipos"),rs.getInt("Stock_idStock"),rs.getString("descripcion"),rs.getString("tipoHardware"),rs.getString("marca"));
 					lista.add(hard);
 				}
 			}

@@ -19,6 +19,14 @@ public class GestorComponentes {
 		listaComponentes=cdao.listarTodos();
 	}
 	
+	public ArrayList<ComponenteDTO> getComponentesEquipo(int idEquipo){
+		ArrayList<ComponenteDTO> listaComponentesEquipo = new ArrayList<ComponenteDTO>();
+		for(ComponenteDTO cdto : listaComponentes) {
+			if(cdto.getIdEquipo()==idEquipo)listaComponentesEquipo.add(cdto);
+		}
+		return listaComponentesEquipo;
+	}
+	
 	public ArrayList<ComponenteDTO> getListaHardware() {
 		ArrayList<ComponenteDTO> listaHard = new ArrayList<ComponenteDTO>();
 		for(ComponenteDTO cdto : listaComponentes) {

@@ -119,11 +119,12 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		ga.cargarListaAulas(CENTRO_SELECCIONADO);
-		ge.cargarListaEquipos();
-		gu.cargarListaUsuarios();
-		gc.cargarLista();
 		gs.cargarLista();
+		gc.cargarLista();
+		gu.cargarListaUsuarios();
+		ge.cargarListaEquipos();
+		ga.cargarListaAulas(CENTRO_SELECCIONADO);
+		
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -310,10 +311,10 @@ public class Main extends JFrame {
 		int linea4 = 0;
 		int linea5 = 0;
 		listaEquipos.clear();
-		System.out.println(listaEquipos.size());
 		try {
 			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-			listaEquipos = ge.getEquiposAula(adto.getIdAula());
+			listaEquipos = adto.getEquipos();
+			
 			for (int i = 0; i < listaEquipos.size(); i++) {
 
 				int posicion1 = linea1 * 15;
@@ -406,7 +407,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 37, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -480,8 +481,6 @@ public class Main extends JFrame {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-
-				System.out.println("aaa");
 			}
 
 		});
@@ -511,7 +510,6 @@ public class Main extends JFrame {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 
-				System.out.println("aaa");
 			}
 
 		});
@@ -539,7 +537,7 @@ public class Main extends JFrame {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("aaa");
+		
 			}
 			// implement the methods
 		});
@@ -777,7 +775,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -923,7 +921,7 @@ public class Main extends JFrame {
 
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1066,7 +1064,6 @@ public class Main extends JFrame {
 				String ips = model.getValueAt(table.getSelectedRow(), 1).toString();
 				int capacidad = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString());
 				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
-				System.out.println("hola????"+descripcion);
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad, CENTRO_SELECCIONADO);
 				String mensaje = "!Equipo creado correctamente�";
@@ -1162,7 +1159,7 @@ public class Main extends JFrame {
 	}
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 1000, 1278, 767);
+		crudEquipo.setBounds(101, 37, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1518,7 +1515,7 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(tableSolicitudes.getSelectedRow() != -1) {
-					System.out.println();
+	
 					IncidenciaTecPanel3 sotec = new IncidenciaTecPanel3(gs.getIncidencia(Integer.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString())));
 					sotec.setUndecorated(true);
 					sotec.setLocationRelativeTo(null);

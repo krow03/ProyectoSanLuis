@@ -6,20 +6,25 @@ import java.util.ArrayList;
 import DAO.EquipoDAO;
 import DTO.EquipoDTO;
 
+
 public class GestorEquipos {
 	private static ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private EquipoDAO edao = new EquipoDAO();
+	private GestorComponentes gc = new GestorComponentes();
 	
 	public ArrayList<EquipoDTO> getListaEquipos(){
 		return listaEquipos;
 	}
 	
-	public boolean cargarListaEquipos() {
+	public void cargarListaEquipos() {
 		listaEquipos = edao.listarTodos();
-		if (listaEquipos.size()<0 ) {
-			return true;
+		cargarComponentesEquipo();
+	}
+	
+	public void cargarComponentesEquipo() {
+		for(EquipoDTO edto : listaEquipos) {
+			 edto.setComponentes(gc.getComponentesEquipo(edto.getIdEquipo()));
 		}
-		return false;
 	}
 	
 	public ArrayList<EquipoDTO> getEquiposDisponiblesEnAulas() {
@@ -39,6 +44,7 @@ public class GestorEquipos {
 				equiposAula.add(equipo);
 			}
 		}
+
 		return equiposAula;
 	}
 	

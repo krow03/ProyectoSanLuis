@@ -271,17 +271,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 	
 	public boolean degradar(String pk, String rol) {
 		PreparedStatement ps = null;
-		System.out.println("adsad");
 		try {
 			ps = con.getCon().prepareStatement(SQL_PROMOTE);
 			if(rol.equals("admin")) {
-				System.out.println("admin");
 				ps.setInt(1, 2);
 			}else if(rol.equals("tecnico")) {
-				System.out.println("tec");
 				ps.setInt(1, 1);
 			}else if(rol.equals("usuario")) {
-				System.out.println("us");
 				return false;
 			}
 			

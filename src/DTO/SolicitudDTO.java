@@ -32,6 +32,4 @@ public class SolicitudDTO extends IncidenciaDTO
 	public void setIdComponente(int idComponente) {
 		this.idComponente = idComponente;
 	}
-    
-    
 }

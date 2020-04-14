@@ -41,7 +41,6 @@ public class GestorUsuarios {
 				cont++;
 			}
 		}
-		System.out.println(cont);
 		//si es ultimo admin devuelve true
 		if (cont > 1) return false;
 		return true;
