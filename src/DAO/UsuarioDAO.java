@@ -240,17 +240,17 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		return user;
 	}
 	
-	public boolean promocionar(String pk, String rol) {
+	public boolean promocionar(UsuarioDTO user) {
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_PROMOTE);
-			if(rol.equals("tecnico")) {
+			if(user instanceof TecnicoDTO) {
 				ps.setInt(1, 3);
-			}else if(rol.equals("usuario")) {
+			}else if(user instanceof UsuarioDTO) {
 				ps.setInt(1, 2);
 			}
 			
-			ps.setString(2, pk);
+			ps.setString(2, user.getIdUsuario());
 
 			if (ps.executeUpdate()>0) return true;
 			
@@ -269,19 +269,19 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		return false;
 	}
 	
-	public boolean degradar(String pk, String rol) {
+	public boolean degradar(UsuarioDTO user) {
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_PROMOTE);
-			if(rol.equals("admin")) {
+			if(user instanceof AdministradorDTO) {
 				ps.setInt(1, 2);
-			}else if(rol.equals("tecnico")) {
+			}else if(user instanceof TecnicoDTO) {
 				ps.setInt(1, 1);
-			}else if(rol.equals("usuario")) {
+			}else {
 				return false;
 			}
 			
-			ps.setString(2, pk);
+			ps.setString(2, user.getIdUsuario());
 
 			if (ps.executeUpdate()>0) return true;
 			

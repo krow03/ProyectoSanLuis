@@ -75,14 +75,14 @@ public class GestorUsuarios {
 		userOnline = null;
 	}
 	
-	public boolean promocionarUsuario(String pk, String rol) {
-		if (rol.equals("admin") || !autorizarAdmin()) return false;
-		return udao.promocionar(pk,rol);
+	public boolean promocionarUsuario(UsuarioDTO user) {
+		if (user instanceof AdministradorDTO || !autorizarAdmin()) System.out.println("GestorUsuarios");//return false;
+		return udao.promocionar(user);
 	}
 	
-	public boolean degradarUsuario(String pk,String rol) {
-		if (comprobarUltimoAdmin() || !autorizarAdmin()) return false;
-		return udao.degradar(pk,rol);
+	public boolean degradarUsuario(UsuarioDTO user) {
+		if (user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin()) return false;
+		return udao.degradar(user);
 	}
 	
 	public boolean borrarUsuario(String idUsuario) {

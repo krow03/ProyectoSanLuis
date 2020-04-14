@@ -584,6 +584,8 @@ public class Main extends JFrame {
 			Object[] fila = { e.getIdUsuario(), rol,e.getNombre(),e.getApellidos(), e.getEmail(),e.getDireccion(),e.getTelefono(), e.getUserName(), e.getPass(),e.getIdEquipo() };
 			defaultModel2.addRow(fila);
 		}
+		Object[] filaBlanca = {"","","","","","","", "", "","" };
+		defaultModel2.addRow(filaBlanca);
 		table2.setModel(defaultModel2);
 		scrollPane2.setViewportView(table2);
 		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -618,7 +620,6 @@ public class Main extends JFrame {
 					String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
 					String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 					String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
-					//int idEquipo = Integer.parseInt(model.getValueAt(table2.getSelectedRow(), 9).toString());
 					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
 					JoptionCombos frame = new JoptionCombos(user,false);
 					frame.setVisible(true);
@@ -696,9 +697,25 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
 				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String nombre = model.getValueAt(table2.getSelectedRow(), 2).toString();
+				String apellidos = model.getValueAt(table2.getSelectedRow(), 3).toString();
+				String email = model.getValueAt(table2.getSelectedRow(), 4).toString();
+				String direccion = model.getValueAt(table2.getSelectedRow(), 5).toString();
+				String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
+				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
+				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
 				String mensaje = "!Error al degradar usuario!";
-				if(gu.degradarUsuario(id,rol)) mensaje = "¡Usuario degradado!";
+				if(rol.equals("admin")) {
+					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					if(gu.degradarUsuario(admin)) mensaje = "¡Usuario degradado!";
+				}else if(rol.equals("tecnico")){
+					TecnicoDTO tec = new TecnicoDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					if(gu.degradarUsuario(tec)) mensaje = "¡Usuario degradado!";
+				}else {
+					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					if(gu.degradarUsuario(user)) mensaje = "¡Usuario degradado!";
+				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
 			}
@@ -706,20 +723,36 @@ public class Main extends JFrame {
 		btnDegradar.setBounds(0, 0, 117, 89);
 		panel_4_1.add(btnDegradar);
 		
-		JButton btnPromover = new JButton("Promocionar");
-		btnPromover.addActionListener(new ActionListener() {
+		JButton btnPromocionar = new JButton("Promocionar");
+		btnPromocionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
 				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String nombre = model.getValueAt(table2.getSelectedRow(), 2).toString();
+				String apellidos = model.getValueAt(table2.getSelectedRow(), 3).toString();
+				String email = model.getValueAt(table2.getSelectedRow(), 4).toString();
+				String direccion = model.getValueAt(table2.getSelectedRow(), 5).toString();
+				String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
+				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
+				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
 				String mensaje = "!Error al pomocionar usuario!";
-				if(gu.promocionarUsuario(id,rol)) mensaje = "¡Usuario promocionado!";
+				if(rol.equals("admin")) {
+					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					if(gu.promocionarUsuario(admin)) mensaje = "¡Usuario promocionado!";
+				}else if(rol.equals("tecnico")){
+					TecnicoDTO tec = new TecnicoDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					if(gu.promocionarUsuario(tec)) mensaje = "¡Usuario promocionado!";
+				}else {
+					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					if(gu.promocionarUsuario(user)) mensaje = "¡Usuario promocionado!";
+				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
 			}
 		});
-		btnPromover.setBounds(676, 0, 117, 89);
-		panel_4_1.add(btnPromover);
+		btnPromocionar.setBounds(676, 0, 117, 89);
+		panel_4_1.add(btnPromocionar);
 
 		JButton btnNewButton_2_3 = new JButton("Cambiar Contrase\u00F1a");
 		btnNewButton_2_3.addActionListener(new ActionListener() {
