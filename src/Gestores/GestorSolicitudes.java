@@ -53,7 +53,8 @@ public class GestorSolicitudes {
 		ArrayList<IncidenciaDTO> listaAsignadas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
 			if(!(idto instanceof SolicitudDTO))
-				if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
+				if(!(idto instanceof SolicitudDTO) && !idto.getEstado().equals("atendida"));
+
 		}
 		return listaAsignadas;
 	}
@@ -70,8 +71,8 @@ public class GestorSolicitudes {
 		return idao.insertarSolicitud(sdto);
 	}
 	public boolean modificarIncidencia(IncidenciaDTO idto) {
-		return idao.actualizar(idto);
-	}
+        return idao.actualizar(idto);
+    }
 	
 	public IncidenciaDTO getIncidencia(int id) {
 		return idao.buscar(id);

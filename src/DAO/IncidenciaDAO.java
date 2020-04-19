@@ -14,7 +14,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 	private static final String SQL_INSERT_SOLICITUD="INSERT INTO SolInci (idSolInci,Realizada,Asignada,Equipos_idEquipos,tipo,fechaSol,fechaFin,estado,descripcion,prioridad,Componentes_idComponentes) VALUES (?,?,?,?,?,?,?)";
 	private static final String SQL_INSERT_INCIDENCIA="INSERT INTO SolInci (idSolInci,Realizada,Asignada,Equipos_idEquipos,tipo,fechaSol,fechaFin,estado,descripcion,prioridad) VALUES (?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM SolInci WHERE idSolInci = ?";
-	private static final String SQL_UPDATE="UPDATE SolInci SET Asignada,fechaFin,estado,descripcion,prioridad = ?,?,?,?,? WHERE idSolInci = ?";
+	private static final String SQL_UPDATE="UPDATE SolInci SET Asignada = ?,fechaFin = ?,estado = ?,descripcion = ?,prioridad = ? WHERE idSolInci = ?";
 	private static final String SQL_FIND="SELECT * FROM SolInci WHERE idSolInci = ?";
 	private static final String SQL_FINDALL="SELECT * FROM SolInci";
 	private static final String SQL_FINDALLBYIDASIGNADA="SELECT * FROM SolInci WHERE Asignada = ?";
@@ -89,6 +89,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 
 	@Override
 	public boolean actualizar(IncidenciaDTO t) {
+		System.out.println(t.getEstado());
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
@@ -137,6 +138,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return inci;
 	}
 
