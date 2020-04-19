@@ -48,7 +48,7 @@ public class GestorComponentes {
 		return listaSoft;
 	}
 	
-	public ComponenteDTO getIncidencia(int id) {
+	public ComponenteDTO getComponente(int id) {
 		return cdao.buscar(id);
 	}
 }

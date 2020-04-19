@@ -16,7 +16,7 @@ import DTO.SolicitudDTO;
 public class GestorSolicitudes {
 	private ArrayList<IncidenciaDTO> listaSoli = new ArrayList<IncidenciaDTO>();
 	private IncidenciaDAO idao = new IncidenciaDAO();
-	
+	private GestorComponentes gc = new GestorComponentes();
 	public ArrayList<IncidenciaDTO> getList(){
 		return listaSoli;
 	}
@@ -24,7 +24,12 @@ public class GestorSolicitudes {
 	public void cargarLista() {
 		listaSoli=idao.listarTodos();
 	}
-	
+	private void cargarComponente() {
+		for(IncidenciaDTO sol : listaSoli) {
+			if(sol instanceof SolicitudDTO)
+				((SolicitudDTO) sol).setComponente(gc.getComponente(((SolicitudDTO) sol).getIdComponente()));
+		}
+	}
 	public ArrayList<IncidenciaDTO> getListaNoAtendidas() {
 		ArrayList<IncidenciaDTO> listaNoAtendidas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
@@ -52,9 +57,8 @@ public class GestorSolicitudes {
 	public ArrayList<IncidenciaDTO> getListaAsignadasA(String id) {
 		ArrayList<IncidenciaDTO> listaAsignadas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
-			if(!(idto instanceof SolicitudDTO))
-				if(!(idto instanceof SolicitudDTO) && !idto.getEstado().equals("atendida"));
-
+			if(!(idto instanceof SolicitudDTO) && !idto.getEstado().equals("atendida"))
+				if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
 		}
 		return listaAsignadas;
 	}

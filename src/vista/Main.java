@@ -73,6 +73,7 @@ public class Main extends JFrame {
 	private final int CENTRO_SELECCIONADO = 1;
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
+	private AulaDTO aulaSeleccionada;
 	private String rol2;
 	private String idEquipo2;
 	private JComboBox comboBox;
@@ -848,29 +849,18 @@ public class Main extends JFrame {
 
 		panel_3.setLayout(null);
 
-		JButton btnModificarEquipo = new JButton("Modificar");
-		btnModificarEquipo.setEnabled(false);
-		btnModificarEquipo.setBackground(Color.ORANGE);
-		btnModificarEquipo.setBounds(768, 744, 229, 36);
-		aulas.add(btnModificarEquipo);
-
 		JButton btnEliminarEquipo = new JButton("Eliminar");
 		btnEliminarEquipo.setEnabled(false);
 		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
-		btnEliminarEquipo.setBounds(997, 744, 229, 36);
+		btnEliminarEquipo.setBounds(997, 744, 229, 31);
 		aulas.add(btnEliminarEquipo);
 
 		JButton btnAnadirEquipo = new JButton("A\u00F1adir Equipo");
+		btnAnadirEquipo.setEnabled(false);
 		btnAnadirEquipo.setBackground(Color.ORANGE);
-		btnAnadirEquipo.setBounds(502, 44, 229, 31);
+		btnAnadirEquipo.setBounds(768, 744, 229, 31);
 		aulas.add(btnAnadirEquipo);
-
-		btnModificarEquipo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-
+		
 		btnEliminarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -879,7 +869,11 @@ public class Main extends JFrame {
 
 		btnAnadirEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				String mensaje = "!Error al asignar equipo!";
+				if(comboBox.getSelectedItem().toString().equals("Seleccione un aula"))
+					if(asignarEquipo())
+						mensaje = "Equipo asignado al aula: "+aulaSeleccionada.getNombre();
+				JOptionPane.showMessageDialog(null, mensaje);
 			}
 		});
 		comboBox = new JComboBox();
@@ -889,9 +883,10 @@ public class Main extends JFrame {
 				panel_3.revalidate();
 				panel_3.repaint();
 				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula"))
+					aulaSeleccionada = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
 					cargarEquiposAula();
 				btnEliminarEquipo.setEnabled(true);
-				btnModificarEquipo.setEnabled(true);
+				btnAnadirEquipo.setEnabled(true);
 			}
 		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -998,8 +993,7 @@ public class Main extends JFrame {
 		int linea5 = 0;
 		listaEquipos.clear();
 		try {
-			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-			listaEquipos = adto.getEquipos();
+			listaEquipos = aulaSeleccionada.getEquipos();
 			
 			for (int i = 0; i < listaEquipos.size(); i++) {
 
@@ -1048,6 +1042,10 @@ public class Main extends JFrame {
 		equipoSeleccionado = e;
 		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
 		txtRam.setText(((Integer) e.getRam()).toString());
+	}
+	
+	private boolean asignarEquipo() {
+		return ge.;
 	}
 	
 	
@@ -1597,7 +1595,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 780);
+		incidencias.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1715,8 +1713,9 @@ public class Main extends JFrame {
 	
 	private void visualizarIncidencias2() {
 		stock = new JPanel();
-		stock.setBounds(101, 36, 1255, 780);
-		contentPane.add(stock);
+		stock.setBackground(Color.WHITE);
+		stock.setBounds(88, 37, 1287, 780);
+		contentPane.add(incidencias);
 		stock.setLayout(null);
 
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
