@@ -52,7 +52,8 @@ public class GestorSolicitudes {
 	public ArrayList<IncidenciaDTO> getListaAsignadasA(String id) {
 		ArrayList<IncidenciaDTO> listaAsignadas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
-			if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
+			if(!(idto instanceof SolicitudDTO))
+				if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
 		}
 		return listaAsignadas;
 	}

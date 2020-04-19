@@ -9,11 +9,11 @@ public class ProveedorDTO
     private String nombre;
     private String email;
     private String direccion;
-    private int telefono;
+    private String telefono;
     
     private ArrayList <ComponenteDTO> listaComponentes;
 
-	public ProveedorDTO(int idProveedor, String cif, String nombre, String email, String direccion, int telefono) {
+	public ProveedorDTO(int idProveedor, String cif, String nombre, String email, String direccion, String telefono) {
 		super();
 		this.idProveedor = idProveedor;
 		this.cif = cif;
@@ -63,11 +63,11 @@ public class ProveedorDTO
 		this.direccion = direccion;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
