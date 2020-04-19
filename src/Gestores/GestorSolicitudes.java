@@ -32,7 +32,12 @@ public class GestorSolicitudes {
 				((SolicitudDTO) idto).setComponente(gc.getComponente(((SolicitudDTO) idto).getIdComponente()));
 		}
 	}
-	
+	private void cargarComponente() {
+		for(IncidenciaDTO sol : listaSoli) {
+			if(sol instanceof SolicitudDTO)
+				((SolicitudDTO) sol).setComponente(gc.getComponente(((SolicitudDTO) sol).getIdComponente()));
+		}
+	}
 	public ArrayList<IncidenciaDTO> getListaNoAtendidas() {
 		ArrayList<IncidenciaDTO> listaNoAtendidas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
@@ -60,7 +65,7 @@ public class GestorSolicitudes {
 	public ArrayList<IncidenciaDTO> getListaAsignadasA(String id) {
 		ArrayList<IncidenciaDTO> listaAsignadas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
-			if(!(idto instanceof SolicitudDTO))
+			if(!(idto instanceof SolicitudDTO) && !idto.getEstado().equals("atendida"))
 				if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
 		}
 		return listaAsignadas;
@@ -78,8 +83,8 @@ public class GestorSolicitudes {
 		return idao.insertarSolicitud(sdto);
 	}
 	public boolean modificarIncidencia(IncidenciaDTO idto) {
-		return idao.actualizar(idto);
-	}
+        return idao.actualizar(idto);
+    }
 	
 	public IncidenciaDTO getIncidencia(int id) {
 		return idao.buscar(id);

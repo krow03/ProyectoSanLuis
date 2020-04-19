@@ -93,7 +93,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 		ComponenteDTO comp = null;
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDPERSONA);
-			ps.setString(1, pk.toString());
+			ps.setInt(1, (int)pk);
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
@@ -108,6 +108,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(comp.getDescripcion());
 		return comp;
 	}
 

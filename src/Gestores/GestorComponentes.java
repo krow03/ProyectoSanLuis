@@ -14,7 +14,12 @@ public class GestorComponentes {
 	public ArrayList<ComponenteDTO> getList(){
 		return listaComponentes;
 	}
-	
+	public ComponenteDTO getComponenteId(int idComponente) {
+		System.out.println("me cago en dios");
+		System.out.println(cdao.buscar(idComponente).getIdComponente());
+
+		return cdao.buscar(idComponente);
+	}
 	public void cargarLista() {
 		listaComponentes=cdao.listarTodos();
 	}

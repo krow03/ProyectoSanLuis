@@ -1,4 +1,4 @@
-package DTO;
+ package DTO;
 
 public class SolicitudDTO extends IncidenciaDTO
 {

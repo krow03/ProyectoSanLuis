@@ -16,6 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
+import DTO.IncidenciaDTO;
+import Gestores.GestorSolicitudes;
+
 public class SolicitudTecPanel2 extends JFrame {
 
 	private JPanel contentPane;
@@ -64,9 +67,10 @@ public class SolicitudTecPanel2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				textArea.getText();
 				
-				//llamada a gestor
-				//asignar a tecnico con menos incidencias
-				//llamada a dao para insertar en la bd
+				GestorSolicitudes gs = new GestorSolicitudes();
+				IncidenciaDTO idto = gs.getIncidencia(id);
+				idto.setEstado("atendida");
+				gs.modificarIncidencia(idto);
 				dispose();
 			}
 		});
