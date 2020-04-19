@@ -29,8 +29,11 @@ import javax.swing.event.ListSelectionListener;
 
 import DTO.AdministradorDTO;
 import DTO.AulaDTO;
+import DTO.ComponenteDTO;
 import DTO.EquipoDTO;
+import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
+import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
@@ -140,7 +143,8 @@ public class Main extends JFrame {
 		visualizarAulas();
 		visualizarIncidencias();
 		visualizarCrudEquipos();
-
+		visualizarIncidencias2();
+		stock.setVisible(true);
 		// JPANEL LATERAL
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0x141d26));
@@ -303,7 +307,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 37, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -710,11 +714,11 @@ public class Main extends JFrame {
 				txtEmailOnline.setText(uo.getEmail());
 				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
 				
-				 for(IncidenciaDTO inci : uo.getIncidencias()) { 
+				 /*for(IncidenciaDTO inci : uo.getIncidencias()) { 
 					 	if(inci instanceof SolicitudDTO) {
 					 		
 					 	}
-				 }
+				 }*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -766,7 +770,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -987,7 +991,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1233,7 +1237,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBounds(101, 1000, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1525,7 +1529,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 780);
+		incidencias.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1534,30 +1538,23 @@ public class Main extends JFrame {
 		JTable tableIncidencias = new JTable();
 		tableIncidencias.setFillsViewportHeight(true);
 		tableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "FECHA" , "Descripcion" }));
-		tableIncidencias.setModel(defaultModel2);
+		DefaultTableModel defaultModelinc = (new DefaultTableModel(new Object[][] {},
+				new String[] { "COD", "FECHA", "Descripcion" }){public boolean isCellEditable(int row, int column){return false;}});
+		tableIncidencias.setModel(defaultModelinc);
 		tableIncidencias.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableIncidencias.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableIncidencias.getColumnModel().getColumn(2).setPreferredWidth(450);
 
 		ArrayList<IncidenciaDTO> array = new ArrayList<IncidenciaDTO>();
-		array = gs.getListaSol();
-		
+		array = gs.getListaAsignadasA(gu.getUserOnline().getIdUsuario());
+
 		for (IncidenciaDTO e : array) {
 
-			Object[] fila = { e.getCodigo(),e.getFechaSol(),e.getDescripcion() };
-			defaultModel2.addRow(fila);
+			Object[] fila = { e.getCodigo(), e.getFechaSol(), e.getDescripcion() };
+			defaultModelinc.addRow(fila);
 		}
-		tableIncidencias.setModel(defaultModel2);
+		tableIncidencias.setModel(defaultModelinc);
 		scrollPaneIncidencias.setViewportView(tableIncidencias);
-		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            nombreSeleccionado = tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
-	        }
-	    });
-
-		
 
 		JScrollPane scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(20, 30, 611, 667);
@@ -1565,29 +1562,33 @@ public class Main extends JFrame {
 		JTable tableSolicitudes = new JTable();
 		tableSolicitudes.setFillsViewportHeight(true);
 		tableSolicitudes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "FECHA" , "Descripcion" }));
-		tableSolicitudes.setModel(defaultModel2);
+		DefaultTableModel defaultModelsol = (new DefaultTableModel(new Object[][] {
+
+		}, new String[] { "COD", "FECHA", "Descripcion" })
+		{public boolean isCellEditable(int row, int column){return false;}}
+				
+				);
+		tableSolicitudes.setModel(defaultModelsol);
 		tableSolicitudes.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableSolicitudes.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableSolicitudes.getColumnModel().getColumn(2).setPreferredWidth(450);
 		ArrayList<IncidenciaDTO> array2 = new ArrayList<IncidenciaDTO>();
-		array2 = gs.getListaAsignadasA(gu.getUserOnline().getIdUsuario());
-		
+		array2 = gs.getListaSol();
+
 		for (IncidenciaDTO e : array2) {
-			
-			Object[] fila = { e.getCodigo(),e.getFechaSol(),e.getDescripcion() };
-			defaultModel2.addRow(fila);
+
+			Object[] fila = { e.getCodigo(), e.getFechaSol(), e.getDescripcion() };
+			defaultModelsol.addRow(fila);
 		}
-		tableSolicitudes.setModel(defaultModel2);
+		tableSolicitudes.setModel(defaultModelsol);
 		scrollPane2.setViewportView(tableSolicitudes);
-		
+
 		JLabel lblNewLabel_14 = new JLabel("Solicitudes");
 		lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_14.setForeground(Color.BLACK);
 		lblNewLabel_14.setBounds(264, 11, 122, 14);
 		incidencias.add(lblNewLabel_14);
-		
+
 		JLabel lblNewLabel_15 = new JLabel("Incidencias");
 		lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_15.setBounds(903, 11, 89, 14);
@@ -1595,16 +1596,23 @@ public class Main extends JFrame {
 		JButton btnNewButton_1 = new JButton("Visualizar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(tableSolicitudes.getSelectedRow() != -1) {
-	
-					IncidenciaTecPanel3 sotec = new IncidenciaTecPanel3(gs.getIncidencia(Integer.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString())));
-					sotec.setUndecorated(true);
-					sotec.setLocationRelativeTo(null);
-					sotec.setVisible(true);
+				if (tableSolicitudes.getSelectedRow() != -1) {
+					SolicitudDTO sdto = (SolicitudDTO)gs.getIncidencia(Integer
+							.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString()));
+					System.out.println(sdto);
+					IncidenciaTecPanel3 intec = new IncidenciaTecPanel3(sdto);
+					System.out.println("hasta aqui?");
+					intec.setUndecorated(true);
+					intec.setLocationRelativeTo(null);
+					intec.setVisible(true);
+					tableIncidencias.getSelectionModel().clearSelection();
+
 				}
-				if(tableIncidencias.getSelectedRow() != -1) {
-					SolicitudTecPanel2 sotec = new SolicitudTecPanel2(Integer.parseInt(tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString()),tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 3).toString());
+				if (tableIncidencias.getSelectedRow() != -1) {
+					SolicitudTecPanel2 sotec = new SolicitudTecPanel2(
+							Integer.parseInt(
+									tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString()),
+							tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 2).toString());
 					sotec.setUndecorated(true);
 					sotec.setLocationRelativeTo(null);
 					sotec.setVisible(true);
@@ -1613,6 +1621,22 @@ public class Main extends JFrame {
 		});
 		btnNewButton_1.setBounds(570, 730, 128, 45);
 		incidencias.add(btnNewButton_1);
+		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// nombreSeleccionado =
+				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+				tableSolicitudes.getSelectionModel().removeSelectionInterval(0, 0);
+
+			}
+		});
+		tableSolicitudes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// nombreSeleccionado =
+				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+				tableIncidencias.getSelectionModel().removeSelectionInterval(0, 0);
+
+			}
+		});
 	}
 	
 	
@@ -1627,40 +1651,88 @@ public class Main extends JFrame {
 		stock.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		stock.setLayout(null);
-		JScrollPane scrollPaneIncidencias = new JScrollPane();
-		scrollPaneIncidencias.setBounds(650, 30, 611, 667);
-		stock.add(scrollPaneIncidencias);
-		JTable tableIncidencias = new JTable();
-		tableIncidencias.setFillsViewportHeight(true);
-		tableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "FECHA" , "Descripcion" }));
-		tableIncidencias.setModel(defaultModel2);
-		tableIncidencias.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tableIncidencias.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tableIncidencias.getColumnModel().getColumn(2).setPreferredWidth(450);
 
-		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
-		array = gu.getList();
-		String rol = "";
-		Double total;
-		for (UsuarioDTO e : array) {
-			if(e instanceof AdministradorDTO) {
-				rol = "admin";
-			}else if(e instanceof TecnicoDTO){
-				rol = "tecnico";
-			}else {
-				rol = "usuario";
-			}
-			Object[] fila = { e.getIdUsuario(), rol,e.getNombre(),e.getApellidos() };
+		JScrollPane scrollPaneIncidencias = new JScrollPane();
+		scrollPaneIncidencias.setBounds(54, 202, 1132, 495);
+		stock.add(scrollPaneIncidencias);
+		JTable tableHardware = new JTable();
+		tableHardware.setFillsViewportHeight(true);
+		tableHardware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "COD", "Descripcion", "Tipo", "Marca", "Peso" }));
+		tableHardware.setModel(defaultModel2);
+		tableHardware.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableHardware.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
+		ArrayList<ComponenteDTO> arrayHardware = new ArrayList<ComponenteDTO>();
+		arrayHardware = gc.getListaHardware();
+
+		for (ComponenteDTO e : arrayHardware) {
+
+			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((HardwareDTO) e).getTipo(),
+					((HardwareDTO) e).getMarca() };
 			defaultModel2.addRow(fila);
 		}
-		tableIncidencias.setModel(defaultModel2);
-		scrollPaneIncidencias.setViewportView(tableIncidencias);
-		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            nombreSeleccionado = tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
-	        }
-	    });
+		tableHardware.setModel(defaultModel2);
+		scrollPaneIncidencias.setViewportView(tableHardware);
+
+		scrollPaneIncidencias.setVisible(false);
+		JScrollPane scrollPaneSoftware = new JScrollPane();
+		scrollPaneSoftware.setBounds(54, 202, 1132, 495);
+		stock.add(scrollPaneSoftware);
+		JTable tableSoftware = new JTable();
+		tableSoftware.setFillsViewportHeight(true);
+		tableSoftware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "Descripcion", "Cod licencia" }));
+		tableSoftware.setModel(defaultModel2);
+		tableSoftware.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableSoftware.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableSoftware.getColumnModel().getColumn(2).setPreferredWidth(450);
+
+		ArrayList<ComponenteDTO> arraysoftware = new ArrayList<ComponenteDTO>();
+		arraysoftware = gc.getListaSoftware();
+		for (int i = 0; i < arraysoftware.size(); i++) {
+			System.out.println(arraysoftware.get(i).getIdEquipo());
+		}
+		// String rol = "";
+		// Double total;
+		for (ComponenteDTO e : arraysoftware) {
+			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((SoftwareDTO) e).getCodLiciencia() };
+			defaultModel2.addRow(fila);
+		}
+		tableSoftware.setModel(defaultModel2);
+		scrollPaneSoftware.setViewportView(tableSoftware);
+
+		JButton btnNewButton_8 = new JButton("Comprar");
+		btnNewButton_8.setBounds(362, 720, 89, 23);
+		stock.add(btnNewButton_8);
+
+		JButton btnNewButton_9 = new JButton("Eliminar");
+		btnNewButton_9.setBounds(663, 720, 89, 23);
+		stock.add(btnNewButton_9);
+		JButton btnNewButton_5 = new JButton("Hardware");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				scrollPaneIncidencias.setVisible(false);
+				scrollPaneSoftware.setVisible(true);
+			}
+		});
+		btnNewButton_5.setBounds(292, 58, 180, 86);
+		stock.add(btnNewButton_5);
+
+		JButton btnNewButton_6 = new JButton("Software");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				scrollPaneIncidencias.setVisible(true);
+				scrollPaneSoftware.setVisible(false);
+
+			}
+		});
+		btnNewButton_6.setBounds(652, 58, 180, 86);
+		stock.add(btnNewButton_6);
+
 	}
 }

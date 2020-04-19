@@ -16,13 +16,21 @@ import DTO.SolicitudDTO;
 public class GestorSolicitudes {
 	private ArrayList<IncidenciaDTO> listaSoli = new ArrayList<IncidenciaDTO>();
 	private IncidenciaDAO idao = new IncidenciaDAO();
-	
+	private GestorComponentes gc = new GestorComponentes();
 	public ArrayList<IncidenciaDTO> getList(){
 		return listaSoli;
 	}
 	
 	public void cargarLista() {
 		listaSoli=idao.listarTodos();
+		cargarComponentes();
+	}
+	
+	public void cargarComponentes() {
+		for(IncidenciaDTO idto : listaSoli) {
+			if(idto instanceof SolicitudDTO) 
+				((SolicitudDTO) idto).setComponente(gc.getComponente(((SolicitudDTO) idto).getIdComponente()));
+		}
 	}
 	
 	public ArrayList<IncidenciaDTO> getListaNoAtendidas() {

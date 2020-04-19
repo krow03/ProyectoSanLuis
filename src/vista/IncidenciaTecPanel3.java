@@ -13,7 +13,10 @@ import com.sun.javafx.binding.SelectBinding.AsInteger;
 import DTO.ComponenteDTO;
 import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
+import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
+import Gestores.GestorComponentes;
+import Gestores.GestorSolicitudes;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;
@@ -35,7 +38,8 @@ public class IncidenciaTecPanel3 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextArea textArea;
-
+	private GestorComponentes gc = new GestorComponentes();
+	private String hardSoft;
 	/**
 	 * Launch the application.
 	 */
@@ -46,7 +50,7 @@ public class IncidenciaTecPanel3 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IncidenciaTecPanel3(IncidenciaDTO idto) {
+	public IncidenciaTecPanel3(SolicitudDTO idto) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 557, 374);
 		contentPane = new JPanel();
@@ -61,14 +65,25 @@ public class IncidenciaTecPanel3 extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(162, 11, 220, 14);
 		contentPane.add(lblNewLabel);
-
+		
+		if(idto.getComponente() instanceof HardwareDTO) {
+			hardSoft = "Hardware";
+		}
+		if(idto.getComponente() instanceof SoftwareDTO) {
+			hardSoft = "Software";
+		}
 		JButton btnNewButton = new JButton("Resolver");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
-				
+				GestorSolicitudes gs = new GestorSolicitudes();
+				IncidenciaDTO idtoObj = gs.getIncidencia(idto.getCodigo());
+				idtoObj.setFechaFin(fecha);
+				idtoObj.setEstado("atendida");
+				gs.modificarIncidencia(idtoObj);
+				dispose();
 				
 			}
 		});
@@ -104,10 +119,10 @@ public class IncidenciaTecPanel3 extends JFrame {
 		lblNewLabel_2.setBounds(10, 81, 46, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		JLabel lblHardSoft = new JLabel();
+		JLabel lblHardSoft = new JLabel(hardSoft);
 		lblHardSoft.setForeground(Color.WHITE);
 		lblHardSoft.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblHardSoft.setBounds(66, 82, 46, 14);
+		lblHardSoft.setBounds(66, 82, 98, 14);
 		contentPane.add(lblHardSoft);
 		
 		JLabel lblNewLabel_3 = new JLabel("\u00BFHay stock?");
