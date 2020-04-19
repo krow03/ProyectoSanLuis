@@ -269,110 +269,23 @@ public class Main extends JFrame {
 
 	}
 
-	private void cargarUsuarioOnline() {
-		UsuarioDTO uo = gu.getUserOnline();
-		try {
-			if (uo != null) {
-				txtNombreOnline.setText(uo.getUserName());
-				txtEmailOnline.setText(uo.getEmail());
-				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
-				/*
-				 * for(IncidenciaDTO inci : uo.getIncidencias()) { if(inci instanceof
-				 * SolicitudDTO) { //TODO } }
-				 */
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 
-	private void logOut() {
-		gu.logOut();
-		this.dispose();
-		Home h = new Home();
-		h.setUndecorated(true);
-		h.setVisible(true);
-	}
+	
 
-	private void cargarDesplegableAula() {
-		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
-
-		for (AulaDTO a : listaAulas) {
-			comboBox.addItem(a.getNombre());
-		}
-	}
+	
 	private boolean modificarAula(AulaDTO a) {
         return ga.modificarAula(a);
     }
-	private void cargarEquiposAula() {
-		int linea1 = 0;
-		int linea2 = 0;
-		int linea3 = 0;
-		int linea4 = 0;
-		int linea5 = 0;
-		listaEquipos.clear();
-		try {
-			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
-			listaEquipos = adto.getEquipos();
-			
-			for (int i = 0; i < listaEquipos.size(); i++) {
-
-				int posicion1 = linea1 * 15;
-				int posicion2 = linea2 * 15;
-
-				int e = i;
-				JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
-				JLabel lblEquipo = new JLabel("");
-				lblEquipo.setName(listaEquipos.get(i).getNombre());
-				lblEquipo.addMouseListener(new MouseAdapter() {
-
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						cargarDatosEquipo(listaEquipos.get(e));
-					}
-				});
-				if (i < 6) {
-					lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
-					lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
-					panel_3.add(lblEquipo);
-					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-					linea1++;
-				}
-				if (i >= 5 && i <= 11) {
-					lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
-					lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
-					panel_3.add(lblEquipo);
-					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
-					linea2++;
-				}
-
-				panel_3.add(lvlNombreEquipo);
-				lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+	
+	
 	private boolean eliminarAula(int idAula) {
         return ga.borrarAula(idAula);
     }
-	private void cargarDatosEquipo(EquipoDTO e) {
-		txtNombreEquipo.setText(e.getNombre());
-		txtIp.setText(e.getIpEquipo());
-		equipoSeleccionado = e;
-		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
-		txtRam.setText(((Integer) e.getRam()).toString());
-	}
+	
+	
 
-	private boolean actualizarPerfil() {
-		UsuarioDTO u = gu.getUserOnline();
-		u.setUserName(txtNombreOnline.getText());
-		u.setEmail(txtEmailOnline.getText());
-		return gu.modificarUsuario(u);
-	}
-
+	
 	private boolean crearAula(AulaDTO a) {
 		try {
 			return ga.crearAula(a);
@@ -381,28 +294,11 @@ public class Main extends JFrame {
 		}
 		return false;
 	}
-
-	private boolean cambiarPass() {
-		UsuarioDTO u = gu.getUserOnline();
-		JTextField oldPass = new JTextField();
-		JTextField newPass = new JTextField();
-		JTextField repeatNewPass = new JTextField();
-		Object[] message = { "Old pass:", oldPass, "New pass:", newPass, "Repeat new pass:", repeatNewPass };
-		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
-		try {
-			if (DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
-				if (newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())) {
-					u.setPass(newPass.getText());
-					return gu.modificarUsuario(u);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
 	
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///**************************************************************PERFIL********************************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private void visualizarPerfil() {
 		perfil = new JPanel();
@@ -801,10 +697,72 @@ public class Main extends JFrame {
 		perfil.add(btnNewButton_2_2_2);
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///***************************************************************METODOS PERFIL***********************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	private void cargarUsuarioOnline() {
+		UsuarioDTO uo = gu.getUserOnline();
+		try {
+			if (uo != null) {
+				txtNombreOnline.setText(uo.getUserName());
+				txtEmailOnline.setText(uo.getEmail());
+				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
+				
+				 for(IncidenciaDTO inci : uo.getIncidencias()) { 
+					 	if(inci instanceof SolicitudDTO) {
+					 		
+					 	}
+				 }
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void logOut() {
+		gu.logOut();
+		this.dispose();
+		Home h = new Home();
+		h.setUndecorated(true);
+		h.setVisible(true);
+	}
 	private boolean borrarUsuario(String idUsuario) {
 		return gu.borrarUsuario(idUsuario);
 	}
 
+	private boolean actualizarPerfil() {
+		UsuarioDTO u = gu.getUserOnline();
+		u.setUserName(txtNombreOnline.getText());
+		u.setEmail(txtEmailOnline.getText());
+		return gu.modificarUsuario(u);
+	}
+
+	private boolean cambiarPass() {
+		UsuarioDTO u = gu.getUserOnline();
+		JTextField oldPass = new JTextField();
+		JTextField newPass = new JTextField();
+		JTextField repeatNewPass = new JTextField();
+		Object[] message = { "Old pass:", oldPass, "New pass:", newPass, "Repeat new pass:", repeatNewPass };
+		int option = JOptionPane.showConfirmDialog(null, message, "Llena el formulario", JOptionPane.OK_CANCEL_OPTION);
+		try {
+			if (DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
+				if (newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())) {
+					u.setPass(newPass.getText());
+					return gu.modificarUsuario(u);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///***************************************************************AULAS********************************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
@@ -952,6 +910,81 @@ public class Main extends JFrame {
 		panel_2.add(txtRam);
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///***************************************************************METODOS AULAS************************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private void cargarDesplegableAula() {
+		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
+
+		for (AulaDTO a : listaAulas) {
+			comboBox.addItem(a.getNombre());
+		}
+	}
+	private void cargarEquiposAula() {
+		int linea1 = 0;
+		int linea2 = 0;
+		int linea3 = 0;
+		int linea4 = 0;
+		int linea5 = 0;
+		listaEquipos.clear();
+		try {
+			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+			listaEquipos = adto.getEquipos();
+			
+			for (int i = 0; i < listaEquipos.size(); i++) {
+
+				int posicion1 = linea1 * 15;
+				int posicion2 = linea2 * 15;
+
+				int e = i;
+				JLabel lvlNombreEquipo = new JLabel(listaEquipos.get(i).getNombre());
+				JLabel lblEquipo = new JLabel("");
+				lblEquipo.setName(listaEquipos.get(i).getNombre());
+				lblEquipo.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						cargarDatosEquipo(listaEquipos.get(e));
+					}
+				});
+				if (i < 6) {
+					lblEquipo.setBounds(10 * posicion1, 0, 76, 100);
+					lvlNombreEquipo.setBounds(10 * posicion1, 78, 56, 14);
+					panel_3.add(lblEquipo);
+					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+					linea1++;
+				}
+				if (i >= 5 && i <= 11) {
+					lblEquipo.setBounds(10 * posicion2, 90, 120, 100);
+					lvlNombreEquipo.setBounds(10 * posicion2, 165, 56, 14);
+					panel_3.add(lblEquipo);
+					lblEquipo.setIcon(new ImageIcon(Main.class.getResource("/images/pc-de-la-torre (2).png")));
+					linea2++;
+				}
+
+				panel_3.add(lvlNombreEquipo);
+				lvlNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	private void cargarDatosEquipo(EquipoDTO e) {
+		txtNombreEquipo.setText(e.getNombre());
+		txtIp.setText(e.getIpEquipo());
+		equipoSeleccionado = e;
+		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
+		txtRam.setText(((Integer) e.getRam()).toString());
+	}
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///**************************************************************CRUD AULAS****************************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
 		crud.setBounds(101, 37, 1278, 767);
@@ -1190,6 +1223,14 @@ public class Main extends JFrame {
 			defaultModel.addRow(fila);
 		}
 	}
+	
+	
+	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///**************************************************************CRUD EQUIPOS**************************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
 		crudEquipo.setBounds(101, 37, 1278, 767);
@@ -1473,6 +1514,14 @@ public class Main extends JFrame {
 		defaultModel.addRow(fila);
 
 	}
+	
+	
+	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///**********************************************************INCIDENCIAS Y SOLICITUDES*****************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
@@ -1565,6 +1614,13 @@ public class Main extends JFrame {
 		btnNewButton_1.setBounds(570, 730, 128, 45);
 		incidencias.add(btnNewButton_1);
 	}
+	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///*************************************************************¿QUE COÑO ES ESTO?*********************************************************************///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private void visualizarIncidencias2() {
 		stock = new JPanel();
 		stock.setBackground(Color.WHITE);
