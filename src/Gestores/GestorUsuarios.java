@@ -12,7 +12,7 @@ import DAO.UsuarioDAO;
 
 public class GestorUsuarios {
 	private GestorSolicitudes gs = new GestorSolicitudes();
-	private static final AdministradorDTO USER_ONLINE=new AdministradorDTO("1","a","a",0,"a","a","a","a","a");
+	private static final AdministradorDTO USER_ONLINE=new AdministradorDTO("1","a","a",1,"a","a","a","a","a");
 	private UsuarioDAO udao = new UsuarioDAO();
 	private static ArrayList <UsuarioDTO> listaUsers;
 	private static UsuarioDTO userOnline=USER_ONLINE;

@@ -87,7 +87,6 @@ public class Main extends JFrame {
 	private JPanel contentPane;
 	private String nombreSeleccionado;
 	int xx, xy;
-	private JPanel stock;
 	private JTable table;
 	private JTable table_1;
 	private JTextField txtNombreOnline;
@@ -143,8 +142,7 @@ public class Main extends JFrame {
 		visualizarAulas();
 		visualizarIncidencias();
 		visualizarCrudEquipos();
-		visualizarIncidencias2();
-		stock.setVisible(true);
+		//visualizarIncidencias2();
 		// JPANEL LATERAL
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0x141d26));
@@ -268,6 +266,10 @@ public class Main extends JFrame {
 		});
 		lvlSalida_1.setBounds(10, 11, 46, 64);
 		panel.add(lvlSalida_1);
+		
+
+		
+
 
 		cargarUsuarioOnline();
 
@@ -307,7 +309,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 37, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -671,7 +673,7 @@ public class Main extends JFrame {
 		btnNewButton_2_3.setBounds(1066, 11, 233, 89);
 		perfil.add(btnNewButton_2_3);
 
-		JButton btnNewButton_2_2_1 = new JButton("Incidencia");
+		JButton btnNewButton_2_2_1 = new JButton("Solicitud");
 		btnNewButton_2_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				IncidenciaUsuPanel2 upanel = new IncidenciaUsuPanel2();
@@ -685,7 +687,7 @@ public class Main extends JFrame {
 		btnNewButton_2_2_1.setBounds(506, 11, 235, 89);
 		perfil.add(btnNewButton_2_2_1);
 
-		JButton btnNewButton_2_2_2 = new JButton("Solicitud");
+		JButton btnNewButton_2_2_2 = new JButton("Incidencia");
 		btnNewButton_2_2_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SolicitudUsuPanel soPanel = new SolicitudUsuPanel();
@@ -1529,7 +1531,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 780);
+		incidencias.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1646,7 +1648,10 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private void visualizarIncidencias2() {
-		stock = new JPanel();
+		JPanel stock = new JPanel();
+		stock.setBounds(88, 11, 1157, 744);
+		contentPane.add(stock);
+
 		stock.setBackground(Color.WHITE);
 		stock.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);

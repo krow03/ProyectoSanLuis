@@ -79,8 +79,11 @@ public class GestorSolicitudes {
 		return listaRealizadas;
 	}
 	
-	public boolean crearIncidencia(IncidenciaDTO sdto) throws SQLException {
+	public boolean crearSolicitud(IncidenciaDTO sdto) throws SQLException {
 		return idao.insertarSolicitud(sdto);
+	}
+	public boolean crearIncidencia(IncidenciaDTO sdto) throws SQLException {
+		return idao.insertar(sdto);
 	}
 	public boolean modificarIncidencia(IncidenciaDTO idto) {
         return idao.actualizar(idto);

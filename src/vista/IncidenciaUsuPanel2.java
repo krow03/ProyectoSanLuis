@@ -13,6 +13,9 @@ import com.sun.javafx.binding.SelectBinding.AsInteger;
 import DTO.ComponenteDTO;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
+import Gestores.GestorComponentes;
+import Gestores.GestorSolicitudes;
+import Gestores.GestorUsuarios;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;
@@ -26,6 +29,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
@@ -35,9 +39,9 @@ public class IncidenciaUsuPanel2 extends JFrame {
 	private JPanel contentPane;
 	private JRadioButton rdbtnNewRadioButton;
 	private JRadioButton rdbtnNewRadioButton_1;
-	private JRadioButton rdbtnNewRadioButton_2;
 	private JComboBox comboBox;
 	private JTextArea textArea;
+	private GestorComponentes gc = new GestorComponentes();
 
 	/**
 	 * Launch the application.
@@ -83,32 +87,41 @@ public class IncidenciaUsuPanel2 extends JFrame {
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
-				
+				GestorUsuarios gu = new GestorUsuarios();
+				GestorSolicitudes gs = new GestorSolicitudes();
+
 				if (comboBox.getSelectedItem().toString() == "Sin seleccionar") {
 
 				} else {
 					SolicitudDTO solicitud;
 					if (rdbtnNewRadioButton.isSelected()) {
-						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
-								textArea.getText(), 0, 1);
+						int part1 = 0;
+						if (!comboBox.getSelectedItem().equals("Sin seleccionar")) {
+							String[] parts = ((String) comboBox.getSelectedItem()).split(" -");
+							part1 = Integer.parseInt(parts[0]);
+						}
+
+						solicitud = new SolicitudDTO(gu.getUserOnline().getIdUsuario(),
+								gu.getUserOnline().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
+						try {
+							gs.crearSolicitud(solicitud);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 					if (rdbtnNewRadioButton_1.isSelected()) {
 						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
 								textArea.getText(), 0, 1);
 					}
 
-					if (rdbtnNewRadioButton_2.isSelected()) {
-						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
-								textArea.getText(), 0);
-
-					}
 				}
-				//LLAMAMOS AL GESTOR DE SOLICITUDES
-				//LLAMAMOS AL GESTOR DE INCIDENCIAS QUE HACE LA LOGICA DE ASIGNAR
-				//LLAMAMOS AL DAO PARA HACER LA INSERT
-				//String mensaje = "!Equipo creado correctamente�";
-				//if (!crearAula(adto))mensaje="!Error al crear el equipo�";
-				//	JOptionPane.showMessageDialog(null, mensaje);
+				// LLAMAMOS AL GESTOR DE SOLICITUDES
+				// LLAMAMOS AL GESTOR DE INCIDENCIAS QUE HACE LA LOGICA DE ASIGNAR
+				// LLAMAMOS AL DAO PARA HACER LA INSERT
+				// String mensaje = "!Equipo creado correctamente�";
+				// if (!crearAula(adto))mensaje="!Error al crear el equipo�";
+				// JOptionPane.showMessageDialog(null, mensaje);
 				dispose();
 			}
 		});
@@ -144,18 +157,15 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		bg.add(rdbtnNewRadioButton);
 		comboBox = new JComboBox();
 		comboBox.setForeground(Color.WHITE);
-		comboBox.setBounds(140, 99, 242, 20);
+		comboBox.setBounds(10, 99, 521, 33);
 		comboBox.setBackground(new Color(0x566573));
 		comboBox.addItem("Sin seleccion");
+		for (ComponenteDTO componente : gc.getListaHardware()) {
 
+			System.out.println(componente.getIdComponente());
+			comboBox.addItem(componente.getIdComponente() + " - " + componente.getDescripcion());
+		}
 		contentPane.add(comboBox);
-
-		rdbtnNewRadioButton_2 = new JRadioButton("Solicitud fuera de stock");
-		rdbtnNewRadioButton_2.setForeground(Color.WHITE);
-		rdbtnNewRadioButton_2.setBounds(185, 126, 163, 23);
-		rdbtnNewRadioButton_2.setBackground(new Color(0x566573));
-
-		contentPane.add(rdbtnNewRadioButton_2);
 
 		textArea = new JTextArea();
 		textArea.setForeground(Color.WHITE);

@@ -13,12 +13,14 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import DTO.IncidenciaDTO;
+import Gestores.GestorSolicitudes;
 import Gestores.GestorUsuarios;
 
 public class SolicitudUsuPanel extends JFrame {
@@ -82,11 +84,17 @@ public class SolicitudUsuPanel extends JFrame {
 				Calendar c2 = new GregorianCalendar();
 
 				GestorUsuarios gu = new GestorUsuarios();
-				
+				GestorSolicitudes gs = new GestorSolicitudes();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
 				IncidenciaDTO incidenciaInsert = new IncidenciaDTO(gu.getUserOnline().getIdUsuario(), gu.getTecnicoMenosIncidencias().getIdUsuario(),
 						gu.getUserOnline().getIdEquipo(), fecha, textArea.getText());
+				try {
+					gs.crearIncidencia(incidenciaInsert);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 		});

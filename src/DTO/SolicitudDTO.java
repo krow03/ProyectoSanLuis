@@ -16,6 +16,14 @@ public class SolicitudDTO extends IncidenciaDTO
 		super(codigo, idRealizadaPor, idAsignadaA, idEquipo, fechaSol, fechaFin, estado, descripcion, prioridad);
 		this.idComponente = idComponente;
 	}
+	
+
+
+	public SolicitudDTO(String idRealizadaPor, int idEquipo, String fechaSol,
+			String estado, String descripcion, int idComponente) {
+		super(idRealizadaPor, idEquipo, fechaSol, estado, descripcion);
+		this.idComponente = idComponente;
+	}
 
 	public ComponenteDTO getComponente() {
 		return componente;

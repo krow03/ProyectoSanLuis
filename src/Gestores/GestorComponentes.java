@@ -8,7 +8,7 @@ import DTO.HardwareDTO;
 import DTO.SoftwareDTO;;
 
 public class GestorComponentes {
-	private ArrayList<ComponenteDTO> listaComponentes = new ArrayList<ComponenteDTO>();
+	private static ArrayList<ComponenteDTO> listaComponentes = new ArrayList<ComponenteDTO>();
 	private ComponenteDAO cdao = new ComponenteDAO();
 	
 	public ArrayList<ComponenteDTO> getList(){

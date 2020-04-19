@@ -26,6 +26,15 @@ public class IncidenciaDTO
 		this.prioridad = prioridad;
 	}
 	
+	public IncidenciaDTO(String idRealizadaPor, int idEquipo, String fechaSol, String estado, String descripcion) {
+		super();
+		this.idRealizadaPor = idRealizadaPor;
+		this.idEquipo = idEquipo;
+		this.fechaSol = fechaSol;
+		this.estado = estado;
+		this.descripcion = descripcion;
+	}
+
 	public IncidenciaDTO(String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol, String descripcion) {
 		super();
 		this.idRealizadaPor = idRealizadaPor;
