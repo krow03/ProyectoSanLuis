@@ -82,6 +82,7 @@ public class Main extends JFrame {
 	private JPanel aulas;
 	private JPanel perfil;
 	private JPanel crud;
+	private JPanel stock;
 	private JPanel crudEquipo;
 	private JPanel incidencias;
 	private JPanel contentPane;
@@ -142,7 +143,13 @@ public class Main extends JFrame {
 		visualizarAulas();
 		visualizarIncidencias();
 		visualizarCrudEquipos();
-		//visualizarIncidencias2();
+		visualizarIncidencias2();
+		aulas.setVisible(false);
+		perfil.setVisible(true);
+		incidencias.setVisible(false);
+		crud.setVisible(false);
+		crudEquipo.setVisible(false);
+		stock.setVisible(false);
 		// JPANEL LATERAL
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0x141d26));
@@ -162,6 +169,8 @@ public class Main extends JFrame {
 				incidencias.setVisible(false);
 				crud.setVisible(false);
 				crudEquipo.setVisible(false);
+				stock.setVisible(false);
+
 			}
 		});
 		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
@@ -178,6 +187,8 @@ public class Main extends JFrame {
 				incidencias.setVisible(false);
 				crud.setVisible(true);
 				crudEquipo.setVisible(false);
+				stock.setVisible(false);
+
 			}
 		});
 		lblNewLabel_8.setBounds(10, 488, 46, 39);
@@ -194,6 +205,8 @@ public class Main extends JFrame {
 				incidencias.setVisible(true);
 				crud.setVisible(false);
 				crudEquipo.setVisible(false);
+				stock.setVisible(false);
+
 			}
 		});
 		lvlSalida_1_1.setBounds(10, 112, 46, 64);
@@ -212,6 +225,18 @@ public class Main extends JFrame {
 		JLabel lblPedidos = new JLabel("");
 		lblPedidos.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
 		lblPedidos.setBounds(10, 400, 46, 64);
+		lblPedidos.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+				crudEquipo.setVisible(false);
+				stock.setVisible(true);
+			}
+		});
 		panel.add(lblPedidos);
 
 		JLabel lblStock = new JLabel("");
@@ -231,6 +256,8 @@ public class Main extends JFrame {
 				incidencias.setVisible(false);
 				crud.setVisible(false);
 				crudEquipo.setVisible(true);
+				stock.setVisible(false);
+
 			}
 		});
 		lblEquipos.setBounds(10, 550, 46, 64);
@@ -261,6 +288,7 @@ public class Main extends JFrame {
 				incidencias.setVisible(false);
 				crud.setVisible(false);
 				crudEquipo.setVisible(false);
+				stock.setVisible(false);
 
 			}
 		});
@@ -309,7 +337,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 37, 1311, 878);
+		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -595,6 +623,7 @@ public class Main extends JFrame {
 		panel_4_1.add(btnNewButton_2_2);
 		
 		JButton btnDegradar = new JButton("Degradar");
+		btnDegradar.setForeground(Color.WHITE);
 		btnDegradar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
@@ -623,9 +652,18 @@ public class Main extends JFrame {
 			}
 		});
 		btnDegradar.setBounds(0, 0, 117, 89);
+		btnDegradar.setBackground(new Color(86, 101, 115));
+		try {
+			img = ImageIO.read(getClass().getResource("/images/flecha-arriba (2).png"));
+			btnDegradar.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		panel_4_1.add(btnDegradar);
 		
 		JButton btnPromocionar = new JButton("Promocionar");
+		btnPromocionar.setForeground(Color.WHITE);
 		btnPromocionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
@@ -654,6 +692,14 @@ public class Main extends JFrame {
 			}
 		});
 		btnPromocionar.setBounds(676, 0, 117, 89);
+		btnPromocionar.setBackground(new Color(86, 101, 115));
+		try {
+			img = ImageIO.read(getClass().getResource("/images/flecha-arriba (4).png"));
+			btnPromocionar.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		panel_4_1.add(btnPromocionar);
 
 		JButton btnNewButton_2_3 = new JButton("Cambiar Contrase\u00F1a");
@@ -772,7 +818,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -993,118 +1039,14 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
 		crud.setLayout(null);
 
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(54, 28, 1177, 89);
-		crud.add(panel_4);
-		panel_4.setLayout(null);
-
-		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(new Color(0x566573));
-		panel_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_5.setBounds(235, 0, 235, 89);
-		panel_4.add(panel_5);
-		panel_5.setLayout(null);
-
-		JLabel lblNewLabel_2 = new JLabel("Eliminar");
-		lblNewLabel_2.setForeground(Color.WHITE);
-
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2.setBounds(105, 32, 76, 20);
-		panel_5.add(lblNewLabel_2);
-
-		JLabel lblNewLabel_11 = new JLabel("New label");
-		lblNewLabel_11.setIcon(new ImageIcon(Main.class.getResource("/images/eliminar.png")));
-		lblNewLabel_11.setBounds(10, 11, 69, 67);
-		panel_5.add(lblNewLabel_11);
-
-		JPanel panel_6 = new JPanel();
-		panel_6.setBackground(new Color(0x566573));
-
-		panel_6.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_6.setBounds(471, 0, 235, 89);
-		panel_4.add(panel_6);
-		panel_6.setLayout(null);
-
-		JLabel lblNewLabel_3 = new JLabel("Modificar");
-		lblNewLabel_3.setForeground(Color.WHITE);
-
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(111, 34, 87, 19);
-		panel_6.add(lblNewLabel_3);
-
-		JLabel lblNewLabel_12 = new JLabel("");
-		lblNewLabel_12.setIcon(new ImageIcon(Main.class.getResource("/images/cambio (1).png")));
-		lblNewLabel_12.setBounds(10, 11, 75, 67);
-		panel_6.add(lblNewLabel_12);
-
-		JPanel panel_7 = new JPanel();
-		panel_7.setBackground(new Color(0x566573));
-
-		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_7.setBounds(706, 0, 235, 89);
-		panel_4.add(panel_7);
-		panel_7.setLayout(null);
-
-		JLabel lblNewLabel_4 = new JLabel("Crear");
-		lblNewLabel_4.setForeground(Color.WHITE);
-
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_4.setBounds(135, 36, 53, 19);
-		panel_7.add(lblNewLabel_4);
-
-		JLabel lblNewLabel_13 = new JLabel("");
-		lblNewLabel_13.setIcon(new ImageIcon(Main.class.getResource("/images/anadir (1).png")));
-		lblNewLabel_13.setBounds(28, 11, 64, 67);
-		panel_7.add(lblNewLabel_13);
-
-		JPanel panel_8 = new JPanel();
-		panel_8.setBackground(new Color(0x566573));
-
-		panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_8.setBounds(942, 0, 235, 89);
-		panel_4.add(panel_8);
-		panel_8.setLayout(null);
-
-		JLabel lblNewLabel_5 = new JLabel("Promocionar");
-		lblNewLabel_5.setForeground(Color.WHITE);
-
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_5.setBounds(82, 35, 95, 19);
-		panel_8.add(lblNewLabel_5);
-
-		JLabel lblNewLabel_10 = new JLabel("");
-		lblNewLabel_10.setBounds(2, 0, 69, 89);
-		panel_8.add(lblNewLabel_10);
-		lblNewLabel_10.setIcon(new ImageIcon(Main.class.getResource("/images/flecha-arriba (4).png")));
-
-		JPanel panel_9 = new JPanel();
-		panel_9.setBackground(new Color(0x566573));
-
-		panel_9.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_9.setBounds(0, 0, 235, 89);
-		panel_4.add(panel_9);
-		panel_9.setLayout(null);
-
-		JLabel lblNewLabel_6 = new JLabel("Degradar");
-		lblNewLabel_6.setForeground(Color.WHITE);
-
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_6.setBounds(93, 37, 91, 19);
-		panel_9.add(lblNewLabel_6);
-
-		JLabel lblNewLabel_9 = new JLabel("");
-		lblNewLabel_9.setIcon(new ImageIcon(Main.class.getResource("/images/descargar.png")));
-		lblNewLabel_9.setBounds(10, 11, 64, 67);
-		panel_9.add(lblNewLabel_9);
-
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(76, 244, 1155, 168);
+		scrollPane.setBounds(76, 244, 1155, 480);
 		crud.add(scrollPane);
 		JTable table = new JTable();
 		table.setFillsViewportHeight(true);
@@ -1145,7 +1087,7 @@ public class Main extends JFrame {
 
 			}
 		});
-		btnNewButton.setBounds(416, 485, 235, 89);
+		btnNewButton.setBounds(190, 122, 235, 89);
 		btnNewButton.setForeground(new Color(0x43B581));
 		btnNewButton.setBackground(new Color(86, 101, 115));
 
@@ -1181,7 +1123,9 @@ public class Main extends JFrame {
                 }
 			}
 		});
-		btnNewButton_3.setBounds(545, 485, 235, 89);
+		btnNewButton_3.setBounds(550, 124, 235, 89);
+		btnNewButton_3.setBackground(new Color(86, 101, 115));
+		
 		crud.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Modificar");
@@ -1208,13 +1152,15 @@ public class Main extends JFrame {
                 }
 			}
 		});
-		btnNewButton_4.setBounds(667, 485, 235, 89);
+		btnNewButton_4.setBounds(924, 124, 235, 89);
+		btnNewButton_4.setBackground(new Color(86, 101, 115));
 		crud.add(btnNewButton_4);
 		
 		JLabel lblNewLabel_7 = new JLabel("CRUD AULAS");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_7.setBounds(0, 0, 46, 14);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 29));
+		lblNewLabel_7.setBounds(10, 22, 197, 43);
 		crud.add(lblNewLabel_7);
+		
 		// crud.add(table);
 	}
 	private void recargarAula() {
@@ -1239,118 +1185,14 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 1000, 1278, 767);
+		crudEquipo.setBounds(101, 37, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
 		crudEquipo.setLayout(null);
 
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(54, 28, 1177, 89);
-		crudEquipo.add(panel_4);
-		panel_4.setLayout(null);
-
-		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(new Color(0x566573));
-		panel_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_5.setBounds(235, 0, 235, 89);
-		panel_4.add(panel_5);
-		panel_5.setLayout(null);
-
-		JLabel lblNewLabel_2 = new JLabel("Eliminar");
-		lblNewLabel_2.setForeground(Color.WHITE);
-
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2.setBounds(105, 32, 76, 20);
-		panel_5.add(lblNewLabel_2);
-
-		JLabel lblNewLabel_11 = new JLabel("New label");
-		lblNewLabel_11.setIcon(new ImageIcon(Main.class.getResource("/images/eliminar.png")));
-		lblNewLabel_11.setBounds(10, 11, 69, 67);
-		panel_5.add(lblNewLabel_11);
-
-		JPanel panel_6 = new JPanel();
-		panel_6.setBackground(new Color(0x566573));
-
-		panel_6.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_6.setBounds(471, 0, 235, 89);
-		panel_4.add(panel_6);
-		panel_6.setLayout(null);
-
-		JLabel lblNewLabel_3 = new JLabel("Modificar");
-		lblNewLabel_3.setForeground(Color.WHITE);
-
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(111, 34, 87, 19);
-		panel_6.add(lblNewLabel_3);
-
-		JLabel lblNewLabel_12 = new JLabel("");
-		lblNewLabel_12.setIcon(new ImageIcon(Main.class.getResource("/images/cambio (1).png")));
-		lblNewLabel_12.setBounds(10, 11, 75, 67);
-		panel_6.add(lblNewLabel_12);
-
-		JPanel panel_7 = new JPanel();
-		panel_7.setBackground(new Color(0x566573));
-
-		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_7.setBounds(706, 0, 235, 89);
-		panel_4.add(panel_7);
-		panel_7.setLayout(null);
-
-		JLabel lblNewLabel_4 = new JLabel("Crear");
-		lblNewLabel_4.setForeground(Color.WHITE);
-
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_4.setBounds(135, 36, 53, 19);
-		panel_7.add(lblNewLabel_4);
-
-		JLabel lblNewLabel_13 = new JLabel("");
-		lblNewLabel_13.setIcon(new ImageIcon(Main.class.getResource("/images/anadir (1).png")));
-		lblNewLabel_13.setBounds(28, 11, 64, 67);
-		panel_7.add(lblNewLabel_13);
-
-		JPanel panel_8 = new JPanel();
-		panel_8.setBackground(new Color(0x566573));
-
-		panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_8.setBounds(942, 0, 235, 89);
-		panel_4.add(panel_8);
-		panel_8.setLayout(null);
-
-		JLabel lblNewLabel_5 = new JLabel("Promocionar");
-		lblNewLabel_5.setForeground(Color.WHITE);
-
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_5.setBounds(82, 35, 95, 19);
-		panel_8.add(lblNewLabel_5);
-
-		JLabel lblNewLabel_10 = new JLabel("");
-		lblNewLabel_10.setBounds(2, 0, 69, 89);
-		panel_8.add(lblNewLabel_10);
-		lblNewLabel_10.setIcon(new ImageIcon(Main.class.getResource("/images/flecha-arriba (4).png")));
-
-		JPanel panel_9 = new JPanel();
-		panel_9.setBackground(new Color(0x566573));
-
-		panel_9.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_9.setBounds(0, 0, 235, 89);
-		panel_4.add(panel_9);
-		panel_9.setLayout(null);
-
-		JLabel lblNewLabel_6 = new JLabel("Degradar");
-		lblNewLabel_6.setForeground(Color.WHITE);
-
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_6.setBounds(93, 37, 91, 19);
-		panel_9.add(lblNewLabel_6);
-
-		JLabel lblNewLabel_9 = new JLabel("");
-		lblNewLabel_9.setIcon(new ImageIcon(Main.class.getResource("/images/descargar.png")));
-		lblNewLabel_9.setBounds(10, 11, 64, 67);
-		panel_9.add(lblNewLabel_9);
-
 		JScrollPane scrollPaneEquipo = new JScrollPane();
-		scrollPaneEquipo.setBounds(76, 244, 1155, 168);
+		scrollPaneEquipo.setBounds(76, 244, 1155, 427);
 		crudEquipo.add(scrollPaneEquipo);
 		JTable tableEquipo = new JTable();
 		tableEquipo.setFillsViewportHeight(true);
@@ -1386,7 +1228,7 @@ public class Main extends JFrame {
 
 			}
 		});
-		btnNewButton.setBounds(416, 485, 235, 89);
+		btnNewButton.setBounds(186, 100, 235, 89);
 		btnNewButton.setForeground(new Color(241, 57, 83));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
 
@@ -1422,7 +1264,7 @@ public class Main extends JFrame {
 			}
 		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_3.setForeground(Color.ORANGE);
+		btnNewButton_3.setForeground(new Color(241, 57, 83));
 		try {
 			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
 			btnNewButton_3.setIcon(new ImageIcon(img));
@@ -1433,7 +1275,7 @@ public class Main extends JFrame {
 		
 		btnNewButton_3.setBackground(new Color(86, 101, 115));
 
-		btnNewButton_3.setBounds(545, 485,  235, 89);
+		btnNewButton_3.setBounds(897, 100,  235, 89);
 		crudEquipo.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Modificar");
@@ -1462,7 +1304,7 @@ public class Main extends JFrame {
                
 			}
 		});
-		btnNewButton_4.setBounds(667, 485, 235, 89);
+		btnNewButton_4.setBounds(542, 100, 235, 89);
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton_4.setForeground(Color.ORANGE);
 		try {
@@ -1474,7 +1316,6 @@ public class Main extends JFrame {
 		}
 
 		btnNewButton_4.setBackground(new Color(86, 101, 115));
-		btnNewButton_4.setBounds(235, 0, 235, 89);
 		crudEquipo.add(btnNewButton_4);
 	}
 	
@@ -1595,7 +1436,24 @@ public class Main extends JFrame {
 		lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_15.setBounds(903, 11, 89, 14);
 		incidencias.add(lblNewLabel_15);
+		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// nombreSeleccionado =
+				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+				tableSolicitudes.getSelectionModel().removeSelectionInterval(0, 0);
+
+			}
+		});
+		tableSolicitudes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// nombreSeleccionado =
+				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+				tableIncidencias.getSelectionModel().removeSelectionInterval(0, 0);
+
+			}
+		});
 		JButton btnNewButton_1 = new JButton("Visualizar");
+		btnNewButton_1.setBounds(573, 711, 128, 45);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (tableSolicitudes.getSelectedRow() != -1) {
@@ -1621,24 +1479,8 @@ public class Main extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(570, 730, 128, 45);
 		incidencias.add(btnNewButton_1);
-		tableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent event) {
-				// nombreSeleccionado =
-				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
-				tableSolicitudes.getSelectionModel().removeSelectionInterval(0, 0);
 
-			}
-		});
-		tableSolicitudes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent event) {
-				// nombreSeleccionado =
-				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
-				tableIncidencias.getSelectionModel().removeSelectionInterval(0, 0);
-
-			}
-		});
 	}
 	
 	
@@ -1648,7 +1490,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private void visualizarIncidencias2() {
-		JPanel stock = new JPanel();
+		stock = new JPanel();
 		stock.setBounds(88, 11, 1157, 744);
 		contentPane.add(stock);
 
