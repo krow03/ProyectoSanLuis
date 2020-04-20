@@ -108,7 +108,6 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(comp.getDescripcion());
 		return comp;
 	}
 

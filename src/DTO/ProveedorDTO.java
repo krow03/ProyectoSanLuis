@@ -11,7 +11,8 @@ public class ProveedorDTO
     private String direccion;
     private String telefono;
     
-    private ArrayList <ComponenteDTO> listaComponentes;
+    private ArrayList <StockDTO> listaStock;
+    private ArrayList<ComponenteDTO>listaProductos;
 
 	public ProveedorDTO(int idProveedor, String cif, String nombre, String email, String direccion, String telefono) {
 		super();
@@ -71,12 +72,20 @@ public class ProveedorDTO
 		this.telefono = telefono;
 	}
 
-	public ArrayList<ComponenteDTO> getListaComponentes() {
-		return listaComponentes;
+	public ArrayList<StockDTO> getListaStock() {
+		return listaStock;
 	}
 
-	public void setListaComponentes(ArrayList<ComponenteDTO> listaComponentes) {
-		this.listaComponentes = listaComponentes;
+	public void setListaStock(ArrayList<StockDTO> listaStock) {
+		this.listaStock = listaStock;
+	}
+
+	public ArrayList<ComponenteDTO> getListaProductos() {
+		return listaProductos;
+	}
+
+	public void setListaProductos(ArrayList<ComponenteDTO> listaProductos) {
+		this.listaProductos = listaProductos;
 	}
     
     
