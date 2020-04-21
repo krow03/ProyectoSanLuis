@@ -10,7 +10,7 @@ import DTO.CompraDTO;
 import DTO.HistoricoComprasDTO;
 
 public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
-	private static final String SQL_INSERT="INSERT INTO Historico_Compras (Stock_idStock,compras_idCompras,unidades) VALUES (?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Historico_Compras (Stock_idStock,compras_idCompras,unidades,precio) VALUES (?,?,?,?)";
 	private static final String SQL_DELETE_ALL="DELETE FROM Historico_Compras WHERE compras_idCompras = ? and Stock_idStock =?";
 	private static final String SQL_DELETE="DELETE FROM Historico_Compras WHERE compras_idCompras = ?";
 	private static final String SQL_UPDATE="UPDATE Historico_Compras SET unidades=? WHERE Stock_idStock=? and compras_idCompras=?,";
@@ -26,6 +26,7 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 			ps.setInt(1, t.getIdStock());
 			ps.setInt(2, t.getIdCompra());
 			ps.setInt(3, t.getUnidades());
+			ps.setDouble(4, t.getPrecio());
 			
 			if (ps.executeUpdate()>0) {
 				ps.close();
@@ -99,7 +100,7 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"));
+				historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				return historico;
 			}
 		} catch (SQLException e) {
@@ -114,7 +115,7 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				HistoricoComprasDTO historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"));
+				HistoricoComprasDTO historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				lista.add(historico);
 			}
 			rs.close();
@@ -131,7 +132,7 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				HistoricoComprasDTO historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"));
+				HistoricoComprasDTO historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				lista.add(historico);
 			}
 			rs.close();

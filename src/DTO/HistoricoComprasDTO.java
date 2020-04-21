@@ -4,12 +4,15 @@ public class HistoricoComprasDTO {
 	private int idStock;
 	private int idCompra;
 	private int unidades;
+	private double precio;
 	
-	public HistoricoComprasDTO(int idStock, int idCompra, int unidades) {
+	
+	public HistoricoComprasDTO(int idStock, int idCompra, int unidades, double precio) {
 		super();
 		this.idStock = idStock;
 		this.idCompra = idCompra;
 		this.unidades = unidades;
+		this.precio=precio;
 	}
 	
 	public int getIdStock() {
@@ -29,6 +32,14 @@ public class HistoricoComprasDTO {
 	}
 	public void setUnidades(int unidades) {
 		this.unidades = unidades;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 	
 	
