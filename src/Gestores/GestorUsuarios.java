@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DTO.AdministradorDTO;
+import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
@@ -29,7 +30,13 @@ public class GestorUsuarios {
 		listaUsers = udao.listarTodos();
 		cargarListaIncidencias();
 	}
-	
+	public UsuarioDTO getUserById(String idUsuario) {
+		UsuarioDTO udto = null;
+		for(UsuarioDTO temp : listaUsers) {
+			if(idUsuario.equals(temp.getIdUsuario())) return udto;
+		}
+		return udto;
+	}
 	public UsuarioDTO getUserOnline() {
 		return userOnline;
 	}
@@ -76,7 +83,7 @@ public class GestorUsuarios {
 	}
 	
 	public boolean promocionarUsuario(UsuarioDTO user) {
-		if (user instanceof AdministradorDTO || !autorizarAdmin()) System.out.println("GestorUsuarios");//return false;
+		if (user instanceof AdministradorDTO || !autorizarAdmin()) return false;
 		return udao.promocionar(user);
 	}
 	
@@ -86,15 +93,15 @@ public class GestorUsuarios {
 	}
 	
 	public boolean borrarUsuario(String idUsuario) {
-		if(!comprobarUltimoAdmin() && tienePermisos()==3) return udao.borrar(idUsuario);
-		return false;
+		UsuarioDTO user = getUserById(idUsuario);
+		if(user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin() ) return false;
+		return udao.borrar(idUsuario);
 	}
 	
 	public boolean altaUsuario(UsuarioDTO user) {
 		try {
 			if(tienePermisos()==3)
-			if(user.getIdEquipo()==0) return udao.insertar(user);	
-			else return udao.insertarConEquipo(user);
+				return udao.insertar(user);	
 		}catch(SQLException sqle){
 			sqle.printStackTrace();
 		}	
@@ -103,11 +110,14 @@ public class GestorUsuarios {
 	
 	public boolean modificarUsuario(UsuarioDTO user) {
 		if(tienePermisos()==3)
-			if(user.getIdEquipo()==0) return udao.actualizar(user);	
-			else return udao.actualizarConEquipo(user);
+			return udao.actualizar(user);	
 		return false;
 	}
 	
+	public boolean asignarEquipo(UsuarioDTO udto, EquipoDTO edto) {
+		udto.setIdEquipo(edto);
+		return udao.asignarEquipo(udto);
+	}
 	
 	public void cargarListaIncidencias() {
 		for(UsuarioDTO udto : listaUsers) {

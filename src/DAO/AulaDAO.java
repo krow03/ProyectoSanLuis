@@ -10,12 +10,11 @@ import DTO.AulaDTO;
 
 public class AulaDAO implements PatronDAO<AulaDTO>{
 	
-	private static final String SQL_INSERT="INSERT INTO Aulas (Centro_idCentro,rangoIps,nombre,descripcion,capacidad) VALUES (?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Aulas (rangoIps,nombre,descripcion,capacidad) VALUES (?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Aulas WHERE idAulas = ?";
 	private static final String SQL_UPDATE="UPDATE Aulas SET rangoIps=?,nombre=?,descripcion=?,capacidad = ? WHERE idAulas = ?";
 	private static final String SQL_FIND="SELECT * FROM Aulas WHERE idAulas = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Aulas";
-	private static final String SQL_FINDALLBYID="SELECT * FROM Aulas WHERE centro_idCentro = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	
@@ -23,7 +22,6 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
     public boolean insertar(AulaDTO t) throws SQLException {
         try {
             PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
-            ps.setInt(1, t.getIdCentro());
             ps.setString(2, t.getRangoIps());
             ps.setString(3, t.getNombre());
             ps.setString(4, t.getDescripcion());
@@ -92,7 +90,7 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				aula = new AulaDTO(rs.getInt("idAula"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"),rs.getInt("Centro_idCentro"));
+				aula = new AulaDTO(rs.getInt("idAula"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"));
 				return aula;
 			}
 		} catch (SQLException e) {
@@ -108,7 +106,7 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				AulaDTO aula = new AulaDTO(rs.getInt("idAulas"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"),rs.getInt("Centro_idCentro"));
+				AulaDTO aula = new AulaDTO(rs.getInt("idAulas"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"));
 				lista.add(aula);
 			}
 			rs.close();
@@ -120,20 +118,8 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 
 	@Override
 	public ArrayList<AulaDTO> listarTodos(Object pk) {
-		ArrayList<AulaDTO> lista = new ArrayList<AulaDTO>();
-		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYID);
-			ps.setInt(1, (int)pk);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				AulaDTO aula = new AulaDTO(rs.getInt("idAulas"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"),rs.getInt("Centro_idCentro"));
-				lista.add(aula);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return lista;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

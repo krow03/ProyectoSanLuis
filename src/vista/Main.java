@@ -70,7 +70,6 @@ public class Main extends JFrame {
 	private GestorEquipos ge = new GestorEquipos();
 	private GestorAulas ga = new GestorAulas();
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-	private final int CENTRO_SELECCIONADO = 1;
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
 	private String rol2;
@@ -124,10 +123,9 @@ public class Main extends JFrame {
 	public Main() {
 		gs.cargarLista();
 		gc.cargarLista();
-		gu.cargarListaUsuarios();
 		ge.cargarListaEquipos();
-		ga.cargarListaAulas(CENTRO_SELECCIONADO);
-		
+		gu.cargarListaUsuarios();
+		ga.cargarListaAulas();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -487,7 +485,7 @@ public class Main extends JFrame {
 		table2.setFillsViewportHeight(true);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "DNI", "Rol" , "Nombre","Apellidos","Email", "Direccion","Telefono","User Name",  "Password","Id Equipo" }));
+				new String[] { "DNI", "Rol" , "Nombre","Apellidos","Email", "Direccion","Telefono","User Name",  "Password","Nombre Equipo" }));
 		table2.setModel(defaultModel2);
 		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
 		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
@@ -502,16 +500,18 @@ public class Main extends JFrame {
 		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
 		array = gu.getList();
 		String rol = "";
-		Double total;
-		for (UsuarioDTO e : array) {
-			if(e instanceof AdministradorDTO) {
+		String nombreEquipo="";
+		for (UsuarioDTO udto : array) {
+			if(udto instanceof AdministradorDTO) {
 				rol = "admin";
-			}else if(e instanceof TecnicoDTO){
+			}else if(udto instanceof TecnicoDTO){
 				rol = "tecnico";
 			}else {
 				rol = "usuario";
 			}
-			Object[] fila = { e.getIdUsuario(), rol,e.getNombre(),e.getApellidos(), e.getEmail(),e.getDireccion(),e.getTelefono(), e.getUserName(), e.getPass(),e.getIdEquipo() };
+			
+			if(udto.getEquipo()!=null)nombreEquipo=udto.getEquipo().getNombre();
+				Object[] fila = { udto.getIdUsuario(), rol,udto.getNombre(),udto.getApellidos(), udto.getEmail(),udto.getDireccion(),udto.getTelefono(), udto.getUserName(), udto.getPass(),nombreEquipo };
 			defaultModel2.addRow(fila);
 		}
 		Object[] filaBlanca = {"","","","","","","", "", "","" };
@@ -551,7 +551,7 @@ public class Main extends JFrame {
 					String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 					String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					JoptionCombos frame = new JoptionCombos(user,false);
+					JoptionCombos frame = new JoptionCombos(user);
 					frame.setVisible(true);
 				}catch(Exception ex) {
 					ex.printStackTrace();
@@ -582,9 +582,11 @@ public class Main extends JFrame {
 				String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
-				UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-				JoptionCombos frame = new JoptionCombos(user,true);
-				frame.setVisible(true);
+				UsuarioDTO user = new UsuarioDTO(id,userName,email, pass, nombre, apellidos,direccion,telefono);
+				String mensaje = "!Usuario modificado correctamente�";
+				if (!modificarusuario(user))mensaje="!Error al modificar el usuario�";
+				JOptionPane.showMessageDialog(null, mensaje);
+				gu.cargarListaUsuarios();
 			}
 		});
 		btnNewButton_2_1.setBackground(new Color(86, 101, 115));
@@ -628,6 +630,7 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
 				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
+				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
 				String nombre = model.getValueAt(table2.getSelectedRow(), 2).toString();
 				String apellidos = model.getValueAt(table2.getSelectedRow(), 3).toString();
 				String email = model.getValueAt(table2.getSelectedRow(), 4).toString();
@@ -635,7 +638,7 @@ public class Main extends JFrame {
 				String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
-				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
+
 				String mensaje = "!Error al degradar usuario!";
 				if(rol.equals("admin")) {
 					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
@@ -755,18 +758,19 @@ public class Main extends JFrame {
 
 	
 	private void cargarUsuarioOnline() {
-		UsuarioDTO uo = gu.getUserOnline();
+		UsuarioDTO udto = gu.getUserOnline();
 		try {
-			if (uo != null) {
-				txtNombreOnline.setText(uo.getUserName());
-				txtEmailOnline.setText(uo.getEmail());
-				txtEquipoOnline.setText(((Integer) uo.getIdEquipo()).toString());
-				
-				 /*for(IncidenciaDTO inci : uo.getIncidencias()) { 
-					 	if(inci instanceof SolicitudDTO) {
-					 		
-					 	}
-				 }*/
+			if (udto != null) {
+				txtNombreOnline.setText(udto.getUserName());
+				txtEmailOnline.setText(udto.getEmail());
+				if(udto.getEquipo()!=null)
+					txtEquipoOnline.setText((udto.getEquipo().getNombre()));
+				if(udto.getIncidencias()!=null)
+					 for(IncidenciaDTO inci : udto.getIncidencias()) { 
+						 	if(inci instanceof SolicitudDTO) {
+						 		
+						 	}
+					 }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -784,6 +788,16 @@ public class Main extends JFrame {
 		return gu.borrarUsuario(idUsuario);
 	}
 
+	private boolean modificarusuario(UsuarioDTO udto) {
+		try {
+			return gu.modificarUsuario(udto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	
 	private boolean actualizarPerfil() {
 		UsuarioDTO u = gu.getUserOnline();
 		u.setUserName(txtNombreOnline.getText());
@@ -1079,7 +1093,7 @@ public class Main extends JFrame {
 				int capacidad = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString());
 				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
 
-				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad, CENTRO_SELECCIONADO);
+				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
 				String mensaje = "!Equipo creado correctamente�";
 				if (!crearAula(adto))mensaje="!Error al crear el equipo�";
 					JOptionPane.showMessageDialog(null, mensaje);
@@ -1138,7 +1152,7 @@ public class Main extends JFrame {
 				int capacidad = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString());
 				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
 				
-				AulaDTO adto = new AulaDTO(ga.getAulaByNombre(nombreSeleccionado).getIdAula(),ips, nombre, descripcion, capacidad, CENTRO_SELECCIONADO);
+				AulaDTO adto = new AulaDTO(ga.getAulaByNombre(nombreSeleccionado).getIdAula(),ips, nombre, descripcion, capacidad);
 				int option = JOptionPane.showConfirmDialog(null, "�Modificar aula?", "Modificar Aula",
                         JOptionPane.OK_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
@@ -1459,9 +1473,9 @@ public class Main extends JFrame {
 				if (tableSolicitudes.getSelectedRow() != -1) {
 					SolicitudDTO sdto = (SolicitudDTO)gs.getIncidencia(Integer
 							.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString()));
-					System.out.println(sdto);
+		
 					IncidenciaTecPanel3 intec = new IncidenciaTecPanel3(sdto);
-					System.out.println("hasta aqui?");
+	
 					intec.setUndecorated(true);
 					intec.setLocationRelativeTo(null);
 					intec.setVisible(true);
@@ -1542,7 +1556,7 @@ public class Main extends JFrame {
 		ArrayList<ComponenteDTO> arraysoftware = new ArrayList<ComponenteDTO>();
 		arraysoftware = gc.getListaSoftware();
 		for (int i = 0; i < arraysoftware.size(); i++) {
-			System.out.println(arraysoftware.get(i).getIdEquipo());
+	
 		}
 		// String rol = "";
 		// Double total;

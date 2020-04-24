@@ -15,6 +15,13 @@ public class GestorEquipos {
 	public ArrayList<EquipoDTO> getListaEquipos(){
 		return listaEquipos;
 	}
+	public EquipoDTO getEquipoById(int idEquipo) {
+		EquipoDTO edto=null;
+		for(EquipoDTO temp : listaEquipos) {
+			if(idEquipo == temp.getIdEquipo()) edto=temp;
+		}
+		return edto;
+	}
 	
 	public void cargarListaEquipos() {
 		listaEquipos = edao.listarTodos();
@@ -27,32 +34,16 @@ public class GestorEquipos {
 		}
 	}
 	
-	public ArrayList<EquipoDTO> getEquiposDisponiblesEnAulas() {
-		ArrayList<EquipoDTO> equiposDisp = new ArrayList<EquipoDTO>();
-		for(EquipoDTO equipo : listaEquipos) {
-			if(equipo.getIdAula()>0) {
-				equiposDisp.add(equipo);
-			}
-		}
-		return equiposDisp;
-	}
-	
 	public ArrayList<EquipoDTO> getEquiposAula(int idAula) {
-		ArrayList<EquipoDTO> equiposAula = new ArrayList<EquipoDTO>();
-		for(EquipoDTO equipo : listaEquipos) {
-			if(equipo.getIdAula() == idAula) {
-				equiposAula.add(equipo);
-			}
-		}
-
+		ArrayList<EquipoDTO> equiposAula = edao.listarTodos(idAula);
 		return equiposAula;
 	}
 	
 	public boolean crearEquipo(EquipoDTO e) throws SQLException {
 		return edao.insertar(e);
 	}
-	public boolean crearEquipoAula(EquipoDTO e) throws SQLException {
-		return edao.insertarEquipoAula(e);
+	public boolean asignarAula(int idEquipo,int idAula) throws SQLException {
+		return edao.asignarAula(idEquipo,idAula);
 	}
 	public boolean modificarEquipo(EquipoDTO e) {
 		return edao.actualizar(e);

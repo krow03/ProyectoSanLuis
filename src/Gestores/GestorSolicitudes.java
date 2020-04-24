@@ -17,7 +17,7 @@ public class GestorSolicitudes {
 	private ArrayList<IncidenciaDTO> listaSoli = new ArrayList<IncidenciaDTO>();
 	private IncidenciaDAO idao = new IncidenciaDAO();
 	private GestorComponentes gc = new GestorComponentes();
-	private GestorUsuarios gu = new GestorUsuarios();
+
 	
 	public ArrayList<IncidenciaDTO> getList(){
 		return listaSoli;
@@ -31,7 +31,7 @@ public class GestorSolicitudes {
 	public void traspasarIncidencias(String idTecnico) {
 		for(IncidenciaDTO idto : listaSoli) {
 			if(idto.getIdAsignadaA().equals(idTecnico)) {
-				idto.setIdAsignadaA(gu.getTecnicoMenosIncidencias().getIdUsuario());
+				//idto.setIdAsignadaA(gu.getTecnicoMenosIncidencias().getIdUsuario());
 			}
 		}
 	}

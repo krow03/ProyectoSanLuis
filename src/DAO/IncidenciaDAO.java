@@ -88,7 +88,6 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 
 	@Override
 	public boolean actualizar(IncidenciaDTO t) {
-		System.out.println(t.getEstado());
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_UPDATE);

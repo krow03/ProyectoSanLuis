@@ -12,12 +12,18 @@ public class GestorAulas {
 	private static ArrayList <AulaDTO> listaAulas;
 	private GestorEquipos ge = new GestorEquipos();
 	
-	public ArrayList<AulaDTO> getListaAulas(){
-		return listaAulas;
+	/////////////////////////////////Metodos Conexiones BD///////////////////////////////
+	public boolean crearAula(AulaDTO a) throws SQLException {
+	return ad.insertar(a);
 	}
-	
-	public void cargarListaAulas(int idCentro) {
-		listaAulas = ad.listarTodos(idCentro);
+	public boolean modificarAula(AulaDTO a) {
+	return ad.actualizar(a);
+	}
+	public boolean borrarAula(int idAula) {
+	return ad.borrar(idAula);
+	}
+	public void cargarListaAulas() {
+		listaAulas = ad.listarTodos();
 		cargarEquiposAula();
 	}
 	
@@ -26,9 +32,7 @@ public class GestorAulas {
 			 adto.setEquipos(ge.getEquiposAula(adto.getIdAula()));
 		}
 	}
-	public boolean crearAula(AulaDTO a) throws SQLException {
-        return ad.insertar(a);
-    }
+	
 	public AulaDTO getAulaByNombre(String nombre) {
 		for(AulaDTO a : listaAulas) {
 			if(a.getNombre().equals(nombre))return a;
@@ -36,13 +40,8 @@ public class GestorAulas {
 		return null;
 	}
 	
-	public boolean modificarAula(AulaDTO a) {
-		return ad.actualizar(a);
+	public ArrayList<AulaDTO> getListaAulas(){
+		return listaAulas;
 	}
-	
-	public boolean borrarAula(int idAula) {
-		return ad.borrar(idAula);
-	}
-	
 
 }

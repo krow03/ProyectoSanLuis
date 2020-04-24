@@ -9,21 +9,19 @@ public class AulaDTO
     private String nombre;
     private String descripcion;
     private int capacidad;
-    private int idCentro;
     
 	//campo calculado
     private boolean disponibilidad;
     
     private ArrayList<EquipoDTO> equipos;
 
-	public AulaDTO(int idAula, String rangoIps, String nombre, String descripcion, int capacidad, int idCentro) {
+	public AulaDTO(int idAula, String rangoIps, String nombre, String descripcion, int capacidad) {
 		super();
 		this.idAula = idAula;
 		this.rangoIps = rangoIps;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.capacidad = capacidad;
-		this.idCentro = idCentro;
 	}
 
 	public int getIdAula() {
@@ -45,13 +43,12 @@ public class AulaDTO
 	public String getNombre() {
 		return nombre;
 	}
-	public AulaDTO(String rangoIps, String nombre, String descripcion, int capacidad, int idCentro) {
+	public AulaDTO(String rangoIps, String nombre, String descripcion, int capacidad) {
         super();
         this.rangoIps = rangoIps;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
-        this.idCentro = idCentro;
     }
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
@@ -72,15 +69,6 @@ public class AulaDTO
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
 	}
-
-	public int getIdCentro() {
-		return idCentro;
-	}
-
-	public void setIdCentro(int idCentro) {
-		this.idCentro = idCentro;
-	}
-
 	
 	public boolean isDisponibilidad() {
 		return disponibilidad;

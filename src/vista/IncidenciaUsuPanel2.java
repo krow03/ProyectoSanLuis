@@ -102,7 +102,7 @@ public class IncidenciaUsuPanel2 extends JFrame {
 						}
 
 						solicitud = new SolicitudDTO(gu.getUserOnline().getIdUsuario(),
-								gu.getUserOnline().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
+								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
 						try {
 							gs.crearSolicitud(solicitud);
 						} catch (SQLException e1) {
@@ -161,8 +161,6 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		comboBox.setBackground(new Color(0x566573));
 		comboBox.addItem("Sin seleccion");
 		for (ComponenteDTO componente : gc.getListaHardware()) {
-
-			System.out.println(componente.getIdComponente());
 			comboBox.addItem(componente.getIdComponente() + " - " + componente.getDescripcion());
 		}
 		contentPane.add(comboBox);

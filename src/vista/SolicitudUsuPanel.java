@@ -88,7 +88,7 @@ public class SolicitudUsuPanel extends JFrame {
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
 				IncidenciaDTO incidenciaInsert = new IncidenciaDTO(gu.getUserOnline().getIdUsuario(), gu.getTecnicoMenosIncidencias().getIdUsuario(),
-						gu.getUserOnline().getIdEquipo(), fecha, textArea.getText());
+						gu.getUserOnline().getEquipo().getIdEquipo(), fecha, textArea.getText());
 				try {
 					gs.crearIncidencia(incidenciaInsert);
 				} catch (SQLException e1) {

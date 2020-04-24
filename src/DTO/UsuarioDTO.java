@@ -1,6 +1,8 @@
 package DTO;
 
 import java.util.ArrayList;
+
+import Gestores.GestorEquipos;
 /*
  * Rol Usuario = 1
  * Rol Tecnico = 2
@@ -8,6 +10,7 @@ import java.util.ArrayList;
  * */
 public class UsuarioDTO
 {
+	private GestorEquipos ge= new GestorEquipos();
 	private String idUsuario;
 	private String nombre;
 	private String apellidos;
@@ -15,35 +18,40 @@ public class UsuarioDTO
 	private String direccion;
     private String userName;
     private String email;
-    private int idEquipo;
+    private EquipoDTO equipo;
     private String pass;
     private ArrayList<IncidenciaDTO> incidenciasRealizadas;
 	
-    @Override
-	public String toString() {
-		return "UsuarioDTO [idUsuario=" + idUsuario + ", userName=" + userName + ", email=" + email + ", idEquipo="
-				+ idEquipo + ", pass=" + pass + ", incidenciasRealizadas=" + incidenciasRealizadas + "]";
-	}
 
 	public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass, String nombre,String apellidos,String direccion,String telefono) {
 		super();
 		this.idUsuario = idUsuario;
 		this.userName = userName;
 		this.email = email;
-		this.idEquipo = idEquipo;
+		this.equipo = ge.getEquipoById(idEquipo);
 		this.pass = pass;
 		this.nombre=nombre;
 		this.apellidos=apellidos;
 		this.direccion=direccion;
 		this.telefono=telefono;
     }
-    
+	public UsuarioDTO(String idUsuario, String userName, String email, String pass, String nombre,String apellidos,String direccion,String telefono) {
+		super();
+		this.idUsuario = idUsuario;
+		this.userName = userName;
+		this.email = email;
+		this.pass = pass;
+		this.nombre=nombre;
+		this.apellidos=apellidos;
+		this.direccion=direccion;
+		this.telefono=telefono;
+    }
     public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo) {
 		super();
 		this.idUsuario = idUsuario;
 		this.userName = userName;
 		this.email = email;
-		this.idEquipo = idEquipo;
+		this.equipo = ge.getEquipoById(idEquipo);
 	}
 
 	public String getIdUsuario() {
@@ -70,12 +78,12 @@ public class UsuarioDTO
 		this.email = email;
 	}
 
-	public int getIdEquipo() {
-		return idEquipo;
+	public EquipoDTO getEquipo() {
+		return equipo;
 	}
 
-	public void setIdEquipo(int idEquipo) {
-		this.idEquipo = idEquipo;
+	public void setIdEquipo(EquipoDTO equipo) {
+		this.equipo = equipo;
 	}
 
 	public String getPass() {
