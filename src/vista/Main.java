@@ -849,7 +849,7 @@ public class Main extends JFrame {
 
 		panel_3.setLayout(null);
 
-		JButton btnModificarEquipo = new JButton("Modificar");
+		JButton btnModificarEquipo = new JButton("Asignar");
 		btnModificarEquipo.setEnabled(false);
 		btnModificarEquipo.setBackground(Color.ORANGE);
 		btnModificarEquipo.setBounds(768, 744, 229, 36);
@@ -873,13 +873,12 @@ public class Main extends JFrame {
 
 			Object[] fila = { e.getIdAula(),e.getNombre() };
 			defaultModelAula.addRow(fila);
-
 		}
 		Object[] fila = { "", "" };
 		defaultModelAula.addRow(fila);
 		// table.setModel(defaultModel);
 		scrollPane.setViewportView(tableAula);
-		JButton btnEliminarEquipo = new JButton("Eliminar");
+		JButton btnEliminarEquipo = new JButton("Desasignar");
 		btnEliminarEquipo.setEnabled(false);
 		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
 		btnEliminarEquipo.setBounds(997, 744, 229, 36);
@@ -887,7 +886,7 @@ public class Main extends JFrame {
 
 		JButton btnAnadirEquipo = new JButton("A\u00F1adir Equipo");
 		btnAnadirEquipo.setBackground(Color.ORANGE);
-		btnAnadirEquipo.setBounds(502, 44, 229, 31);
+		btnAnadirEquipo.setBounds(768, 11, 229,31);
 		aulas.add(btnAnadirEquipo);
 
 		btnModificarEquipo.addActionListener(new ActionListener() {
@@ -1002,6 +1001,11 @@ public class Main extends JFrame {
 		txtRam.setBackground(new Color(0x566573));
 		txtRam.setBounds(10, 201, 434, 22);
 		panel_2.add(txtRam);
+		
+		JButton btnDeleteEquipo = new JButton("Delete Equipo");
+		btnDeleteEquipo.setBackground(Color.ORANGE);
+		btnDeleteEquipo.setBounds(997, 11, 229, 31);
+		aulas.add(btnDeleteEquipo);
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1672,5 +1676,4 @@ public class Main extends JFrame {
 		stock.add(btnNewButton_6);
 
 	}
-
 }
