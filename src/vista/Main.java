@@ -854,7 +854,31 @@ public class Main extends JFrame {
 		btnModificarEquipo.setBackground(Color.ORANGE);
 		btnModificarEquipo.setBounds(768, 744, 229, 36);
 		aulas.add(btnModificarEquipo);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(802, 384, 392, 340);
+		aulas.add(scrollPane);
+		tableAula = new JTable();
+		tableAula.setFillsViewportHeight(true);
+		tableAula.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModelAula = (new DefaultTableModel(new Object[][] {},
+				new String[] { "ID","Nombre"}));
+		tableAula.setModel(defaultModelAula);
+		
+		tableAula.getColumnModel().getColumn(0).setPreferredWidth(86);
+		tableAula.getColumnModel().getColumn(1).setPreferredWidth(86);
+		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
+		array = ga.getListaAulas();
 
+		for (AulaDTO e : array) {
+
+			Object[] fila = { e.getIdAula(),e.getNombre() };
+			defaultModelAula.addRow(fila);
+
+		}
+		Object[] fila = { "", "" };
+		defaultModelAula.addRow(fila);
+		// table.setModel(defaultModel);
+		scrollPane.setViewportView(tableAula);
 		JButton btnEliminarEquipo = new JButton("Eliminar");
 		btnEliminarEquipo.setEnabled(false);
 		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
@@ -928,7 +952,7 @@ public class Main extends JFrame {
 		lblNewLabel_1_1.setBounds(12, 257, 82, 14);
 		panel_2.add(lblNewLabel_1_1);
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("Instalaciones Pendientes");
+		JLabel lblNewLabel_1_1_1 = new JLabel("Alumnos asignados");
 		lblNewLabel_1_1_1.setForeground(Color.WHITE);
 
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -1057,7 +1081,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1223,7 +1247,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBounds(101, 1000, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1407,7 +1431,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 780);
+		incidencias.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1532,7 +1556,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias2() {
 
 		stock = new JPanel();
-		stock.setBounds(88, 11, 1157, 744);
+		stock.setBounds(88, 1000, 1157, 744);
 		contentPane.add(stock);
 
 		stock.setBackground(Color.WHITE);
