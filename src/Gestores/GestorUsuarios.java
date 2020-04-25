@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import DTO.AdministradorDTO;
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
+import DTO.ProveedorDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
 
@@ -54,6 +55,11 @@ public class GestorUsuarios {
 		return true;
 	}	
 	
+	public boolean autorizarProveedor(){
+		if(tienePermisos()==4) return true;
+		return false;
+	}
+	
 	public boolean autorizarAdmin() {
 		if(tienePermisos()==3) return true;
 		return false;
@@ -69,6 +75,8 @@ public class GestorUsuarios {
 			return 3;
 		}else if(userOnline instanceof TecnicoDTO){
 			return 2;
+		}else if(userOnline instanceof ProveedorDTO) {
+			return 4;
 		}
 		return 1;
 	}
