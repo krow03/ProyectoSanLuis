@@ -133,7 +133,7 @@ public class Main extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
 		contentPane.setLayout(null);
 
 		visualizarPerfil();
@@ -260,7 +260,7 @@ public class Main extends JFrame {
 		});
 		lblEquipos.setBounds(10, 550, 46, 64);
 		panel.add(lblEquipos);
-		
+
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
 			@Override
@@ -292,32 +292,19 @@ public class Main extends JFrame {
 		});
 		lvlSalida_1.setBounds(10, 11, 46, 64);
 		panel.add(lvlSalida_1);
-		
-
-		
-
 
 		cargarUsuarioOnline();
 
 	}
 
-	
-
-	
-
-	
 	private boolean modificarAula(AulaDTO a) {
-        return ga.modificarAula(a);
-    }
-	
-	
-	private boolean eliminarAula(int idAula) {
-        return ga.borrarAula(idAula);
-    }
-	
-	
+		return ga.modificarAula(a);
+	}
 
-	
+	private boolean eliminarAula(int idAula) {
+		return ga.borrarAula(idAula);
+	}
+
 	private boolean crearAula(AulaDTO a) {
 		try {
 			return ga.crearAula(a);
@@ -326,7 +313,6 @@ public class Main extends JFrame {
 		}
 		return false;
 	}
-	
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///**************************************************************PERFIL********************************************************************************///
@@ -335,7 +321,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 37, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -465,7 +451,7 @@ public class Main extends JFrame {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-		
+
 			}
 			// implement the methods
 		});
@@ -484,8 +470,8 @@ public class Main extends JFrame {
 		JTable table2 = new JTable();
 		table2.setFillsViewportHeight(true);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "DNI", "Rol" , "Nombre","Apellidos","Email", "Direccion","Telefono","User Name",  "Password","Nombre Equipo" }));
+		defaultModel2 = (new DefaultTableModel(new Object[][] {}, new String[] { "DNI", "Rol", "Nombre", "Apellidos",
+				"Email", "Direccion", "Telefono", "User Name", "Password", "Nombre Equipo" }));
 		table2.setModel(defaultModel2);
 		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
 		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
@@ -500,31 +486,32 @@ public class Main extends JFrame {
 		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
 		array = gu.getList();
 		String rol = "";
-		String nombreEquipo="";
+		String nombreEquipo = "";
 		for (UsuarioDTO udto : array) {
-			if(udto instanceof AdministradorDTO) {
+			if (udto instanceof AdministradorDTO) {
 				rol = "admin";
-			}else if(udto instanceof TecnicoDTO){
+			} else if (udto instanceof TecnicoDTO) {
 				rol = "tecnico";
-			}else {
+			} else {
 				rol = "usuario";
 			}
-			
-			if(udto.getEquipo()!=null)nombreEquipo=udto.getEquipo().getNombre();
-				Object[] fila = { udto.getIdUsuario(), rol,udto.getNombre(),udto.getApellidos(), udto.getEmail(),udto.getDireccion(),udto.getTelefono(), udto.getUserName(), udto.getPass(),nombreEquipo };
+
+			if (udto.getEquipo() != null)
+				nombreEquipo = udto.getEquipo().getNombre();
+			Object[] fila = { udto.getIdUsuario(), rol, udto.getNombre(), udto.getApellidos(), udto.getEmail(),
+					udto.getDireccion(), udto.getTelefono(), udto.getUserName(), udto.getPass(), nombreEquipo };
 			defaultModel2.addRow(fila);
 		}
-		Object[] filaBlanca = {"","","","","","","", "", "","" };
+		Object[] filaBlanca = { "", "", "", "", "", "", "", "", "", "" };
 		defaultModel2.addRow(filaBlanca);
 		table2.setModel(defaultModel2);
 		scrollPane2.setViewportView(table2);
-		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            nombreSeleccionado = table2.getValueAt(table2.getSelectedRow(), 0).toString();
-	        }
-	    });
-		
-		
+		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				nombreSeleccionado = table2.getValueAt(table2.getSelectedRow(), 0).toString();
+			}
+		});
+
 		JButton btnNewButton_2 = new JButton("A\u00F1adir");
 		// btnNewButton_2.setForeground(new Color(0x43B581));
 		btnNewButton_2.setForeground(new Color(0x43B581));
@@ -550,10 +537,11 @@ public class Main extends JFrame {
 					String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
 					String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 					String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
-					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
+					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
+							telefono);
 					JoptionCombos frame = new JoptionCombos(user);
 					frame.setVisible(true);
-				}catch(Exception ex) {
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
@@ -582,9 +570,10 @@ public class Main extends JFrame {
 				String telefono = model.getValueAt(table2.getSelectedRow(), 6).toString();
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
-				UsuarioDTO user = new UsuarioDTO(id,userName,email, pass, nombre, apellidos,direccion,telefono);
+				UsuarioDTO user = new UsuarioDTO(id, userName, email, pass, nombre, apellidos, direccion, telefono);
 				String mensaje = "!Usuario modificado correctamente�";
-				if (!modificarusuario(user))mensaje="!Error al modificar el usuario�";
+				if (!modificarusuario(user))
+					mensaje = "!Error al modificar el usuario�";
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
 			}
@@ -611,19 +600,20 @@ public class Main extends JFrame {
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
 				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
 				int option = JOptionPane.showConfirmDialog(null, "�Borrar usuario?", "Eliminar Usuario",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                    if (!borrarUsuario(id))mensaje="!Error al borrar el usuario�";
-    				JOptionPane.showMessageDialog(null, mensaje);
-    				gu.cargarListaUsuarios();
-                }
-				
+						JOptionPane.OK_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+					if (!borrarUsuario(id))
+						mensaje = "!Error al borrar el usuario�";
+					JOptionPane.showMessageDialog(null, mensaje);
+					gu.cargarListaUsuarios();
+				}
+
 			}
 		});
 		btnNewButton_2_2.setBackground(new Color(86, 101, 115));
 		btnNewButton_2_2.setBounds(115, 0, 188, 89);
 		panel_4_1.add(btnNewButton_2_2);
-		
+
 		JButton btnDegradar = new JButton("Degradar");
 		btnDegradar.setForeground(Color.WHITE);
 		btnDegradar.addActionListener(new ActionListener() {
@@ -640,15 +630,21 @@ public class Main extends JFrame {
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 
 				String mensaje = "!Error al degradar usuario!";
-				if(rol.equals("admin")) {
-					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.degradarUsuario(admin)) mensaje = "�Usuario degradado!";
-				}else if(rol.equals("tecnico")){
-					TecnicoDTO tec = new TecnicoDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.degradarUsuario(tec)) mensaje = "�Usuario degradado!";
-				}else {
-					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.degradarUsuario(user)) mensaje = "�Usuario degradado!";
+				if (rol.equals("admin")) {
+					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
+							direccion, telefono);
+					if (gu.degradarUsuario(admin))
+						mensaje = "�Usuario degradado!";
+				} else if (rol.equals("tecnico")) {
+					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
+							telefono);
+					if (gu.degradarUsuario(tec))
+						mensaje = "�Usuario degradado!";
+				} else {
+					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
+							telefono);
+					if (gu.degradarUsuario(user))
+						mensaje = "�Usuario degradado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
@@ -664,7 +660,7 @@ public class Main extends JFrame {
 			e1.printStackTrace();
 		}
 		panel_4_1.add(btnDegradar);
-		
+
 		JButton btnPromocionar = new JButton("Promocionar");
 		btnPromocionar.setForeground(Color.WHITE);
 		btnPromocionar.addActionListener(new ActionListener() {
@@ -680,15 +676,21 @@ public class Main extends JFrame {
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 				String rol = model.getValueAt(table2.getSelectedRow(), 1).toString();
 				String mensaje = "!Error al pomocionar usuario!";
-				if(rol.equals("admin")) {
-					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.promocionarUsuario(admin)) mensaje = "�Usuario promocionado!";
-				}else if(rol.equals("tecnico")){
-					TecnicoDTO tec = new TecnicoDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.promocionarUsuario(tec)) mensaje = "�Usuario promocionado!";
-				}else {
-					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.promocionarUsuario(user)) mensaje = "�Usuario promocionado!";
+				if (rol.equals("admin")) {
+					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
+							direccion, telefono);
+					if (gu.promocionarUsuario(admin))
+						mensaje = "�Usuario promocionado!";
+				} else if (rol.equals("tecnico")) {
+					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
+							telefono);
+					if (gu.promocionarUsuario(tec))
+						mensaje = "�Usuario promocionado!";
+				} else {
+					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
+							telefono);
+					if (gu.promocionarUsuario(user))
+						mensaje = "�Usuario promocionado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
@@ -756,27 +758,26 @@ public class Main extends JFrame {
 ///***************************************************************METODOS PERFIL***********************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
 	private void cargarUsuarioOnline() {
 		UsuarioDTO udto = gu.getUserOnline();
 		try {
 			if (udto != null) {
 				txtNombreOnline.setText(udto.getUserName());
 				txtEmailOnline.setText(udto.getEmail());
-				if(udto.getEquipo()!=null)
+				if (udto.getEquipo() != null)
 					txtEquipoOnline.setText((udto.getEquipo().getNombre()));
-				if(udto.getIncidencias()!=null)
-					 for(IncidenciaDTO inci : udto.getIncidencias()) { 
-						 	if(inci instanceof SolicitudDTO) {
-						 		
-						 	}
-					 }
+				if (udto.getIncidencias() != null)
+					for (IncidenciaDTO inci : udto.getIncidencias()) {
+						if (inci instanceof SolicitudDTO) {
+
+						}
+					}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void logOut() {
 		gu.logOut();
 		this.dispose();
@@ -784,6 +785,7 @@ public class Main extends JFrame {
 		h.setUndecorated(true);
 		h.setVisible(true);
 	}
+
 	private boolean borrarUsuario(String idUsuario) {
 		return gu.borrarUsuario(idUsuario);
 	}
@@ -797,7 +799,6 @@ public class Main extends JFrame {
 		return false;
 	}
 
-	
 	private boolean actualizarPerfil() {
 		UsuarioDTO u = gu.getUserOnline();
 		u.setUserName(txtNombreOnline.getText());
@@ -824,15 +825,15 @@ public class Main extends JFrame {
 		}
 		return false;
 	}
-	
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///***************************************************************AULAS********************************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -864,19 +865,19 @@ public class Main extends JFrame {
 
 		btnModificarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 			}
 		});
 
 		btnEliminarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 
 		btnAnadirEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 			}
 		});
 		comboBox = new JComboBox();
@@ -979,7 +980,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///***************************************************************METODOS AULAS************************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private void cargarDesplegableAula() {
 		ArrayList<AulaDTO> listaAulas = ga.getListaAulas();
 
@@ -987,6 +988,7 @@ public class Main extends JFrame {
 			comboBox.addItem(a.getNombre());
 		}
 	}
+
 	private void cargarEquiposAula() {
 		int linea1 = 0;
 		int linea2 = 0;
@@ -997,7 +999,7 @@ public class Main extends JFrame {
 		try {
 			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
 			listaEquipos = adto.getEquipos();
-			
+
 			for (int i = 0; i < listaEquipos.size(); i++) {
 
 				int posicion1 = linea1 * 15;
@@ -1038,7 +1040,7 @@ public class Main extends JFrame {
 		}
 
 	}
-	
+
 	private void cargarDatosEquipo(EquipoDTO e) {
 		txtNombreEquipo.setText(e.getNombre());
 		txtIp.setText(e.getIpEquipo());
@@ -1046,14 +1048,13 @@ public class Main extends JFrame {
 		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
 		txtRam.setText(((Integer) e.getRam()).toString());
 	}
-	
-	
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///**************************************************************CRUD AULAS****************************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1075,15 +1076,14 @@ public class Main extends JFrame {
 		recargarAula();
 		table.setModel(defaultModel);
 		scrollPane.setViewportView(table);
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	            nombreSeleccionado = table.getValueAt(table.getSelectedRow(), 0).toString();
-	        }
-	    });
-		
-		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// do some actions here, for example
+				// print first column value from selected row
+				nombreSeleccionado = table.getValueAt(table.getSelectedRow(), 0).toString();
+			}
+		});
+
 		JButton btnNewButton = new JButton("A�adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1095,9 +1095,10 @@ public class Main extends JFrame {
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
 				String mensaje = "!Aula creada correctamente�";
-				if (!crearAula(adto))mensaje="!Error al crear el aula��";
-					JOptionPane.showMessageDialog(null, mensaje);
-					recargarAula();
+				if (!crearAula(adto))
+					mensaje = "!Error al crear el aula��";
+				JOptionPane.showMessageDialog(null, mensaje);
+				recargarAula();
 
 			}
 		});
@@ -1124,59 +1125,61 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				String nombre = model.getValueAt(table.getSelectedRow(), 0).toString();
-				
-				int option = JOptionPane.showConfirmDialog(null, "�Borrar Aula?", "Eliminar Aula",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                    String mensaje = "!Aula borrada correctamente�";
-                    if (!eliminarAula(ga.getAulaByNombre(nombre).getIdAula()))
-                        mensaje = "!Error al borrar el aula��";
-                    JOptionPane.showMessageDialog(null, mensaje);
-            		recargarAula();
 
-                }
+				int option = JOptionPane.showConfirmDialog(null, "�Borrar Aula?", "Eliminar Aula",
+						JOptionPane.OK_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+					String mensaje = "!Aula borrada correctamente�";
+					if (!eliminarAula(ga.getAulaByNombre(nombre).getIdAula()))
+						mensaje = "!Error al borrar el aula��";
+					JOptionPane.showMessageDialog(null, mensaje);
+					recargarAula();
+
+				}
 			}
 		});
 		btnNewButton_3.setBounds(550, 124, 235, 89);
 		btnNewButton_3.setBackground(new Color(86, 101, 115));
-		
+
 		crud.add(btnNewButton_3);
-		
+
 		JButton btnNewButton_4 = new JButton("Modificar");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				
+
 				String nombre = model.getValueAt(table.getSelectedRow(), 0).toString();
 				String ips = model.getValueAt(table.getSelectedRow(), 1).toString();
 				int capacidad = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString());
 				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
-				
-				AulaDTO adto = new AulaDTO(ga.getAulaByNombre(nombreSeleccionado).getIdAula(),ips, nombre, descripcion, capacidad);
-				int option = JOptionPane.showConfirmDialog(null, "�Modificar aula?", "Modificar Aula",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                	
-                    String mensaje = "!Aula modificada correctamente�";
-                    if (!modificarAula(adto))
-                        mensaje = "!Error al modificada el aula�";
-                    JOptionPane.showMessageDialog(null, mensaje);
-            		recargarAula();
 
-                }
+				AulaDTO adto = new AulaDTO(ga.getAulaByNombre(nombreSeleccionado).getIdAula(), ips, nombre, descripcion,
+						capacidad);
+				int option = JOptionPane.showConfirmDialog(null, "�Modificar aula?", "Modificar Aula",
+						JOptionPane.OK_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+
+					String mensaje = "!Aula modificada correctamente�";
+					if (!modificarAula(adto))
+						mensaje = "!Error al modificada el aula�";
+					JOptionPane.showMessageDialog(null, mensaje);
+					recargarAula();
+
+				}
 			}
 		});
 		btnNewButton_4.setBounds(924, 124, 235, 89);
 		btnNewButton_4.setBackground(new Color(86, 101, 115));
 		crud.add(btnNewButton_4);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("CRUD AULAS");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblNewLabel_7.setBounds(10, 22, 197, 43);
 		crud.add(lblNewLabel_7);
-		
+
 		// crud.add(table);
 	}
+
 	private void recargarAula() {
 		ga.cargarListaAulas();
 		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
@@ -1191,17 +1194,13 @@ public class Main extends JFrame {
 		Object[] filaBlanca = { "", "", "", "" };
 		defaultModel.addRow(filaBlanca);
 	}
-	
-	
-	
-	
-	
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///**************************************************************CRUD EQUIPOS**************************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 1000, 1278, 767);
+		crudEquipo.setBounds(101, 37, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1214,7 +1213,7 @@ public class Main extends JFrame {
 		tableEquipo.setFillsViewportHeight(true);
 		tableEquipo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModel = (new DefaultTableModel(new Object[][] {},
-				new String[] { "Id","Nombre", "IP", "Disco Duro", "Ram" }));
+				new String[] { "Id", "Nombre", "IP", "Disco Duro", "Ram" }));
 		tableEquipo.setModel(defaultModel);
 		tableEquipo.getColumnModel().getColumn(0).setPreferredWidth(86);
 		tableEquipo.getColumnModel().getColumn(1).setPreferredWidth(106);
@@ -1224,7 +1223,7 @@ public class Main extends JFrame {
 		recargar();
 		tableEquipo.setModel(defaultModel);
 		scrollPaneEquipo.setViewportView(tableEquipo);
-		
+
 		JButton btnNewButton = new JButton("A�adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1234,13 +1233,14 @@ public class Main extends JFrame {
 				String ip = model.getValueAt(tableEquipo.getSelectedRow(), 2).toString();
 				int discoDuro = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 3).toString());
 				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
-				
-				EquipoDTO edto = new EquipoDTO(ip, nombre, discoDuro,ram);
-				String mensaje = "!Equipo creado correctamente�";			
-				if (!crearEquipo(edto))mensaje="!Error al crear el equipo�";
-					JOptionPane.showMessageDialog(null, mensaje);
-					ge.cargarListaEquipos();
-					recargar();
+
+				EquipoDTO edto = new EquipoDTO(ip, nombre, discoDuro, ram);
+				String mensaje = "!Equipo creado correctamente�";
+				if (!crearEquipo(edto))
+					mensaje = "!Error al crear el equipo�";
+				JOptionPane.showMessageDialog(null, mensaje);
+				ge.cargarListaEquipos();
+				recargar();
 
 			}
 		});
@@ -1264,19 +1264,19 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
 				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
-				
+
 				int option = JOptionPane.showConfirmDialog(null, "�Bor235r 89uipo?", "Eliminar Equipo",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                    String mensaje = "!Equipo borrado correctamente�";
-                    if (!borrarEquipo(id))
-                        mensaje = "!Error al borrar el equipo�";
-                    JOptionPane.showMessageDialog(null, mensaje);
-            		ge.cargarListaEquipos();
-            		
-            		recargar();
-            		
-                }
+						JOptionPane.OK_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+					String mensaje = "!Equipo borrado correctamente�";
+					if (!borrarEquipo(id))
+						mensaje = "!Error al borrar el equipo�";
+					JOptionPane.showMessageDialog(null, mensaje);
+					ge.cargarListaEquipos();
+
+					recargar();
+
+				}
 			}
 		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -1288,36 +1288,36 @@ public class Main extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		btnNewButton_3.setBackground(new Color(86, 101, 115));
 
-		btnNewButton_3.setBounds(897, 100,  235, 89);
+		btnNewButton_3.setBounds(897, 100, 235, 89);
 		crudEquipo.add(btnNewButton_3);
-		
+
 		JButton btnNewButton_4 = new JButton("Modificar");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
-				
+
 				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
 				String nombre = model.getValueAt(tableEquipo.getSelectedRow(), 1).toString();
 				String ip = model.getValueAt(tableEquipo.getSelectedRow(), 2).toString();
 				int discoDuro = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 3).toString());
 				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
-				
-				EquipoDTO edto = new EquipoDTO(id,ip,nombre, discoDuro,ram);
-				
+
+				EquipoDTO edto = new EquipoDTO(id, ip, nombre, discoDuro, ram);
+
 				int option = JOptionPane.showConfirmDialog(null, "�Modificar aula?", "Modificar Aula",
-                        JOptionPane.OK_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
-                	String mensaje = "!Equipo modificado correctamente�";
-     				if (!modificarEquipo(edto))
-     					mensaje = "!Error al modificar el equipo�";
-     				JOptionPane.showMessageDialog(null, mensaje);
-     				ge.cargarListaEquipos();
-     				recargar();
-                }
-               
+						JOptionPane.OK_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+					String mensaje = "!Equipo modificado correctamente�";
+					if (!modificarEquipo(edto))
+						mensaje = "!Error al modificar el equipo�";
+					JOptionPane.showMessageDialog(null, mensaje);
+					ge.cargarListaEquipos();
+					recargar();
+				}
+
 			}
 		});
 		btnNewButton_4.setBounds(542, 100, 235, 89);
@@ -1334,10 +1334,10 @@ public class Main extends JFrame {
 		btnNewButton_4.setBackground(new Color(86, 101, 115));
 		crudEquipo.add(btnNewButton_4);
 	}
-	
+
 	private boolean crearEquipo(EquipoDTO edto) {
 		try {
-				return ge.crearEquipo(edto);
+			return ge.crearEquipo(edto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1356,11 +1356,11 @@ public class Main extends JFrame {
 		}
 		return false;
 	}
-	
+
 	private void recargar() {
 		int rowCount = defaultModel.getRowCount();
-		
-		//Remove rows one by one from the end of the table
+
+		// Remove rows one by one from the end of the table
 		for (int i = rowCount - 1; i >= 0; i--) {
 			defaultModel.removeRow(i);
 		}
@@ -1369,26 +1369,22 @@ public class Main extends JFrame {
 
 		for (EquipoDTO e : array) {
 
-			Object[] fila = { e.getIdEquipo(), e.getNombre(), e.getIpEquipo(), e.getDiscoDuro(), e.getRam()};
+			Object[] fila = { e.getIdEquipo(), e.getNombre(), e.getIpEquipo(), e.getDiscoDuro(), e.getRam() };
 			defaultModel.addRow(fila);
 
 		}
-		Object[] fila = { "", "", "", "", ""};
+		Object[] fila = { "", "", "", "", "" };
 		defaultModel.addRow(fila);
 
 	}
-	
-	
-	
-	
-	
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///**********************************************************INCIDENCIAS Y SOLICITUDES*****************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 780);
+		incidencias.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1398,7 +1394,11 @@ public class Main extends JFrame {
 		tableIncidencias.setFillsViewportHeight(true);
 		tableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableModel defaultModelinc = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "FECHA", "Descripcion" }){public boolean isCellEditable(int row, int column){return false;}});
+				new String[] { "COD", "FECHA", "Descripcion" }) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
 		tableIncidencias.setModel(defaultModelinc);
 		tableIncidencias.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableIncidencias.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -1423,10 +1423,13 @@ public class Main extends JFrame {
 		tableSolicitudes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableModel defaultModelsol = (new DefaultTableModel(new Object[][] {
 
-		}, new String[] { "COD", "FECHA", "Descripcion" })
-		{public boolean isCellEditable(int row, int column){return false;}}
-				
-				);
+		}, new String[] { "COD", "FECHA", "Descripcion" }) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		}
+
+		);
 		tableSolicitudes.setModel(defaultModelsol);
 		tableSolicitudes.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableSolicitudes.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -1473,11 +1476,11 @@ public class Main extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (tableSolicitudes.getSelectedRow() != -1) {
-					SolicitudDTO sdto = (SolicitudDTO)gs.getIncidencia(Integer
+					SolicitudDTO sdto = (SolicitudDTO) gs.getIncidencia(Integer
 							.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString()));
-		
+
 					IncidenciaTecPanel3 intec = new IncidenciaTecPanel3(sdto);
-	
+
 					intec.setUndecorated(true);
 					intec.setLocationRelativeTo(null);
 					intec.setVisible(true);
@@ -1498,13 +1501,11 @@ public class Main extends JFrame {
 		incidencias.add(btnNewButton_1);
 
 	}
-	
-	
-	
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///**************************************************************************STOCK*********************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private void visualizarIncidencias2() {
 		stock = new JPanel();
 		stock.setBounds(88, 11, 1157, 744);
@@ -1558,7 +1559,7 @@ public class Main extends JFrame {
 		ArrayList<ComponenteDTO> arraysoftware = new ArrayList<ComponenteDTO>();
 		arraysoftware = gc.getListaSoftware();
 		for (int i = 0; i < arraysoftware.size(); i++) {
-	
+
 		}
 		// String rol = "";
 		// Double total;
@@ -1593,7 +1594,7 @@ public class Main extends JFrame {
 		}
 		tableCompras.setModel(defaultModelCompras);
 		scrollPaneCompras.setViewportView(tableCompras);
-		
+
 		JButton btnNewButton_8 = new JButton("Comprar");
 		btnNewButton_8.setBounds(635, 714, 89, 23);
 		stock.add(btnNewButton_8);
@@ -1618,8 +1619,6 @@ public class Main extends JFrame {
 		btnNewButton_6.setBounds(338, 155, 282, 48);
 		stock.add(btnNewButton_6);
 
-	}		
-
-
+	}
 
 }

@@ -53,6 +53,10 @@ public class UsuarioDTO
 		this.email = email;
 		this.equipo = ge.getEquipoById(idEquipo);
 	}
+    
+    public UsuarioDTO() {
+    	
+    }
 
 	public String getIdUsuario() {
 		return idUsuario;

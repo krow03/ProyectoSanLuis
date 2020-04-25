@@ -59,7 +59,7 @@ public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 			ps.setString(7,"pendiente");
 			ps.setString(8,t.getDescripcion());
 			ps.setInt(9, t.getPrioridad());
-			ps.setInt(10, ((SolicitudDTO) t).getIdComponente());
+			ps.setInt(10, ((SolicitudDTO) t).getComponente().getIdComponente());
 			
 			if (ps.executeUpdate()>0) {
 				ps.close();

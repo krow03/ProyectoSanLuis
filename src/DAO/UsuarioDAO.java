@@ -53,13 +53,10 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 	@Override
 	public boolean borrar(Object pk) {
 		try {
-			System.out.println("2");
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_DELETE);
 			ps.setString(1, pk.toString());
 			int filas = ps.executeUpdate();
-			System.out.println("3");
 			if (filas>0) return true;
-			System.out.println("4");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

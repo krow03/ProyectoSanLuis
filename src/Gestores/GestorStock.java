@@ -7,27 +7,40 @@ import DAO.StockDAO;
 import DTO.StockDTO;
 
 public class GestorStock {
-	private StockDAO sd = new StockDAO();
+	private StockDAO sdao = new StockDAO();
 	private static ArrayList<StockDTO> listaStock = new ArrayList<StockDTO>();
+	private GestorComponentes gc = new GestorComponentes();
+	private GestorEquipos ge = new GestorEquipos();
 	
 	public ArrayList<StockDTO> getListaStock(){
 		return listaStock;
 	}
 	
 	public void cargarListaStock() {
-		listaStock = sd.listarTodos();
+		listaStock = sdao.listarTodos();
+	}
+	public void cargarConponentesStock(){
+		for(StockDTO sdto : listaStock) {
+			sdto.setComponentes(gc.getComponentesStock(sdto.getIdStock()));
+		}
+	}
+	
+	public void cargarEquiposStock() {
+		for(StockDTO sdto : listaStock) {
+			sdto.setEquipos(ge.getEquiposStock(sdto.getIdStock()));
+		}
 	}
 	
 	public boolean crearStock(StockDTO sdto) throws SQLException {
-		return sd.insertar(sdto);
+		return sdao.insertar(sdto);
 	}
 	
 	public boolean borrarStock(int idStock) {
-		return sd.borrar(idStock);
+		return sdao.borrar(idStock);
 	}
 	
 	public boolean modificarStock(StockDTO sdto) {
-		return sd.actualizar(sdto);
+		return sdao.actualizar(sdto);
 	}
 	
 	public ArrayList<StockDTO> avisoStockBajo() {
@@ -39,6 +52,6 @@ public class GestorStock {
 	}
 	
 	public StockDTO buscarById(int idStock) {
-		return sd.buscar(idStock);
+		return sdao.buscar(idStock);
 	}
 }

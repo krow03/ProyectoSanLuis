@@ -2,7 +2,7 @@ package DTO;
 
 import java.util.ArrayList;
 
-public class ProveedorDTO
+public class ProveedorDTO extends UsuarioDTO
 {
 	private int idProveedor;
     private String cif;

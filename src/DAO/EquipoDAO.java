@@ -19,6 +19,7 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 	private static final String SQL_FINDALL="SELECT * FROM Equipos";
 	private static final String SQL_FINDALLBYIDAULA="SELECT * FROM Equipos WHERE Aulas_idAulas = ?";
 	private static final String SQL_ASIGN="UPDATE Equipos SET Aulas_idAulas = ? WHERE idEquipos = ?;";
+	private static final String SQL_FINDALLSTOCK="SELECT * FROM Equipos WHERE Stock_idStock = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	public boolean asignarAula(int idEquipo,int idAula) {
@@ -161,4 +162,21 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 		return lista;
 	}
 
+	
+	public ArrayList<EquipoDTO> listarTodosStock(Object pk) {
+		ArrayList<EquipoDTO> lista = new ArrayList<EquipoDTO>();
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLSTOCK);
+			ps.setString(1, pk.toString());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				EquipoDTO equip = new EquipoDTO(rs.getInt("idEquipos"),rs.getString("ipEquipo"),rs.getString("nombre"),rs.getInt("discoDuro"),rs.getInt("ram"));
+				lista.add(equip);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+	}
 }

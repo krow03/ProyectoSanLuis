@@ -25,29 +25,12 @@ public class GestorSolicitudes {
 	
 	public void cargarLista() {
 		listaSoli=idao.listarTodos();
-		cargarComponentes();
 	}
 	
-	public void traspasarIncidencias(String idTecnico) {
-		for(IncidenciaDTO idto : listaSoli) {
-			if(idto.getIdAsignadaA().equals(idTecnico)) {
-				//idto.setIdAsignadaA(gu.getTecnicoMenosIncidencias().getIdUsuario());
-			}
-		}
+	public ArrayList<IncidenciaDTO> getIncidenciasTecnico(String idTecnico) {
+		return idao.listarPorAsignadoA(idTecnico);
 	}
 	
-	public void cargarComponentes() {
-		for(IncidenciaDTO idto : listaSoli) {
-			if(idto instanceof SolicitudDTO) 
-				((SolicitudDTO) idto).setComponente(gc.getComponente(((SolicitudDTO) idto).getIdComponente()));
-		}
-	}
-	private void cargarComponente() {
-		for(IncidenciaDTO sol : listaSoli) {
-			if(sol instanceof SolicitudDTO)
-				((SolicitudDTO) sol).setComponente(gc.getComponente(((SolicitudDTO) sol).getIdComponente()));
-		}
-	}
 	public ArrayList<IncidenciaDTO> getListaNoAtendidas() {
 		ArrayList<IncidenciaDTO> listaNoAtendidas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {

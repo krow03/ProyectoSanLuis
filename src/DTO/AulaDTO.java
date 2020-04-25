@@ -9,10 +9,8 @@ public class AulaDTO
     private String nombre;
     private String descripcion;
     private int capacidad;
-    
 	//campo calculado
     private boolean disponibilidad;
-    
     private ArrayList<EquipoDTO> equipos;
 
 	public AulaDTO(int idAula, String rangoIps, String nombre, String descripcion, int capacidad) {

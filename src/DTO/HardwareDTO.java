@@ -5,9 +5,9 @@ public class HardwareDTO extends ComponenteDTO
     private String tipo;
     private String marca;
     
-    public HardwareDTO(int idComponente, int idEquipo, int idStock, String descripcion, String tipo,
+    public HardwareDTO(int idComponente, String descripcion, String tipo,
  			String marca) {
- 		super(idComponente, idEquipo, idStock, descripcion);
+ 		super(idComponente, descripcion);
  		this.tipo = tipo;
  		this.marca = marca;
  	}

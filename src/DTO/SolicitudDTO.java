@@ -1,10 +1,11 @@
  package DTO;
 
+import Gestores.GestorComponentes;
+
 public class SolicitudDTO extends IncidenciaDTO
 {
     private ComponenteDTO componente;
-    private int idComponente;
-
+    private GestorComponentes gc = new GestorComponentes();
 	public SolicitudDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
 			String fechaFin, String estado, String descripcion, int prioridad) {
 		super(codigo, idRealizadaPor, idAsignadaA, idEquipo, fechaSol, fechaFin, estado, descripcion, prioridad);
@@ -14,7 +15,7 @@ public class SolicitudDTO extends IncidenciaDTO
 	public SolicitudDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
 			String fechaFin, String estado, String descripcion, int prioridad, int idComponente) {
 		super(codigo, idRealizadaPor, idAsignadaA, idEquipo, fechaSol, fechaFin, estado, descripcion, prioridad);
-		this.idComponente = idComponente;
+		this.componente = gc.getComponente(idComponente);
 	}
 	
 
@@ -22,7 +23,7 @@ public class SolicitudDTO extends IncidenciaDTO
 	public SolicitudDTO(String idRealizadaPor, int idEquipo, String fechaSol,
 			String estado, String descripcion, int idComponente) {
 		super(idRealizadaPor, idEquipo, fechaSol, estado, descripcion);
-		this.idComponente = idComponente;
+		this.componente = gc.getComponente(idComponente);
 	}
 
 	public ComponenteDTO getComponente() {
@@ -33,11 +34,4 @@ public class SolicitudDTO extends IncidenciaDTO
 		this.componente = componente;
 	}
 
-	public int getIdComponente() {
-		return idComponente;
-	}
-
-	public void setIdComponente(int idComponente) {
-		this.idComponente = idComponente;
-	}
 }

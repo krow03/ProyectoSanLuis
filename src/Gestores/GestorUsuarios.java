@@ -37,6 +37,7 @@ public class GestorUsuarios {
 		}
 		return udto;
 	}
+	
 	public UsuarioDTO getUserOnline() {
 		return userOnline;
 	}
@@ -124,6 +125,12 @@ public class GestorUsuarios {
 			 udto.setIncidencias(gs.getListaAsignadasA(udto.getIdUsuario()));
 		}
 	}
+	
+	public void traspasarIncidencias() {
+		UsuarioDTO udto = getTecnicoMenosIncidencias();
+		udto.setIncidencias(gs.getIncidenciasTecnico(udto.getIdUsuario()));
+	}
+	
 	public UsuarioDTO getTecnicoMenosIncidencias() {
 		UsuarioDTO userMenosInci = listaUsers.get(0);
 		for(UsuarioDTO udto : listaUsers) {

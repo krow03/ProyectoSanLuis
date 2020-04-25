@@ -6,9 +6,9 @@ public class SoftwareDTO extends ComponenteDTO
     private double peso;
 
     
-    public SoftwareDTO(int idComponente, int idEquipo, int idStock, String descripcion,
+    public SoftwareDTO(int idComponente, String descripcion,
 			String codLiciencia,double peso) {
-		super(idComponente, idEquipo, idStock, descripcion);
+		super(idComponente, descripcion);
 		this.codLiciencia = codLiciencia;
 		this.peso=peso;
 	}

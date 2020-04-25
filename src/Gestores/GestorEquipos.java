@@ -34,6 +34,10 @@ public class GestorEquipos {
 		}
 	}
 	
+	public ArrayList<EquipoDTO> getEquiposStock(int idStock) {
+		return edao.listarTodosStock(idStock);
+	}
+	
 	public ArrayList<EquipoDTO> getEquiposAula(int idAula) {
 		ArrayList<EquipoDTO> equiposAula = edao.listarTodos(idAula);
 		return equiposAula;

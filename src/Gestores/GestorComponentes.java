@@ -15,18 +15,21 @@ public class GestorComponentes {
 		return listaComponentes;
 	}
 	public ComponenteDTO getComponenteId(int idComponente) {
-		return cdao.buscar(idComponente);
+		for(ComponenteDTO cdto : listaComponentes) {
+			if(cdto.getIdComponente()==idComponente)return cdto;
+		}
+		return null;
 	}
 	public void cargarLista() {
 		listaComponentes=cdao.listarTodos();
 	}
 	
 	public ArrayList<ComponenteDTO> getComponentesEquipo(int idEquipo){
-		ArrayList<ComponenteDTO> listaComponentesEquipo = new ArrayList<ComponenteDTO>();
-		for(ComponenteDTO cdto : listaComponentes) {
-			if(cdto.getIdEquipo()==idEquipo)listaComponentesEquipo.add(cdto);
-		}
-		return listaComponentesEquipo;
+		return cdao.listarTodos(idEquipo);
+	}
+	
+	public ArrayList<ComponenteDTO> getComponentesStock(int idStock){
+		return cdao.listarTodosStock(idStock);
 	}
 	
 	public ArrayList<ComponenteDTO> getListaHardware() {
@@ -43,6 +46,14 @@ public class GestorComponentes {
 			if(cdto instanceof SoftwareDTO) listaSoft.add(cdto);
 		}
 		return listaSoft;
+	}
+	
+	public boolean asignarStock(ComponenteDTO cdto, int idStock) {
+		return cdao.asignarStock(cdto, idStock);
+	}
+	
+	public boolean asignarEquipo(ComponenteDTO cdto, int idEquipo) {
+		return cdao.asignarEquipo(cdto, idEquipo);
 	}
 	
 	public ComponenteDTO getComponente(int id) {
