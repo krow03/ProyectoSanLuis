@@ -22,10 +22,10 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
     public boolean insertar(AulaDTO t) throws SQLException {
         try {
             PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
-            ps.setString(2, t.getRangoIps());
-            ps.setString(3, t.getNombre());
-            ps.setString(4, t.getDescripcion());
-            ps.setInt(5, t.getCapacidad());
+            ps.setString(1, t.getRangoIps());
+            ps.setString(2, t.getNombre());
+            ps.setString(3, t.getDescripcion());
+            ps.setInt(4, t.getCapacidad());
 
             if (ps.executeUpdate()>0) {
                 ps.close();

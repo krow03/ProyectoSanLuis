@@ -1094,8 +1094,8 @@ public class Main extends JFrame {
 				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
-				String mensaje = "!Equipo creado correctamenteï¿½";
-				if (!crearAula(adto))mensaje="!Error al crear el equipoï¿½";
+				String mensaje = "!Aula creada correctamenteï¿½";
+				if (!crearAula(adto))mensaje="!Error al crear el aula¿½";
 					JOptionPane.showMessageDialog(null, mensaje);
 					recargarAula();
 
@@ -1125,12 +1125,12 @@ public class Main extends JFrame {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				String nombre = model.getValueAt(table.getSelectedRow(), 0).toString();
 				
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar equipo?", "Eliminar Equipo",
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar Aula?", "Eliminar Aula",
                         JOptionPane.OK_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
-                    String mensaje = "!Equipo borrado correctamenteï¿½";
+                    String mensaje = "!Aula borrada correctamenteï¿½";
                     if (!eliminarAula(ga.getAulaByNombre(nombre).getIdAula()))
-                        mensaje = "!Error al borrar el equipoï¿½";
+                        mensaje = "!Error al borrar el aula¿½";
                     JOptionPane.showMessageDialog(null, mensaje);
             		recargarAula();
 
@@ -1159,7 +1159,7 @@ public class Main extends JFrame {
                 	
                     String mensaje = "!Aula modificada correctamenteï¿½";
                     if (!modificarAula(adto))
-                        mensaje = "!Error al modificada el Aulaï¿½";
+                        mensaje = "!Error al modificada el aulaï¿½";
                     JOptionPane.showMessageDialog(null, mensaje);
             		recargarAula();
 
@@ -1178,7 +1178,7 @@ public class Main extends JFrame {
 		// crud.add(table);
 	}
 	private void recargarAula() {
-		AulaDAO ped = new AulaDAO();
+		ga.cargarListaAulas();
 		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
 		array = ga.getListaAulas();
 
@@ -1188,6 +1188,8 @@ public class Main extends JFrame {
 			Object[] fila = { e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
 			defaultModel.addRow(fila);
 		}
+		Object[] filaBlanca = { "", "", "", "" };
+		defaultModel.addRow(filaBlanca);
 	}
 	
 	
