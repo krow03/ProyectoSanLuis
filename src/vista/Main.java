@@ -335,7 +335,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 0, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -642,13 +642,13 @@ public class Main extends JFrame {
 				String mensaje = "!Error al degradar usuario!";
 				if(rol.equals("admin")) {
 					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.degradarUsuario(admin)) mensaje = "¡Usuario degradado!";
+					if(gu.degradarUsuario(admin)) mensaje = "ï¿½Usuario degradado!";
 				}else if(rol.equals("tecnico")){
 					TecnicoDTO tec = new TecnicoDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.degradarUsuario(tec)) mensaje = "¡Usuario degradado!";
+					if(gu.degradarUsuario(tec)) mensaje = "ï¿½Usuario degradado!";
 				}else {
 					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.degradarUsuario(user)) mensaje = "¡Usuario degradado!";
+					if(gu.degradarUsuario(user)) mensaje = "ï¿½Usuario degradado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
@@ -682,13 +682,13 @@ public class Main extends JFrame {
 				String mensaje = "!Error al pomocionar usuario!";
 				if(rol.equals("admin")) {
 					AdministradorDTO admin = new AdministradorDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.promocionarUsuario(admin)) mensaje = "¡Usuario promocionado!";
+					if(gu.promocionarUsuario(admin)) mensaje = "ï¿½Usuario promocionado!";
 				}else if(rol.equals("tecnico")){
 					TecnicoDTO tec = new TecnicoDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.promocionarUsuario(tec)) mensaje = "¡Usuario promocionado!";
+					if(gu.promocionarUsuario(tec)) mensaje = "ï¿½Usuario promocionado!";
 				}else {
 					UsuarioDTO user = new UsuarioDTO(id,userName,email,0, pass, nombre, apellidos,direccion,telefono);
-					if(gu.promocionarUsuario(user)) mensaje = "¡Usuario promocionado!";
+					if(gu.promocionarUsuario(user)) mensaje = "ï¿½Usuario promocionado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
@@ -832,7 +832,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -1053,7 +1053,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1084,7 +1084,7 @@ public class Main extends JFrame {
 	    });
 		
 		
-		JButton btnNewButton = new JButton("Añadir");
+		JButton btnNewButton = new JButton("Aï¿½adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -1095,7 +1095,7 @@ public class Main extends JFrame {
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
 				String mensaje = "!Aula creada correctamenteï¿½";
-				if (!crearAula(adto))mensaje="!Error al crear el aula¿½";
+				if (!crearAula(adto))mensaje="!Error al crear el aulaï¿½ï¿½";
 					JOptionPane.showMessageDialog(null, mensaje);
 					recargarAula();
 
@@ -1130,7 +1130,7 @@ public class Main extends JFrame {
                 if (option == JOptionPane.OK_OPTION) {
                     String mensaje = "!Aula borrada correctamenteï¿½";
                     if (!eliminarAula(ga.getAulaByNombre(nombre).getIdAula()))
-                        mensaje = "!Error al borrar el aula¿½";
+                        mensaje = "!Error al borrar el aulaï¿½ï¿½";
                     JOptionPane.showMessageDialog(null, mensaje);
             		recargarAula();
 
@@ -1201,7 +1201,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBounds(101, 1000, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1225,7 +1225,7 @@ public class Main extends JFrame {
 		tableEquipo.setModel(defaultModel);
 		scrollPaneEquipo.setViewportView(tableEquipo);
 		
-		JButton btnNewButton = new JButton("Añadir");
+		JButton btnNewButton = new JButton("Aï¿½adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
@@ -1388,7 +1388,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 780);
+		incidencias.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1516,7 +1516,7 @@ public class Main extends JFrame {
 		stock.setLayout(null);
 
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
-		scrollPaneIncidencias.setBounds(54, 202, 1132, 495);
+		scrollPaneIncidencias.setBounds(54, 202, 566, 495);
 		stock.add(scrollPaneIncidencias);
 		JTable tableHardware = new JTable();
 		tableHardware.setFillsViewportHeight(true);
@@ -1543,7 +1543,7 @@ public class Main extends JFrame {
 
 		scrollPaneIncidencias.setVisible(false);
 		JScrollPane scrollPaneSoftware = new JScrollPane();
-		scrollPaneSoftware.setBounds(54, 202, 1132, 495);
+		scrollPaneSoftware.setBounds(54, 202, 566, 495);
 		stock.add(scrollPaneSoftware);
 		JTable tableSoftware = new JTable();
 		tableSoftware.setFillsViewportHeight(true);
@@ -1569,13 +1569,34 @@ public class Main extends JFrame {
 		tableSoftware.setModel(defaultModel2);
 		scrollPaneSoftware.setViewportView(tableSoftware);
 
-		JButton btnNewButton_8 = new JButton("Comprar");
-		btnNewButton_8.setBounds(362, 720, 89, 23);
-		stock.add(btnNewButton_8);
+		JScrollPane scrollPaneCompras = new JScrollPane();
+		scrollPaneCompras.setBounds(743, 202, 534, 495);
+		stock.add(scrollPaneCompras);
+		JTable tableCompras = new JTable();
+		tableCompras.setFillsViewportHeight(true);
+		tableCompras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		DefaultTableModel defaultModelCompras = (new DefaultTableModel(new Object[][] {},
+				new String[] { "COD", "Precio", "Cantidad", "Descripcion" }));
+		tableCompras.setModel(defaultModelCompras);
+		tableCompras.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableCompras.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableCompras.getColumnModel().getColumn(2).setPreferredWidth(100);
+		tableCompras.getColumnModel().getColumn(3).setPreferredWidth(450);
+		ArrayList<ComponenteDTO> arrayCompras = new ArrayList<ComponenteDTO>();
+		arrayCompras = gc.getListaHardware();
 
-		JButton btnNewButton_9 = new JButton("Eliminar");
-		btnNewButton_9.setBounds(663, 720, 89, 23);
-		stock.add(btnNewButton_9);
+		for (ComponenteDTO e : arrayCompras) {
+
+			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((HardwareDTO) e).getTipo(),
+					((HardwareDTO) e).getMarca() };
+			defaultModelCompras.addRow(fila);
+		}
+		tableCompras.setModel(defaultModelCompras);
+		scrollPaneCompras.setViewportView(tableCompras);
+		
+		JButton btnNewButton_8 = new JButton("Comprar");
+		btnNewButton_8.setBounds(635, 714, 89, 23);
+		stock.add(btnNewButton_8);
 		JButton btnNewButton_5 = new JButton("Hardware");
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1583,7 +1604,7 @@ public class Main extends JFrame {
 				scrollPaneSoftware.setVisible(true);
 			}
 		});
-		btnNewButton_5.setBounds(292, 58, 180, 86);
+		btnNewButton_5.setBounds(54, 155, 288, 48);
 		stock.add(btnNewButton_5);
 
 		JButton btnNewButton_6 = new JButton("Software");
@@ -1594,8 +1615,11 @@ public class Main extends JFrame {
 
 			}
 		});
-		btnNewButton_6.setBounds(652, 58, 180, 86);
+		btnNewButton_6.setBounds(338, 155, 282, 48);
 		stock.add(btnNewButton_6);
 
-	}
+	}		
+
+
+
 }
