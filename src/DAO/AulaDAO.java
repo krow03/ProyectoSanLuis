@@ -107,12 +107,14 @@ public class AulaDAO implements PatronDAO<AulaDTO>{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				AulaDTO aula = new AulaDTO(rs.getInt("idAulas"),rs.getString("rangoIps"),rs.getString("nombre"),rs.getString("descripcion"),rs.getInt("capacidad"));
+				System.out.println(aula.getIdAula());
 				lista.add(aula);
 			}
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return lista;
 	}
 

@@ -72,10 +72,13 @@ public class Main extends JFrame {
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
+	private static DefaultTableModel defaultModelAula = new DefaultTableModel();
+
 	private String rol2;
 	private String idEquipo2;
 	private JComboBox comboBox;
 	private Image img;
+	private JTable tableAula;
 	private JPanel panel_3;
 	private EquipoDTO equipoSeleccionado;
 	private JPanel aulas;
@@ -321,7 +324,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 37, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -1063,35 +1066,43 @@ public class Main extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(76, 244, 1155, 480);
 		crud.add(scrollPane);
-		JTable table = new JTable();
-		table.setFillsViewportHeight(true);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel = (new DefaultTableModel(new Object[][] {},
-				new String[] { "Nombre", "Rango Ip", "Capacidad", "Descripcion" }));
-		table.setModel(defaultModel);
-		table.getColumnModel().getColumn(0).setPreferredWidth(86);
-		table.getColumnModel().getColumn(1).setPreferredWidth(106);
-		table.getColumnModel().getColumn(2).setPreferredWidth(86);
-		table.getColumnModel().getColumn(3).setPreferredWidth(192);
-		recargarAula();
-		table.setModel(defaultModel);
-		scrollPane.setViewportView(table);
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent event) {
-				// do some actions here, for example
-				// print first column value from selected row
-				nombreSeleccionado = table.getValueAt(table.getSelectedRow(), 0).toString();
-			}
-		});
+		tableAula = new JTable();
+		tableAula.setFillsViewportHeight(true);
+		tableAula.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModelAula = (new DefaultTableModel(new Object[][] {},
+				new String[] { "ID","Nombre", "Rango Ip", "Capacidad", "Descripcion" }));
+		tableAula.setModel(defaultModelAula);
+		
+		tableAula.getColumnModel().getColumn(0).setPreferredWidth(86);
+		tableAula.getColumnModel().getColumn(1).setPreferredWidth(86);
+		tableAula.getColumnModel().getColumn(2).setPreferredWidth(106);
+		tableAula.getColumnModel().getColumn(3).setPreferredWidth(86);
+		tableAula.getColumnModel().getColumn(4).setPreferredWidth(192);
+		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
+		array = ga.getListaAulas();
+
+		for (AulaDTO e : array) {
+
+			Object[] fila = { e.getIdAula(),e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
+			defaultModelAula.addRow(fila);
+
+		}
+		Object[] fila = { "", "", "", "", "" };
+		defaultModelAula.addRow(fila);
+		// table.setModel(defaultModel);
+		scrollPane.setViewportView(tableAula);
+
 
 		JButton btnNewButton = new JButton("A�adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				String nombre = model.getValueAt(table.getSelectedRow(), 0).toString();
-				String ips = model.getValueAt(table.getSelectedRow(), 1).toString();
-				int capacidad = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString());
-				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
+				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
+				//int ids = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString());
+				String ips = model.getValueAt(tableAula.getSelectedRow(), 2).toString();
+				String nombre = model.getValueAt(tableAula.getSelectedRow(), 1).toString();
+
+				int capacidad = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 3).toString());
+				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
 				String mensaje = "!Aula creada correctamente�";
@@ -1116,24 +1127,28 @@ public class Main extends JFrame {
 		}
 
 		crud.add(btnNewButton);
-		table.setVisible(true);
-		Object[] filaBlanca = { "", "", "", "" };
-		defaultModel.addRow(filaBlanca);
+		tableAula.setVisible(true);
+		// Object[] filaBlanca = { "", "", "", "" };
+		// defaultModel.addRow(filaBlanca);
 
 		JButton btnNewButton_3 = new JButton("Eliminar");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				String nombre = model.getValueAt(table.getSelectedRow(), 0).toString();
+				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
+				//String nombre = model.getValueAt(tableAula.getSelectedRow(), 0);
+				System.out.println("asdasdas" + tableAula.getSelectedRow());
+				System.out.println("asdasdas" + tableAula.getSelectedRow());
 
 				int option = JOptionPane.showConfirmDialog(null, "�Borrar Aula?", "Eliminar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Aula borrada correctamente�";
-					if (!eliminarAula(ga.getAulaByNombre(nombre).getIdAula()))
-						mensaje = "!Error al borrar el aula��";
+					String mensaje = "!Error al borrar el aula�";
+					if (eliminarAula((int)Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()))) {
+						mensaje = "!Aula borrada correctamente��";
+						model.removeRow(tableAula.getSelectedRow());
+						nombreSeleccionado = "";
+					}
 					JOptionPane.showMessageDialog(null, mensaje);
-					recargarAula();
 
 				}
 			}
@@ -1146,14 +1161,15 @@ public class Main extends JFrame {
 		JButton btnNewButton_4 = new JButton("Modificar");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
+				int ids = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString());
 
-				String nombre = model.getValueAt(table.getSelectedRow(), 0).toString();
-				String ips = model.getValueAt(table.getSelectedRow(), 1).toString();
-				int capacidad = Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString());
-				String descripcion = model.getValueAt(table.getSelectedRow(), 3).toString();
+				String nombre = model.getValueAt(tableAula.getSelectedRow(), 1).toString();
+				String ips = model.getValueAt(tableAula.getSelectedRow(), 2).toString();
+				int capacidad = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 3).toString());
+				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
-				AulaDTO adto = new AulaDTO(ga.getAulaByNombre(nombreSeleccionado).getIdAula(), ips, nombre, descripcion,
+				AulaDTO adto = new AulaDTO(ids, ips, nombre, descripcion,
 						capacidad);
 				int option = JOptionPane.showConfirmDialog(null, "�Modificar aula?", "Modificar Aula",
 						JOptionPane.OK_OPTION);
@@ -1163,7 +1179,6 @@ public class Main extends JFrame {
 					if (!modificarAula(adto))
 						mensaje = "!Error al modificada el aula�";
 					JOptionPane.showMessageDialog(null, mensaje);
-					recargarAula();
 
 				}
 			}
@@ -1182,17 +1197,25 @@ public class Main extends JFrame {
 
 	private void recargarAula() {
 		ga.cargarListaAulas();
+
+		int rowCount = defaultModelAula.getRowCount();
+		System.out.println("cuanto trae la lista " + rowCount);
+		// Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			defaultModelAula.removeRow(i);
+		}
 		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
 		array = ga.getListaAulas();
 
-		Double total;
 		for (AulaDTO e : array) {
 
-			Object[] fila = { e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
-			defaultModel.addRow(fila);
+			Object[] fila = { e.getIdAula(),e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
+			defaultModelAula.addRow(fila);
+
 		}
-		Object[] filaBlanca = { "", "", "", "" };
-		defaultModel.addRow(filaBlanca);
+		Object[] fila = { "","", "", "", "" };
+		defaultModelAula.addRow(fila);
+
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1507,6 +1530,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private void visualizarIncidencias2() {
+
 		stock = new JPanel();
 		stock.setBounds(88, 11, 1157, 744);
 		contentPane.add(stock);
@@ -1607,6 +1631,10 @@ public class Main extends JFrame {
 		});
 		btnNewButton_5.setBounds(54, 155, 288, 48);
 		stock.add(btnNewButton_5);
+
+		JButton btnNewButton_9 = new JButton("icono");
+		btnNewButton_9.setBounds(635, 400, 89, 23);
+		stock.add(btnNewButton_9);
 
 		JButton btnNewButton_6 = new JButton("Software");
 		btnNewButton_6.addActionListener(new ActionListener() {
