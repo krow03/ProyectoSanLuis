@@ -18,15 +18,16 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 	private static final String SQL_FIND="SELECT * FROM Equipos WHERE idEquipos = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Equipos";
 	private static final String SQL_FINDALLBYIDAULA="SELECT * FROM Equipos WHERE Aulas_idAulas = ?";
-	private static final String SQL_ASIGN="UPDATE Equipos SET Aulas_idAulas = ? WHERE idEquipos = ?;";
+	private static final String SQL_ASSIGN="UPDATE Equipos SET Aulas_idAulas = ? WHERE idEquipos = ?;";
 	private static final String SQL_FINDALLSTOCK="SELECT * FROM Equipos WHERE Stock_idStock = ?";
 	private static final String SQL_FINDALLDISP="SELECT * FROM Equipos WHERE Aulas_idAulas IS NULL";
+	private static final String SQL_UNASSIGN="UPDATE Equipos SET Aulas_idAulas = null WHERE idEquipos = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	public boolean asignarAula(int idEquipo,int idAula) {
 		PreparedStatement ps = null;
 		try {
-			ps = con.getCon().prepareStatement(SQL_ASIGN);
+			ps = con.getCon().prepareStatement(SQL_ASSIGN);
 			ps.setInt(1, idAula);
 			
 			ps.setInt(2, idEquipo);
@@ -47,6 +48,30 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 		}
 		return false;
 	}
+	
+	public boolean desasignarAula(int idEquipo) {
+		PreparedStatement ps = null;
+		try {
+			ps = con.getCon().prepareStatement(SQL_UNASSIGN);
+			ps.setInt(1, idEquipo);
+
+			if (ps.executeUpdate()>0) return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {
+				if (ps != null) ps.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean insertar(EquipoDTO t) throws SQLException {
 		try {
@@ -197,4 +222,6 @@ public class EquipoDAO implements PatronDAO<EquipoDTO>{
 		}
 		return lista;
 	}
+	
+	
 }

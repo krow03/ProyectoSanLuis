@@ -86,7 +86,7 @@ public class UsuarioDTO
 		return equipo;
 	}
 
-	public void setIdEquipo(EquipoDTO equipo) {
+	public void setEquipo(EquipoDTO equipo) {
 		this.equipo = equipo;
 	}
 

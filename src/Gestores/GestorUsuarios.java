@@ -123,9 +123,8 @@ public class GestorUsuarios {
 		return false;
 	}
 	
-	public boolean asignarEquipo(UsuarioDTO udto, EquipoDTO edto) {
-		udto.setIdEquipo(edto);
-		return udao.asignarEquipo(udto);
+	public boolean asignarEquipo(String idUsuario, int idEquipo) {
+		return udao.asignarEquipo(idUsuario,idEquipo);
 	}
 	
 	public void cargarListaIncidencias() {

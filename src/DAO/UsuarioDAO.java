@@ -95,13 +95,13 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 		return false;
 	}
 	
-	public boolean asignarEquipo(UsuarioDTO t) {
+	public boolean asignarEquipo(String idUsuario, int idEquipo) {
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_ASSIGN);
-			ps.setInt(1, t.getEquipo().getIdEquipo());
+			ps.setInt(1, idEquipo);
 			
-			ps.setString(2, t.getIdUsuario());
+			ps.setString(2, idUsuario);
 
 			if (ps.executeUpdate()>0) return true;
 			

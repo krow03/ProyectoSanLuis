@@ -61,6 +61,10 @@ public class GestorEquipos {
 		return edao.asignarAula(idEquipo,idAula);
 	}
 	
+	public boolean desasignarAula(int idEquipo) throws SQLException {
+		return edao.desasignarAula(idEquipo);
+	}
+	
 	public boolean modificarEquipo(EquipoDTO e) {
 		return edao.actualizar(e);
 	}

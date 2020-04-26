@@ -73,7 +73,7 @@ public class Main extends JFrame {
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
 	private static DefaultTableModel defaultModelAula = new DefaultTableModel();
-
+	private static DefaultTableModel defaultModelAlumno = new DefaultTableModel();
 	private String rol2;
 	private String idEquipo2;
 	private JComboBox comboBox;
@@ -89,6 +89,7 @@ public class Main extends JFrame {
 	private JPanel incidencias;
 	private JPanel contentPane;
 	private String nombreSeleccionado;
+	private int aulaSeleccionada = 0;
 	int xx, xy;
 	private JTable table;
 	private JTable table_1;
@@ -849,35 +850,34 @@ public class Main extends JFrame {
 
 		panel_3.setLayout(null);
 
-		JButton btnModificarEquipo = new JButton("Asignar");
-		btnModificarEquipo.setEnabled(false);
-		btnModificarEquipo.setBackground(Color.ORANGE);
-		btnModificarEquipo.setBounds(768, 744, 229, 36);
-		aulas.add(btnModificarEquipo);
+		JButton btnAsignarAlumno = new JButton("Asignar");
+		btnAsignarAlumno.setEnabled(false);
+		btnAsignarAlumno.setBackground(Color.ORANGE);
+		btnAsignarAlumno.setBounds(768, 744, 229, 36);
+		aulas.add(btnAsignarAlumno);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(802, 384, 392, 340);
 		aulas.add(scrollPane);
-		tableAula = new JTable();
-		tableAula.setFillsViewportHeight(true);
-		tableAula.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModelAula = (new DefaultTableModel(new Object[][] {},
-				new String[] { "ID","Nombre"}));
-		tableAula.setModel(defaultModelAula);
-		
-		tableAula.getColumnModel().getColumn(0).setPreferredWidth(86);
-		tableAula.getColumnModel().getColumn(1).setPreferredWidth(86);
-		ArrayList<AulaDTO> array = new ArrayList<AulaDTO>();
-		array = ga.getListaAulas();
+		JTable tableAlumnos = new JTable();
+		tableAlumnos.setFillsViewportHeight(true);
+		tableAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModelAlumno = (new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Nombre" }));
+		tableAlumnos.setModel(defaultModelAlumno);
 
-		for (AulaDTO e : array) {
+		tableAlumnos.getColumnModel().getColumn(0).setPreferredWidth(86);
+		tableAlumnos.getColumnModel().getColumn(1).setPreferredWidth(86);
+		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+		array = gu.getList();
 
-			Object[] fila = { e.getIdAula(),e.getNombre() };
-			defaultModelAula.addRow(fila);
+		for (UsuarioDTO e : array) {
+
+			Object[] fila = { e.getIdUsuario(), e.getNombre() };
+			defaultModelAlumno.addRow(fila);
 		}
 		Object[] fila = { "", "" };
-		defaultModelAula.addRow(fila);
-		// table.setModel(defaultModel);
-		scrollPane.setViewportView(tableAula);
+		defaultModelAlumno.addRow(fila);
+
+		scrollPane.setViewportView(tableAlumnos);
 		JButton btnEliminarEquipo = new JButton("Desasignar");
 		btnEliminarEquipo.setEnabled(false);
 		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
@@ -886,12 +886,34 @@ public class Main extends JFrame {
 
 		JButton btnAnadirEquipo = new JButton("A\u00F1adir Equipo");
 		btnAnadirEquipo.setBackground(Color.ORANGE);
-		btnAnadirEquipo.setBounds(768, 11, 229,31);
+		btnAnadirEquipo.setBounds(261, 45, 229, 31);
 		aulas.add(btnAnadirEquipo);
 
-		btnModificarEquipo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_3.removeAll();
+				panel_3.revalidate();
+				panel_3.repaint();
+				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+					cargarEquiposAula();
+					aulaSeleccionada = ga.getAulaByNombre(comboBox.getSelectedItem().toString()).getIdAula();
+				}
+			}
+		});
+		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
+		comboBox.addItem("Seleccione un aula");
+		comboBox.setBounds(46, 45, 190, 31);
+		aulas.add(comboBox);
 
+		btnAsignarAlumno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DefaultTableModel model = (DefaultTableModel) tableAlumnos.getModel();
+				String id = model.getValueAt(tableAlumnos.getSelectedRow(), 0).toString();
+				String mensaje = "Equipo asignado al alumno";
+				if (!gu.asignarEquipo(id,equipoSeleccionado.getIdEquipo())) 
+					mensaje = "Error al asignar el equipo";
+				JOptionPane.showMessageDialog(null, mensaje);
 			}
 		});
 
@@ -903,25 +925,32 @@ public class Main extends JFrame {
 
 		btnAnadirEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (aulaSeleccionada != 0) {
+					try {
+						AñdirEquipoPanel frame = new AñdirEquipoPanel(aulaSeleccionada);
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 
+		JButton btnDeleteEquipo = new JButton("Quitar Equipo");
+		btnDeleteEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (equipoSeleccionado != null) {
+					try {
+						String mensaje = "Equipo eliminado del aula";
+						if (!ge.desasignarAula(equipoSeleccionado.getIdEquipo())) 
+							mensaje = "Error al eliminar el equipo";
+						JOptionPane.showMessageDialog(null, mensaje);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		});
-		comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panel_3.removeAll();
-				panel_3.revalidate();
-				panel_3.repaint();
-				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula"))
-					cargarEquiposAula();
-				btnEliminarEquipo.setEnabled(true);
-				btnModificarEquipo.setEnabled(true);
-			}
-		});
-		comboBox.setFont(new Font("Tahoma", Font.BOLD, 15));
-		comboBox.addItem("Seleccione un aula");
-		comboBox.setBounds(46, 44, 190, 31);
-		aulas.add(comboBox);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0x566573));
@@ -1001,10 +1030,9 @@ public class Main extends JFrame {
 		txtRam.setBackground(new Color(0x566573));
 		txtRam.setBounds(10, 201, 434, 22);
 		panel_2.add(txtRam);
-		
-		JButton btnDeleteEquipo = new JButton("Delete Equipo");
+
 		btnDeleteEquipo.setBackground(Color.ORANGE);
-		btnDeleteEquipo.setBounds(997, 11, 229, 31);
+		btnDeleteEquipo.setBounds(502, 45, 229, 31);
 		aulas.add(btnDeleteEquipo);
 	}
 
@@ -1098,9 +1126,9 @@ public class Main extends JFrame {
 		tableAula.setFillsViewportHeight(true);
 		tableAula.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModelAula = (new DefaultTableModel(new Object[][] {},
-				new String[] { "ID","Nombre", "Rango Ip", "Capacidad", "Descripcion" }));
+				new String[] { "ID", "Nombre", "Rango Ip", "Capacidad", "Descripcion" }));
 		tableAula.setModel(defaultModelAula);
-		
+
 		tableAula.getColumnModel().getColumn(0).setPreferredWidth(86);
 		tableAula.getColumnModel().getColumn(1).setPreferredWidth(86);
 		tableAula.getColumnModel().getColumn(2).setPreferredWidth(106);
@@ -1111,7 +1139,7 @@ public class Main extends JFrame {
 
 		for (AulaDTO e : array) {
 
-			Object[] fila = { e.getIdAula(),e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
+			Object[] fila = { e.getIdAula(), e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
 			defaultModelAula.addRow(fila);
 
 		}
@@ -1120,12 +1148,12 @@ public class Main extends JFrame {
 		// table.setModel(defaultModel);
 		scrollPane.setViewportView(tableAula);
 
-
 		JButton btnNewButton = new JButton("Aï¿½adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
-				//int ids = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString());
+				// int ids = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(),
+				// 0).toString());
 				String ips = model.getValueAt(tableAula.getSelectedRow(), 2).toString();
 				String nombre = model.getValueAt(tableAula.getSelectedRow(), 1).toString();
 
@@ -1163,7 +1191,7 @@ public class Main extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
-				//String nombre = model.getValueAt(tableAula.getSelectedRow(), 0);
+				// String nombre = model.getValueAt(tableAula.getSelectedRow(), 0);
 				System.out.println("asdasdas" + tableAula.getSelectedRow());
 				System.out.println("asdasdas" + tableAula.getSelectedRow());
 
@@ -1171,7 +1199,8 @@ public class Main extends JFrame {
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 					String mensaje = "!Error al borrar el aulaï¿½";
-					if (eliminarAula((int)Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()))) {
+					if (eliminarAula(
+							(int) Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()))) {
 						mensaje = "!Aula borrada correctamenteï¿½ï¿½";
 						model.removeRow(tableAula.getSelectedRow());
 						nombreSeleccionado = "";
@@ -1197,8 +1226,7 @@ public class Main extends JFrame {
 				int capacidad = Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 3).toString());
 				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
-				AulaDTO adto = new AulaDTO(ids, ips, nombre, descripcion,
-						capacidad);
+				AulaDTO adto = new AulaDTO(ids, ips, nombre, descripcion, capacidad);
 				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
@@ -1237,11 +1265,11 @@ public class Main extends JFrame {
 
 		for (AulaDTO e : array) {
 
-			Object[] fila = { e.getIdAula(),e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
+			Object[] fila = { e.getIdAula(), e.getNombre(), e.getRangoIps(), e.getCapacidad(), e.getDescripcion() };
 			defaultModelAula.addRow(fila);
 
 		}
-		Object[] fila = { "","", "", "", "" };
+		Object[] fila = { "", "", "", "", "" };
 		defaultModelAula.addRow(fila);
 
 	}
