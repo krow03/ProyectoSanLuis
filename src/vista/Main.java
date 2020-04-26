@@ -35,6 +35,7 @@ import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
 import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
+import DTO.StockDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
 import Gestores.GestorAulas;
@@ -837,7 +838,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -1586,7 +1587,8 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private void visualizarIncidencias2() {
-
+		ArrayList<StockDTO> listaCompra = new ArrayList<StockDTO>();
+		
 		stock = new JPanel();
 		stock.setBounds(88, 1000, 1157, 744);
 		contentPane.add(stock);
@@ -1608,8 +1610,8 @@ public class Main extends JFrame {
 		tableHardware.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableHardware.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
-		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
-		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(3).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(4).setPreferredWidth(450);
 		ArrayList<ComponenteDTO> arrayHardware = new ArrayList<ComponenteDTO>();
 		arrayHardware = gc.getListaHardware();
 
@@ -1668,14 +1670,17 @@ public class Main extends JFrame {
 
 		for (ComponenteDTO e : arrayCompras) {
 
-			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((HardwareDTO) e).getTipo(),
-					((HardwareDTO) e).getMarca() };
+			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((HardwareDTO) e).getTipo(), ((HardwareDTO) e).getMarca() };
 			defaultModelCompras.addRow(fila);
 		}
 		tableCompras.setModel(defaultModelCompras);
 		scrollPaneCompras.setViewportView(tableCompras);
 
 		JButton btnNewButton_8 = new JButton("Comprar");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_8.setBounds(635, 714, 89, 23);
 		stock.add(btnNewButton_8);
 		JButton btnNewButton_5 = new JButton("Hardware");
@@ -1689,6 +1694,33 @@ public class Main extends JFrame {
 		stock.add(btnNewButton_5);
 
 		JButton btnNewButton_9 = new JButton("icono");
+		btnNewButton_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel tm = (DefaultTableModel) tableCompras.getModel();
+				if(tableSoftware.getSelectedRow()!=-1) {
+					DefaultTableModel modelSoftware = (DefaultTableModel) tableSoftware.getModel();
+					System.out.println("hola"+tableSoftware.getSelectedRow());
+					String id = modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 0).toString();
+					String descri = modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 2).toString();
+
+
+					Object[] fila = { id, "", 1, descri };
+					tm.addRow(fila);
+
+				}
+				if(tableHardware.getSelectedRow()!=-1) {
+					DefaultTableModel modelHardware = (DefaultTableModel) tableSoftware.getModel();
+					System.out.println("hola"+tableHardware.getSelectedRow());
+					String id = modelHardware.getValueAt(tableHardware.getSelectedRow(), 0).toString();
+					String descri = modelHardware.getValueAt(tableHardware.getSelectedRow(), 1).toString();
+
+
+					Object[] fila = { id, "", 1, descri };
+					tm.addRow(fila);
+
+				}
+			}
+		});
 		btnNewButton_9.setBounds(635, 400, 89, 23);
 		stock.add(btnNewButton_9);
 
