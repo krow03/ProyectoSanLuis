@@ -326,7 +326,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -476,7 +476,16 @@ public class Main extends JFrame {
 		table2.setFillsViewportHeight(true);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModel2 = (new DefaultTableModel(new Object[][] {}, new String[] { "DNI", "Rol", "Nombre", "Apellidos",
-				"Email", "Direccion", "Telefono", "User Name", "Password", "Nombre Equipo" }));
+				"Email", "Direccion", "Telefono", "User Name", "Password", "Nombre Equipo" }) {
+			public boolean isCellEditable(int row, int column) {
+			    if(column == 1 || column == 9) {
+			        return false;
+			    }else {
+				    return true;
+
+			    }
+			}
+		});
 		table2.setModel(defaultModel2);
 		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
 		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
@@ -1464,7 +1473,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 780);
+		incidencias.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1604,8 +1613,13 @@ public class Main extends JFrame {
 		JTable tableHardware = new JTable();
 		tableHardware.setFillsViewportHeight(true);
 		tableHardware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "Descripcion", "Tipo", "Marca", "Peso" }));
+				new String[] { "COD", "Descripcion", "Tipo", "Marca", "Peso" }) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
 		tableHardware.setModel(defaultModel2);
 		tableHardware.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableHardware.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -1632,7 +1646,11 @@ public class Main extends JFrame {
 		tableSoftware.setFillsViewportHeight(true);
 		tableSoftware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Descripcion", "Cod licencia" }));
+				new String[] { "ID", "Descripcion", "Cod licencia" }) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		});
 		tableSoftware.setModel(defaultModel2);
 		tableSoftware.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableSoftware.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -1659,7 +1677,16 @@ public class Main extends JFrame {
 		tableCompras.setFillsViewportHeight(true);
 		tableCompras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableModel defaultModelCompras = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "Precio", "Cantidad", "Descripcion" }));
+				new String[] { "COD", "Precio", "Cantidad", "Descripcion" }) {
+			public boolean isCellEditable(int row, int column) {
+			    if(column == 0 ||column == 1||column == 3) {
+			        return false;
+			    }else {
+				    return true;
+
+			    }
+			}
+		});
 		tableCompras.setModel(defaultModelCompras);
 		tableCompras.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableCompras.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -1668,11 +1695,6 @@ public class Main extends JFrame {
 		ArrayList<ComponenteDTO> arrayCompras = new ArrayList<ComponenteDTO>();
 		arrayCompras = gc.getListaHardware();
 
-		for (ComponenteDTO e : arrayCompras) {
-
-			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((HardwareDTO) e).getTipo(), ((HardwareDTO) e).getMarca() };
-			defaultModelCompras.addRow(fila);
-		}
 		tableCompras.setModel(defaultModelCompras);
 		scrollPaneCompras.setViewportView(tableCompras);
 
@@ -1734,6 +1756,21 @@ public class Main extends JFrame {
 		});
 		btnNewButton_6.setBounds(338, 155, 282, 48);
 		stock.add(btnNewButton_6);
+		tableHardware.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// nombreSeleccionado =
+				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+				tableSoftware.getSelectionModel().removeSelectionInterval(0, 0);
 
+			}
+		});
+		tableSoftware.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				// nombreSeleccionado =
+				// tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString();
+				tableHardware.getSelectionModel().removeSelectionInterval(0, 0);
+
+			}
+		});
 	}
 }
