@@ -847,7 +847,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -1123,7 +1123,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1289,7 +1289,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 1000, 1278, 767);
+		crudEquipo.setBounds(101, 37, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1599,7 +1599,7 @@ public class Main extends JFrame {
 		ArrayList<StockDTO> listaCompra = new ArrayList<StockDTO>();
 		
 		stock = new JPanel();
-		stock.setBounds(88, 1000, 1157, 744);
+		stock.setBounds(88, 37, 1157, 744);
 		contentPane.add(stock);
 
 		stock.setBackground(Color.WHITE);
