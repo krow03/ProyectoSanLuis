@@ -585,9 +585,9 @@ public class Main extends JFrame {
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 				UsuarioDTO user = new UsuarioDTO(id, userName, email, pass, nombre, apellidos, direccion, telefono);
-				String mensaje = "!Usuario modificado correctamenteï¿½";
+				String mensaje = "¡Usuario modificado correctamente\u0021";
 				if (!modificarusuario(user))
-					mensaje = "!Error al modificar el usuarioï¿½";
+					mensaje = "¡Error al modificar el usuario\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
 			}
@@ -610,14 +610,14 @@ public class Main extends JFrame {
 
 		btnNewButton_2_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String mensaje = "!Usuario borrado correctamenteï¿½";
+				String mensaje = "¡Usuario borrado correctamente\u0021";
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
 				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar usuario?", "Eliminar Usuario",
+				int option = JOptionPane.showConfirmDialog(null, "\u00bfBorrar usuario?", "Eliminar Usuario",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 					if (!borrarUsuario(id))
-						mensaje = "!Error al borrar el usuarioï¿½";
+						mensaje = "¡Error al borrar el usuario\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 					gu.cargarListaUsuarios();
 				}
@@ -643,22 +643,22 @@ public class Main extends JFrame {
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 
-				String mensaje = "!Error al degradar usuario!";
+				String mensaje = "¡Error al degradar usuario!";
 				if (rol.equals("admin")) {
 					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
 							direccion, telefono);
 					if (gu.degradarUsuario(admin))
-						mensaje = "ï¿½Usuario degradado!";
+						mensaje = "¡Usuario degradado!";
 				} else if (rol.equals("tecnico")) {
 					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.degradarUsuario(tec))
-						mensaje = "ï¿½Usuario degradado!";
+						mensaje = "¡Usuario degradado!";
 				} else {
 					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.degradarUsuario(user))
-						mensaje = "ï¿½Usuario degradado!";
+						mensaje = "¡Usuario degradado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
@@ -694,17 +694,17 @@ public class Main extends JFrame {
 					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
 							direccion, telefono);
 					if (gu.promocionarUsuario(admin))
-						mensaje = "ï¿½Usuario promocionado!";
+						mensaje = "¡Usuario promocionado!";
 				} else if (rol.equals("tecnico")) {
 					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.promocionarUsuario(tec))
-						mensaje = "ï¿½Usuario promocionado!";
+						mensaje = "¡Usuario promocionado!";
 				} else {
 					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.promocionarUsuario(user))
-						mensaje = "ï¿½Usuario promocionado!";
+						mensaje = "¡Usuario promocionado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 				gu.cargarListaUsuarios();
@@ -1158,7 +1158,7 @@ public class Main extends JFrame {
 		// table.setModel(defaultModel);
 		scrollPane.setViewportView(tableAula);
 
-		JButton btnNewButton = new JButton("Aï¿½adir");
+		JButton btnNewButton = new JButton("A\u00F1adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
@@ -1171,9 +1171,9 @@ public class Main extends JFrame {
 				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
-				String mensaje = "!Aula creada correctamenteï¿½";
+				String mensaje = "¡Aula creada correctamente\u0021";
 				if (!crearAula(adto))
-					mensaje = "!Error al crear el aulaï¿½ï¿½";
+					mensaje = "¡Error al crear el aula\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
 				recargarAula();
 
@@ -1208,10 +1208,10 @@ public class Main extends JFrame {
 				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar Aula?", "Eliminar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Error al borrar el aulaï¿½";
+					String mensaje = "¡Error al borrar el aula\u0021";
 					if (eliminarAula(
 							(int) Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()))) {
-						mensaje = "!Aula borrada correctamenteï¿½ï¿½";
+						mensaje = "¡Aula borrada correctamente\u0021";
 						model.removeRow(tableAula.getSelectedRow());
 						nombreSeleccionado = "";
 					}
@@ -1241,9 +1241,9 @@ public class Main extends JFrame {
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 
-					String mensaje = "!Aula modificada correctamenteï¿½";
+					String mensaje = "¡Aula modificada correctamente\u0021";
 					if (!modificarAula(adto))
-						mensaje = "!Error al modificada el aulaï¿½";
+						mensaje = "¡Error al modificada el aula\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 
 				}
@@ -1313,7 +1313,7 @@ public class Main extends JFrame {
 		tableEquipo.setModel(defaultModel);
 		scrollPaneEquipo.setViewportView(tableEquipo);
 
-		JButton btnNewButton = new JButton("Aï¿½adir");
+		JButton btnNewButton = new JButton("A"+'\u00f1'+"adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
@@ -1324,9 +1324,9 @@ public class Main extends JFrame {
 				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
 
 				EquipoDTO edto = new EquipoDTO(ip, nombre, discoDuro, ram);
-				String mensaje = "!Equipo creado correctamenteï¿½";
+				String mensaje = "¡Equipo creado correctamente\u0021";
 				if (!crearEquipo(edto))
-					mensaje = "!Error al crear el equipoï¿½";
+					mensaje = "¡Error al crear el equipo\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
 				ge.cargarListaEquipos();
 				recargar();
@@ -1354,12 +1354,12 @@ public class Main extends JFrame {
 				DefaultTableModel model = (DefaultTableModel) tableEquipo.getModel();
 				int id = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 0).toString());
 
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Bor235r 89uipo?", "Eliminar Equipo",
+				int option = JOptionPane.showConfirmDialog(null, "\u00bfBuscar equipo?", "Eliminar Equipo",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Equipo borrado correctamenteï¿½";
+					String mensaje = "¡Equipo borrado correctamente\u0021";
 					if (!borrarEquipo(id))
-						mensaje = "!Error al borrar el equipoï¿½";
+						mensaje = "¡Error al borrar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 					ge.cargarListaEquipos();
 
@@ -1396,12 +1396,12 @@ public class Main extends JFrame {
 
 				EquipoDTO edto = new EquipoDTO(id, ip, nombre, discoDuro, ram);
 
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
+				int option = JOptionPane.showConfirmDialog(null, "\u00bfModificar aula?", "Modificar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "!Equipo modificado correctamenteï¿½";
+					String mensaje = "¡Equipo modificado correctamente\u0021";
 					if (!modificarEquipo(edto))
-						mensaje = "!Error al modificar el equipoï¿½";
+						mensaje = "¡Error al modificar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 					ge.cargarListaEquipos();
 					recargar();
