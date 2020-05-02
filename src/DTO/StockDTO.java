@@ -7,23 +7,26 @@ public class StockDTO{
 	private int unidades;
 	private int limiteInferior;
 	private String descripcion;
+	private float precio;
 	
 	private ArrayList<ComponenteDTO> componentes;
 	private ArrayList<EquipoDTO> equipos;
 	
-	public StockDTO(int idStock, int unidades, int limiteInferior, String descripcion) {
+	public StockDTO(int idStock, int unidades, int limiteInferior, String descripcion,float precio) {
 		super();
 		this.idStock = idStock;
 		this.unidades = unidades;
 		this.limiteInferior = limiteInferior;
 		this.descripcion = descripcion;
+		this.precio = precio;
 	}
 	
-	public StockDTO(int unidades, int limiteInferior, String descripcion) {
+	public StockDTO(int unidades, int limiteInferior, String descripcion, float precio) {
 		super();
 		this.unidades = unidades;
 		this.limiteInferior = limiteInferior;
 		this.descripcion = descripcion;
+		this.precio = precio;
 	}
 	
 	public int getIdStock() {
@@ -49,6 +52,14 @@ public class StockDTO{
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
 	}
 
 	public ArrayList<ComponenteDTO> getComponentes() {

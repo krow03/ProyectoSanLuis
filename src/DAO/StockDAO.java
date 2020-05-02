@@ -9,9 +9,9 @@ import Conexion.Conexion;
 import DTO.StockDTO;
 
 public class StockDAO implements PatronDAO<StockDTO>{
-	private static final String SQL_INSERT="INSERT INTO sanluisdb.stock (unidadesStock, limiteInferior, descripcion) VALUES (?,?,?,?);";
+	private static final String SQL_INSERT="INSERT INTO sanluisdb.stock (unidadesStock, limiteInferior, descripcion, precio) VALUES (?,?,?,?,?);";
 	private static final String SQL_DELETE="DELETE FROM Stock WHERE idStock = ?";
-	private static final String SQL_UPDATE="UPDATE Stock SET unidadesStock=?,limiteInferior=?,descripcion=? WHERE idStock = ?";
+	private static final String SQL_UPDATE="UPDATE Stock SET unidadesStock=?,limiteInferior=?,descripcion=?,precio? WHERE idStock = ?";
 	private static final String SQL_FIND="SELECT * FROM Stock WHERE idStock = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Stock";
 	private static final String SQL_FINDALLBYID="SELECT * FROM Aulas WHERE centro_idCentro = ?";
@@ -25,6 +25,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
             ps.setInt(1, t.getUnidades());
             ps.setInt(2, t.getLimiteInferior());
             ps.setString(3, t.getDescripcion());
+            ps.setFloat(4, t.getPrecio());
 
             if (ps.executeUpdate()>0) {
                 ps.close();
@@ -59,7 +60,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			ps.setInt(1, t.getUnidades());
 	        ps.setInt(2, t.getLimiteInferior());
 	        ps.setString(3, t.getDescripcion());
-
+	        ps.setFloat(4, t.getPrecio());
 			
 			ps.setInt(5, t.getIdStock());
 
@@ -89,7 +90,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"));
+				stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
 				return stock;
 			}
 		} catch (SQLException e) {
@@ -105,7 +106,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"));
+				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
 				lista.add(stock);
 			}
 			rs.close();
@@ -123,7 +124,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"));
+				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
 				lista.add(stock);
 			}
 			rs.close();
