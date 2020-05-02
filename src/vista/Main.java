@@ -92,9 +92,11 @@ public class Main extends JFrame {
 	private String nombreSeleccionado;
 	private int aulaSeleccionada = 0;
 	int xx, xy;
+	AulaDTO adto;
 	private JTable table;
 	private JTable table_1;
 	private JTextField txtNombreOnline;
+	private JTextField txtId;
 	private JTextField txtEmailOnline;
 	private JTextField txtEquipoOnline;
 	private JTextField txtNombreEquipo;
@@ -159,61 +161,39 @@ public class Main extends JFrame {
 		panel.setBounds(0, 0, 65, 878);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		JLabel lvlSalida_1_1_2 = new JLabel("");
-		lvlSalida_1_1_2.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
-		lvlSalida_1_1_2.addMouseListener(new MouseAdapter() {
+		JLabel lblAulaVerde = new JLabel("");
+		lblAulaVerde.setIcon(new ImageIcon(Main.class.getResource("/images/aulasVerde32.png")));
 
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				visualizarAulas();
-				aulas.setVisible(true);
-				cargarDesplegableAula();
-				perfil.setVisible(false);
-				incidencias.setVisible(false);
-				crud.setVisible(false);
-				crudEquipo.setVisible(false);
-				stock.setVisible(false);
+		lblAulaVerde.setBounds(10, 204, 46, 64);
+		panel.add(lblAulaVerde);
+		lblAulaVerde.setVisible(false);
+		JLabel lblAula = new JLabel("");
+		lblAula.setIcon(new ImageIcon(Main.class.getResource("/images/colegio (2).png")));
+		
+		lblAula.setBounds(10, 204, 46, 64);
+		panel.add(lblAula);
+		JLabel lblCrudAulaVerde = new JLabel("");
+		lblCrudAulaVerde.setIcon(new ImageIcon(Main.class.getResource("/images/edificioVerde.png")));
+		
+		lblCrudAulaVerde.setBounds(10, 488, 46, 39);
+		panel.add(lblCrudAulaVerde);
+		lblAulaVerde.setVisible(false);
+		JLabel lblCrudAulas = new JLabel("");
+		lblCrudAulas.setIcon(new ImageIcon(Main.class.getResource("/images/edificio.png")));
+		
+		lblCrudAulas.setBounds(10, 488, 46, 39);
+		panel.add(lblCrudAulas);
+		JLabel lblIncidenciasVerde = new JLabel("");
+		lblIncidenciasVerde.setIcon(new ImageIcon(Main.class.getResource("/images/incidenciaVerde.png")));
 
-			}
-		});
-		lvlSalida_1_1_2.setBounds(10, 204, 46, 64);
-		panel.add(lvlSalida_1_1_2);
-		JLabel lblNewLabel_8 = new JLabel("");
-		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/images/comunicacion (2).png")));
-		lblNewLabel_8.addMouseListener(new MouseAdapter() {
+		lblIncidenciasVerde.setBounds(10, 112, 46, 64);
+		panel.add(lblIncidenciasVerde);
+		lblIncidenciasVerde.setVisible(false);
+		JLabel lblIncidencias = new JLabel("");
+		lblIncidencias.setIcon(new ImageIcon(Main.class.getResource("/images/incidenciaBlanca.png")));
 
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(false);
-				perfil.setVisible(false);
-				incidencias.setVisible(false);
-				crud.setVisible(true);
-				crudEquipo.setVisible(false);
-				stock.setVisible(false);
-
-			}
-		});
-		lblNewLabel_8.setBounds(10, 488, 46, 39);
-		panel.add(lblNewLabel_8);
-		JLabel lvlSalida_1_1 = new JLabel("");
-		lvlSalida_1_1.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
-		lvlSalida_1_1.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(false);
-				perfil.setVisible(false);
-				incidencias.setVisible(true);
-				crud.setVisible(false);
-				crudEquipo.setVisible(false);
-				stock.setVisible(false);
-
-			}
-		});
-		lvlSalida_1_1.setBounds(10, 112, 46, 64);
-		panel.add(lvlSalida_1_1);
+		lblIncidencias.setBounds(10, 112, 46, 64);
+		panel.add(lblIncidencias);
 		JLabel lvlCerrarSesion = new JLabel("");
 		lvlCerrarSesion.setIcon(new ImageIcon(Main.class.getResource("/images/salida (3).png")));
 		lvlCerrarSesion.setBounds(10, 789, 46, 64);
@@ -224,45 +204,27 @@ public class Main extends JFrame {
 				logOut();
 			}
 		});
+		JLabel lblPedidosVerde = new JLabel("");
+		lblPedidosVerde.setIcon(new ImageIcon(Main.class.getResource("/images/pedidosVerde.png")));
+		lblPedidosVerde.setBounds(10, 400, 46, 64);
 
+		panel.add(lblPedidosVerde);
+		lblPedidosVerde.setVisible(true);
 		JLabel lblPedidos = new JLabel("");
 		lblPedidos.setIcon(new ImageIcon(Main.class.getResource("/images/producto.png")));
 		lblPedidos.setBounds(10, 400, 46, 64);
-		lblPedidos.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				aulas.setVisible(false);
-				perfil.setVisible(false);
-				incidencias.setVisible(false);
-				crud.setVisible(false);
-				crudEquipo.setVisible(false);
-				stock.setVisible(true);
-			}
-		});
+		
 		panel.add(lblPedidos);
 
-		JLabel lblStock = new JLabel("");
-		lblStock.setIcon(new ImageIcon(Main.class.getResource("/images/almacen.png")));
-		lblStock.setBounds(10, 306, 46, 64);
-		panel.add(lblStock);
 
+		JLabel lblEquiposVerde = new JLabel("");
+		lblEquiposVerde.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatilVerde.png")));
+
+		lblEquiposVerde.setBounds(10, 550, 46, 64);
+		panel.add(lblEquiposVerde);
 		JLabel lblEquipos = new JLabel("");
 		lblEquipos.setIcon(new ImageIcon(Main.class.getResource("/images/ordenador-portatil.png")));
-		lblEquipos.addMouseListener(new MouseAdapter() {
 
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				aulas.setVisible(false);
-				perfil.setVisible(false);
-				incidencias.setVisible(false);
-				crud.setVisible(false);
-				crudEquipo.setVisible(true);
-				stock.setVisible(false);
-
-			}
-		});
 		lblEquipos.setBounds(10, 550, 46, 64);
 		panel.add(lblEquipos);
 
@@ -281,11 +243,28 @@ public class Main extends JFrame {
 
 		JLabel lvlSalida_1 = new JLabel("");
 		lvlSalida_1.setIcon(new ImageIcon(Main.class.getResource("/images/cuenta.png")));
+
+		lvlSalida_1.setBounds(10, 11, 46, 64);
+		panel.add(lvlSalida_1);
+		JLabel lblCuentaVerde = new JLabel("");
+		lblCuentaVerde.setIcon(new ImageIcon(Main.class.getResource("/images/cuentaVerde32.png")));
+		
 		lvlSalida_1.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
+				lvlSalida_1.setVisible(false);
+				lblCuentaVerde.setVisible(true);
+				lblAula.setVisible(true);
+				lblAulaVerde.setVisible(false);
+				lblIncidencias.setVisible(true);
+				lblIncidenciasVerde.setVisible(false);
+				lblPedidosVerde.setVisible(false);
+				lblPedidos.setVisible(true);
+				lblEquipos.setVisible(true);
+				lblEquiposVerde.setVisible(false);
+				lblCrudAulas.setVisible(true);
+				lblCrudAulaVerde.setVisible(false);
 				aulas.setVisible(false);
 				perfil.setVisible(true);
 				incidencias.setVisible(false);
@@ -295,9 +274,140 @@ public class Main extends JFrame {
 
 			}
 		});
-		lvlSalida_1.setBounds(10, 11, 46, 64);
-		panel.add(lvlSalida_1);
+		lblAula.addMouseListener(new MouseAdapter() {
 
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				lblCuentaVerde.setVisible(false);
+				lvlSalida_1.setVisible(true);
+				lblAulaVerde.setVisible(true);
+				lblAula.setVisible(false);
+				lblIncidencias.setVisible(true);
+				lblIncidenciasVerde.setVisible(false);
+				lblPedidosVerde.setVisible(false);
+				lblPedidos.setVisible(true);
+				lblEquipos.setVisible(true);
+				lblEquiposVerde.setVisible(false);
+				lblCrudAulas.setVisible(true);
+				lblCrudAulaVerde.setVisible(false);
+				visualizarAulas();
+				aulas.setVisible(true);
+				cargarDesplegableAula();
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+				crudEquipo.setVisible(false);
+				stock.setVisible(false);
+
+			}
+		});
+		lblCrudAulas.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				lblCrudAulas.setVisible(false);
+				lblCrudAulaVerde.setVisible(true);
+
+				lblCuentaVerde.setVisible(false);
+				lvlSalida_1.setVisible(true);
+				lblAulaVerde.setVisible(false);
+				lblAula.setVisible(true);
+				lblIncidencias.setVisible(true);
+				lblIncidenciasVerde.setVisible(false);
+				lblPedidosVerde.setVisible(false);
+				lblPedidos.setVisible(true);
+				lblEquipos.setVisible(true);
+				lblEquiposVerde.setVisible(false);
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(true);
+				crudEquipo.setVisible(false);
+				stock.setVisible(false);
+
+			}
+		});
+		lblIncidencias.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				lblCuentaVerde.setVisible(false);
+				lvlSalida_1.setVisible(true);
+				lblAulaVerde.setVisible(false);
+				lblAula.setVisible(true);
+				lblIncidencias.setVisible(false);
+				lblIncidenciasVerde.setVisible(true);
+				lblPedidosVerde.setVisible(false);
+				lblPedidos.setVisible(true);
+				lblEquipos.setVisible(true);
+				lblEquiposVerde.setVisible(false);
+				lblCrudAulas.setVisible(true);
+				lblCrudAulaVerde.setVisible(false);
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(true);
+				crud.setVisible(false);
+				crudEquipo.setVisible(false);
+				stock.setVisible(false);
+
+			}
+		});
+		lblPedidos.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				lblCuentaVerde.setVisible(false);
+				lvlSalida_1.setVisible(true);
+				lblAulaVerde.setVisible(false);
+				lblAula.setVisible(true);
+				lblIncidencias.setVisible(true);
+				lblIncidenciasVerde.setVisible(false);
+				lblPedidosVerde.setVisible(true);
+				lblPedidos.setVisible(false);
+				lblEquipos.setVisible(true);
+				lblEquiposVerde.setVisible(false);
+				lblCrudAulas.setVisible(true);
+				lblCrudAulaVerde.setVisible(false);
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+				crudEquipo.setVisible(false);
+				stock.setVisible(true);
+			}
+		});
+		lblEquipos.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				lblCuentaVerde.setVisible(false);
+				lvlSalida_1.setVisible(true);
+				lblAulaVerde.setVisible(false);
+				lblAula.setVisible(true);
+				lblIncidencias.setVisible(true);
+				lblIncidenciasVerde.setVisible(false);
+				lblPedidosVerde.setVisible(false);
+				lblPedidos.setVisible(true);
+				lblEquipos.setVisible(false);
+				lblEquiposVerde.setVisible(true);
+				lblCrudAulas.setVisible(true);
+				lblCrudAulaVerde.setVisible(false);
+				aulas.setVisible(false);
+				perfil.setVisible(false);
+				incidencias.setVisible(false);
+				crud.setVisible(false);
+				crudEquipo.setVisible(true);
+				stock.setVisible(false);
+
+			}
+		});
+		lblCuentaVerde.setBounds(10, 11, 46, 64);
+		panel.add(lblCuentaVerde);
+		lblPedidosVerde.setVisible(false);
+		lblEquiposVerde.setVisible(false);
+		lvlSalida_1.setVisible(false);
+		lblCuentaVerde.setVisible(true);
+		lblCrudAulaVerde.setVisible(false);
 		cargarUsuarioOnline();
 
 	}
@@ -528,12 +638,12 @@ public class Main extends JFrame {
 
 		JButton btnNewButton_2 = new JButton("A\u00F1adir");
 		// btnNewButton_2.setForeground(new Color(0x43B581));
-		btnNewButton_2.setForeground(new Color(0x43B581));
 		btnNewButton_2.setBackground(new Color(86, 101, 115));
-
+		
+		btnNewButton_2.setForeground(new Color(0x43B581));
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/mas (1).png"));
+			img = ImageIO.read(getClass().getResource("/images/more32.png"));
 			btnNewButton_2.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -567,7 +677,7 @@ public class Main extends JFrame {
 		btnNewButton_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton_2_1.setForeground(Color.ORANGE);
 		try {
-			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
+			img = ImageIO.read(getClass().getResource("/images/direcciones32.png"));
 			btnNewButton_2_1.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -597,11 +707,11 @@ public class Main extends JFrame {
 		panel_4_1.add(btnNewButton_2_1);
 
 		JButton btnNewButton_2_2 = new JButton("Eliminar");
-		btnNewButton_2_2.setForeground(new Color(241, 57, 83));
+		
 		btnNewButton_2_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-
+		btnNewButton_2_2.setForeground(new Color(241, 57, 83));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/eliminar (1).png"));
+			img = ImageIO.read(getClass().getResource("/images/bin32.png"));
 			btnNewButton_2_2.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -667,7 +777,7 @@ public class Main extends JFrame {
 		btnDegradar.setBounds(0, 0, 117, 89);
 		btnDegradar.setBackground(new Color(86, 101, 115));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/flecha-arriba (2).png"));
+			img = ImageIO.read(getClass().getResource("/images/degradar32.png"));
 			btnDegradar.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -713,7 +823,7 @@ public class Main extends JFrame {
 		btnPromocionar.setBounds(676, 0, 117, 89);
 		btnPromocionar.setBackground(new Color(86, 101, 115));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/flecha-arriba (4).png"));
+			img = ImageIO.read(getClass().getResource("/images/aumentar32.png"));
 			btnPromocionar.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -728,14 +838,14 @@ public class Main extends JFrame {
 			}
 		});
 		try {
-			img = ImageIO.read(getClass().getResource("/images/desbloquear.png"));
+			img = ImageIO.read(getClass().getResource("/images/candado32.png"));
 			btnNewButton_2_3.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		btnNewButton_2_3.setBackground(new Color(86, 101, 115));
-		btnNewButton_2_3.setBounds(1066, 11, 233, 89);
+		btnNewButton_2_3.setBounds(1066, 38, 233, 62);
 		perfil.add(btnNewButton_2_3);
 
 		JButton btnNewButton_2_2_1 = new JButton("Solicitud");
@@ -902,10 +1012,12 @@ public class Main extends JFrame {
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				panel_3.removeAll();
 				panel_3.revalidate();
 				panel_3.repaint();
 				if (!comboBox.getSelectedItem().toString().equals("Seleccione un aula")) {
+					
 					cargarEquiposAula();
 					aulaSeleccionada = ga.getAulaByNombre(comboBox.getSelectedItem().toString()).getIdAula();
 				}
@@ -920,16 +1032,19 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				DefaultTableModel model = (DefaultTableModel) tableAlumnos.getModel();
 				String id = model.getValueAt(tableAlumnos.getSelectedRow(), 0).toString();
+				gu.asignarEquipo(id, Integer.parseInt(txtId.getText()));
+				//GET EQUIPO BY NOMBRE DEVUELVE ID
 				String mensaje = "Equipo asignado al alumno";
 				if (!gu.asignarEquipo(id,equipoSeleccionado.getIdEquipo())) 
 					mensaje = "Error al asignar el equipo";
 				JOptionPane.showMessageDialog(null, mensaje);
+				
 			}
 		});
 
 		btnEliminarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
 			}
 		});
 
@@ -955,6 +1070,7 @@ public class Main extends JFrame {
 						if (!ge.desasignarAula(equipoSeleccionado.getIdEquipo())) 
 							mensaje = "Error al eliminar el equipo";
 						JOptionPane.showMessageDialog(null, mensaje);
+						cargarEquiposAula();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -1010,7 +1126,16 @@ public class Main extends JFrame {
 
 		txtNombreEquipo.setBounds(10, 38, 434, 22);
 		panel_2.add(txtNombreEquipo);
+		txtId = new JTextField();
+		txtId.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
+		txtId.setColumns(10);
+		txtId.setForeground(Color.WHITE);
+		txtId.setBackground(new Color(0x566573));
+
+		txtId.setBounds(10, 38, 434, 22);
+		panel_2.add(txtId);
+		txtId.setVisible(false);
 		txtIp = new JTextField();
 		txtIp.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtIp.setColumns(10);
@@ -1058,19 +1183,20 @@ public class Main extends JFrame {
 		}
 	}
 
-	private void cargarEquiposAula() {
+	public void cargarEquiposAula() {
 		int linea1 = 0;
 		int linea2 = 0;
 		int linea3 = 0;
 		int linea4 = 0;
 		int linea5 = 0;
-		listaEquipos.clear();
 		try {
-			AulaDTO adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+			if(comboBox.getSelectedItem().toString() != null) {
+				adto = ga.getAulaByNombre(comboBox.getSelectedItem().toString());
+			}
+			
 			listaEquipos = adto.getEquipos();
-
+			System.out.println(listaEquipos.size());
 			for (int i = 0; i < listaEquipos.size(); i++) {
-
 				int posicion1 = linea1 * 15;
 				int posicion2 = linea2 * 15;
 
@@ -1113,6 +1239,7 @@ public class Main extends JFrame {
 	private void cargarDatosEquipo(EquipoDTO e) {
 		txtNombreEquipo.setText(e.getNombre());
 		txtIp.setText(e.getIpEquipo());
+		txtId.setText(String.valueOf(e.getIdEquipo()));
 		equipoSeleccionado = e;
 		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
 		txtRam.setText(((Integer) e.getRam()).toString());
@@ -1179,13 +1306,14 @@ public class Main extends JFrame {
 
 			}
 		});
-		btnNewButton.setBounds(190, 122, 235, 89);
+		btnNewButton.setBounds(190, 124, 235, 89);
 		btnNewButton.setForeground(new Color(0x43B581));
 		btnNewButton.setBackground(new Color(86, 101, 115));
 
+		btnNewButton.setForeground(new Color(0x43B581));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/mas (1).png"));
+			img = ImageIO.read(getClass().getResource("/images/more32.png"));
 			btnNewButton.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -1198,6 +1326,7 @@ public class Main extends JFrame {
 		// defaultModel.addRow(filaBlanca);
 
 		JButton btnNewButton_3 = new JButton("Eliminar");
+		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
@@ -1205,7 +1334,7 @@ public class Main extends JFrame {
 				System.out.println("asdasdas" + tableAula.getSelectedRow());
 				System.out.println("asdasdas" + tableAula.getSelectedRow());
 
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar Aula?", "Eliminar Aula",
+				int option = JOptionPane.showConfirmDialog(null, "¿Borrar Aula?", "Eliminar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 					String mensaje = "¡Error al borrar el aula\u0021";
@@ -1220,12 +1349,21 @@ public class Main extends JFrame {
 				}
 			}
 		});
-		btnNewButton_3.setBounds(550, 124, 235, 89);
+		btnNewButton_3.setBounds(900, 124, 235, 89);
+		btnNewButton_3.setForeground(new Color(241, 57, 83));
+		try {
+			img = ImageIO.read(getClass().getResource("/images/bin32.png"));
+			btnNewButton_3.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		btnNewButton_3.setBackground(new Color(86, 101, 115));
 
 		crud.add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("Modificar");
+		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
@@ -1237,7 +1375,7 @@ public class Main extends JFrame {
 				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
 				AulaDTO adto = new AulaDTO(ids, ips, nombre, descripcion, capacidad);
-				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
+				int option = JOptionPane.showConfirmDialog(null, "¿Modificar aula?", "Modificar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 
@@ -1249,8 +1387,16 @@ public class Main extends JFrame {
 				}
 			}
 		});
-		btnNewButton_4.setBounds(924, 124, 235, 89);
+		btnNewButton_4.setBounds(542, 124, 235, 89);
 		btnNewButton_4.setBackground(new Color(86, 101, 115));
+		btnNewButton_4.setForeground(Color.ORANGE);
+		try {
+			img = ImageIO.read(getClass().getResource("/images/direcciones32.png"));
+			btnNewButton_4.setIcon(new ImageIcon(img));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		crud.add(btnNewButton_4);
 
 		JLabel lblNewLabel_7 = new JLabel("CRUD AULAS");
@@ -1296,7 +1442,7 @@ public class Main extends JFrame {
 		crudEquipo.setLayout(null);
 
 		JScrollPane scrollPaneEquipo = new JScrollPane();
-		scrollPaneEquipo.setBounds(76, 244, 1155, 427);
+		scrollPaneEquipo.setBounds(76, 244, 1155, 480);
 		crudEquipo.add(scrollPaneEquipo);
 		JTable tableEquipo = new JTable();
 		tableEquipo.setFillsViewportHeight(true);
@@ -1312,7 +1458,10 @@ public class Main extends JFrame {
 		recargar();
 		tableEquipo.setModel(defaultModel);
 		scrollPaneEquipo.setViewportView(tableEquipo);
-
+		JLabel lblNewLabel_7 = new JLabel("CRUD EQUIPOS");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 29));
+		lblNewLabel_7.setBounds(10, 22, 210, 43);
+		crudEquipo.add(lblNewLabel_7);
 		JButton btnNewButton = new JButton("A"+'\u00f1'+"adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1333,12 +1482,15 @@ public class Main extends JFrame {
 
 			}
 		});
-		btnNewButton.setBounds(186, 100, 235, 89);
+		btnNewButton.setBounds(190, 124, 235, 89);
 		btnNewButton.setForeground(new Color(241, 57, 83));
+		btnNewButton.setForeground(new Color(0x43B581));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
 
+		btnNewButton.setForeground(new Color(0x43B581));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/eliminar (1).png"));
+			img = ImageIO.read(getClass().getResource("/images/more32.png"));
 			btnNewButton.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -1371,7 +1523,7 @@ public class Main extends JFrame {
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton_3.setForeground(new Color(241, 57, 83));
 		try {
-			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
+			img = ImageIO.read(getClass().getResource("/images/bin32.png"));
 			btnNewButton_3.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -1380,7 +1532,7 @@ public class Main extends JFrame {
 
 		btnNewButton_3.setBackground(new Color(86, 101, 115));
 
-		btnNewButton_3.setBounds(897, 100, 235, 89);
+		btnNewButton_3.setBounds(900, 124, 235, 89);
 		crudEquipo.add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("Modificar");
@@ -1409,11 +1561,12 @@ public class Main extends JFrame {
 
 			}
 		});
-		btnNewButton_4.setBounds(542, 100, 235, 89);
+		btnNewButton_4.setBounds(542, 124, 235, 89);
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnNewButton_4.setForeground(Color.ORANGE);
+		btnNewButton_4.setForeground(Color.ORANGE);
 		try {
-			img = ImageIO.read(getClass().getResource("/images/cambio (3).png"));
+			img = ImageIO.read(getClass().getResource("/images/direcciones32.png"));
 			btnNewButton_4.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -1669,7 +1822,10 @@ public class Main extends JFrame {
 		}
 		tableSoftware.setModel(defaultModel2);
 		scrollPaneSoftware.setViewportView(tableSoftware);
-
+		JLabel lblNewLabel_7 = new JLabel("COMPRAS Y STOCK");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 29));
+		lblNewLabel_7.setBounds(10, 22, 400, 43);
+		stock.add(lblNewLabel_7);
 		JScrollPane scrollPaneCompras = new JScrollPane();
 		scrollPaneCompras.setBounds(743, 202, 534, 495);
 		stock.add(scrollPaneCompras);

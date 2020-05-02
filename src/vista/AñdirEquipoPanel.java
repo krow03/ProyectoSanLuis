@@ -90,6 +90,8 @@ public class AñdirEquipoPanel extends JFrame {
 					e1.printStackTrace();
 				}
                 JOptionPane.showMessageDialog(null, mensaje);
+                //Main m = new Main();
+                //m.cargarEquiposAula();
 				dispose();
 			}
 		});
