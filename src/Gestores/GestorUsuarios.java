@@ -126,7 +126,9 @@ public class GestorUsuarios {
 	public boolean asignarEquipo(String idUsuario, int idEquipo) {
 		return udao.asignarEquipo(idUsuario,idEquipo);
 	}
-	
+	public boolean desasignarEquipo(String idUsuario) {
+		return udao.asignarEquipo(idUsuario);
+	}
 	public void cargarListaIncidencias() {
 		for(UsuarioDTO udto : listaUsers) {
 			 udto.setIncidencias(gs.getListaAsignadasA(udto.getIdUsuario()));
@@ -146,5 +148,15 @@ public class GestorUsuarios {
 			}
 		}
 		return userMenosInci;
+	}
+	
+	public ArrayList<UsuarioDTO> getListaUsuariosAsignados(int idEquipo){
+		ArrayList<UsuarioDTO> listaAsignados = new ArrayList<UsuarioDTO>();
+		for(UsuarioDTO user : listaUsers) {
+			if(user.getEquipo()!=null) 
+				if(user.getEquipo().getIdEquipo()==idEquipo)listaAsignados.add(user);
+
+		}
+		return listaAsignados;
 	}
 }

@@ -18,6 +18,7 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 	private static final String SQL_INSERT="INSERT INTO Usuarios (idUsuarios,Roles_idRol,userName,email,pass,direccion,telefono,nombre,apellidos) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_ASSIGN="UPDATE Usuarios SET Equipos_idEquipos=? WHERE idUsuarios = ?";
+	private static final String SQL_UNASSIGN="UPDATE Usuarios SET Equipos_idEquipos=null WHERE idUsuarios = ?";
 	private static final String SQL_UPDATE="UPDATE Usuarios SET userName = ?, email = ?, pass = ?,direccion=?,telefono=?,nombre=?,apellidos=? WHERE idUsuarios = ?";
 	private static final String SQL_FINDPERSONA="SELECT * FROM Usuarios WHERE idUsuarios = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Usuarios";
@@ -102,6 +103,30 @@ public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 			ps.setInt(1, idEquipo);
 			
 			ps.setString(2, idUsuario);
+
+			if (ps.executeUpdate()>0) return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {
+				if (ps != null) ps.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return false;
+	}
+	
+	public boolean asignarEquipo(String idUsuario) {
+		PreparedStatement ps = null;
+		try {
+			ps = con.getCon().prepareStatement(SQL_UNASSIGN);
+			
+			ps.setString(1, idUsuario);
 
 			if (ps.executeUpdate()>0) return true;
 			

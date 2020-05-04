@@ -971,7 +971,7 @@ public class Main extends JFrame {
 		panel_3.setLayout(null);
 
 		JButton btnAsignarAlumno = new JButton("Asignar");
-		btnAsignarAlumno.setEnabled(false);
+		btnAsignarAlumno.setEnabled(true);
 		btnAsignarAlumno.setBackground(Color.ORANGE);
 		btnAsignarAlumno.setBounds(768, 744, 229, 36);
 		aulas.add(btnAsignarAlumno);
@@ -986,23 +986,14 @@ public class Main extends JFrame {
 
 		tableAlumnos.getColumnModel().getColumn(0).setPreferredWidth(86);
 		tableAlumnos.getColumnModel().getColumn(1).setPreferredWidth(86);
-		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
-		array = gu.getList();
-
-		for (UsuarioDTO e : array) {
-
-			Object[] fila = { e.getIdUsuario(), e.getNombre() };
-			defaultModelAlumno.addRow(fila);
-		}
-		Object[] fila = { "", "" };
-		defaultModelAlumno.addRow(fila);
+		
 
 		scrollPane.setViewportView(tableAlumnos);
-		JButton btnEliminarEquipo = new JButton("Desasignar");
-		btnEliminarEquipo.setEnabled(false);
-		btnEliminarEquipo.setBackground(new Color(220, 20, 60));
-		btnEliminarEquipo.setBounds(997, 744, 229, 36);
-		aulas.add(btnEliminarEquipo);
+		JButton btnDesasignarUsuario = new JButton("Desasignar");
+		btnDesasignarUsuario.setEnabled(true);
+		btnDesasignarUsuario.setBackground(new Color(220, 20, 60));
+		btnDesasignarUsuario.setBounds(997, 744, 229, 36);
+		aulas.add(btnDesasignarUsuario);
 
 		JButton btnAnadirEquipo = new JButton("A\u00F1adir Equipo");
 		btnAnadirEquipo.setBackground(Color.ORANGE);
@@ -1030,21 +1021,23 @@ public class Main extends JFrame {
 
 		btnAsignarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DefaultTableModel model = (DefaultTableModel) tableAlumnos.getModel();
-				String id = model.getValueAt(tableAlumnos.getSelectedRow(), 0).toString();
-				gu.asignarEquipo(id, Integer.parseInt(txtId.getText()));
-				//GET EQUIPO BY NOMBRE DEVUELVE ID
-				String mensaje = "Equipo asignado al alumno";
-				if (!gu.asignarEquipo(id,equipoSeleccionado.getIdEquipo())) 
-					mensaje = "Error al asignar el equipo";
-				JOptionPane.showMessageDialog(null, mensaje);
-				
+				AsignarUsuarioEquipoPanel2 frame = new AsignarUsuarioEquipoPanel2(equipoSeleccionado.getIdEquipo());
+				frame.setModal(true);
+				frame.setVisible(true);
+				ga.cargarEquiposAula();
 			}
 		});
 
-		btnEliminarEquipo.addActionListener(new ActionListener() {
+		btnDesasignarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tableAlumnos.getModel();
+				String id = model.getValueAt(tableAlumnos.getSelectedRow(), 0).toString();
 				
+				String mensaje = "Usuario eliminado del equipo";
+				if (!gu.desasignarEquipo(id)) 
+					mensaje = "Error al eliminar el usuario del equipo";
+				JOptionPane.showMessageDialog(null, mensaje);
+				gu.cargarListaUsuarios();
 			}
 		});
 
@@ -1254,6 +1247,16 @@ public class Main extends JFrame {
 		equipoSeleccionado = e;
 		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
 		txtRam.setText(((Integer) e.getRam()).toString());
+		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+		array = gu.getListaUsuariosAsignados(equipoSeleccionado.getIdEquipo());
+
+		for (UsuarioDTO udto : array) {
+
+			Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
+			defaultModelAlumno.addRow(fila);
+		}
+		Object[] fila = { "", "" };
+		defaultModelAlumno.addRow(fila);
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
