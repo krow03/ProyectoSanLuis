@@ -4,13 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.CompraDAO;
-import DAO.HistoricoComprasDAO;
+import DAO.LineaCompraDAO;
 import DTO.CompraDTO;
-import DTO.HistoricoComprasDTO;
+import DTO.LineaCompraDTO;
 
 public class GestorCompras {
 	private CompraDAO cd = new CompraDAO();
-	private HistoricoComprasDAO hd = new HistoricoComprasDAO();
+	private LineaCompraDAO hd = new LineaCompraDAO();
 	private static ArrayList<CompraDTO> listaCompras = new ArrayList<CompraDTO>();
 
 	public ArrayList<CompraDTO> getListaCompras(){
@@ -40,9 +40,9 @@ public class GestorCompras {
 		return cd.actualizar(cdto);
 	}
 	
-	public boolean crearHistorico(ArrayList<HistoricoComprasDTO> listaProdCompra) throws SQLException {
+	public boolean crearHistorico(ArrayList<LineaCompraDTO> listaProdCompra) throws SQLException {
 		boolean finalizado=true;
-		for(HistoricoComprasDTO hdto : listaProdCompra) {
+		for(LineaCompraDTO hdto : listaProdCompra) {
 			if(!hd.insertar(hdto)) finalizado = false;
 		}
 		return finalizado;

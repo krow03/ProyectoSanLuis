@@ -1,13 +1,13 @@
 package DTO;
 
-public class HistoricoComprasDTO {
+public class LineaCompraDTO {
 	private int idStock;
 	private int idCompra;
 	private int unidades;
 	private double precio;
 	
 	
-	public HistoricoComprasDTO(int idStock, int idCompra, int unidades, double precio) {
+	public LineaCompraDTO(int idStock, int idCompra, int unidades, double precio) {
 		super();
 		this.idStock = idStock;
 		this.idCompra = idCompra;

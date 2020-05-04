@@ -7,20 +7,20 @@ import java.util.ArrayList;
 
 import Conexion.Conexion;
 import DTO.CompraDTO;
-import DTO.HistoricoComprasDTO;
+import DTO.LineaCompraDTO;
 
-public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
-	private static final String SQL_INSERT="INSERT INTO Historico_Compras (Stock_idStock,compras_idCompras,unidades,precio) VALUES (?,?,?,?)";
-	private static final String SQL_DELETE_ALL="DELETE FROM Historico_Compras WHERE compras_idCompras = ? and Stock_idStock =?";
-	private static final String SQL_DELETE="DELETE FROM Historico_Compras WHERE compras_idCompras = ?";
-	private static final String SQL_UPDATE="UPDATE Historico_Compras SET unidades=? WHERE Stock_idStock=? and compras_idCompras=?,";
-	private static final String SQL_FIND="SELECT * FROM Historico_Compras WHERE Stock_idStock = ? and compras_idCompras = ? ";
-	private static final String SQL_FINDALL="SELECT * FROM Historico_Compras";
-	private static final String SQL_FINDALLBYCOMPRA="SELECT * FROM Historico_Compras WHERE compras_idCompras = ?";
+public class LineaCompraDAO implements PatronDAO<LineaCompraDTO>{
+	private static final String SQL_INSERT="INSERT INTO Linea_Compras (Stock_idStock,compras_idCompras,unidades,precio) VALUES (?,?,?,?)";
+	private static final String SQL_DELETE_ALL="DELETE FROM Linea_Compras WHERE compras_idCompras = ? and Stock_idStock =?";
+	private static final String SQL_DELETE="DELETE FROM Linea_Compras WHERE compras_idCompras = ?";
+	private static final String SQL_UPDATE="UPDATE Linea_Compras SET unidades=? WHERE Stock_idStock=? and compras_idCompras=?,";
+	private static final String SQL_FIND="SELECT * FROM Linea_Compras WHERE Stock_idStock = ? and compras_idCompras = ? ";
+	private static final String SQL_FINDALL="SELECT * FROM Linea_Compras";
+	private static final String SQL_FINDALLBYCOMPRA="SELECT * FROM Linea_Compras WHERE compras_idCompras = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	@Override
-	public boolean insertar(HistoricoComprasDTO t) throws SQLException {
+	public boolean insertar(LineaCompraDTO t) throws SQLException {
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
 			ps.setInt(1, t.getIdStock());
@@ -67,7 +67,7 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 		return false;
 	}
 	@Override
-	public boolean actualizar(HistoricoComprasDTO t) {
+	public boolean actualizar(LineaCompraDTO t) {
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
@@ -92,15 +92,15 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 		return false;
 	}
 	@Override
-	public HistoricoComprasDTO buscar(Object pk) {
-		HistoricoComprasDTO historico = null;
+	public LineaCompraDTO buscar(Object pk) {
+		LineaCompraDTO historico = null;
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FIND);
 			ps.setInt(1, (int)pk);
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
+				historico = new LineaCompraDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				return historico;
 			}
 		} catch (SQLException e) {
@@ -109,13 +109,13 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 		return historico;
 	}
 	@Override
-	public ArrayList<HistoricoComprasDTO> listarTodos() {
-		ArrayList<HistoricoComprasDTO> lista = new ArrayList<HistoricoComprasDTO>();
+	public ArrayList<LineaCompraDTO> listarTodos() {
+		ArrayList<LineaCompraDTO> lista = new ArrayList<LineaCompraDTO>();
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				HistoricoComprasDTO historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
+				LineaCompraDTO historico = new LineaCompraDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				lista.add(historico);
 			}
 			rs.close();
@@ -125,14 +125,14 @@ public class HistoricoComprasDAO implements PatronDAO<HistoricoComprasDTO>{
 		return lista;
 	}
 	@Override
-	public ArrayList<HistoricoComprasDTO> listarTodos(Object pk) {
-		ArrayList<HistoricoComprasDTO> lista = new ArrayList<HistoricoComprasDTO>();
+	public ArrayList<LineaCompraDTO> listarTodos(Object pk) {
+		ArrayList<LineaCompraDTO> lista = new ArrayList<LineaCompraDTO>();
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYCOMPRA);
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				HistoricoComprasDTO historico = new HistoricoComprasDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
+				LineaCompraDTO historico = new LineaCompraDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				lista.add(historico);
 			}
 			rs.close();

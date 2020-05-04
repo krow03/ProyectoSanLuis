@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import DAO.ProveedorDAO;
 import DTO.CompraDTO;
-import DTO.HistoricoComprasDTO;
+import DTO.LineaCompraDTO;
 import DTO.ProveedorDTO;
 import DTO.StockDTO;
 
@@ -30,7 +30,7 @@ public class GestorProveedores {
 		for(ProveedorDTO pdto : listaProveedores) {
 			for(CompraDTO cdto : listaCompras) {
 				if(pdto.getIdProveedor()== cdto.getIdProveedor()) {
-					for(HistoricoComprasDTO hdto : cdto.getListaProdPorCompra()) {
+					for(LineaCompraDTO hdto : cdto.getListaProdPorCompra()) {
 						if(gs.buscarById(hdto.getIdStock())!=null) {
 							listaStock.add(gs.buscarById(hdto.getIdStock()));
 						}

@@ -7,7 +7,7 @@ public class CompraDTO {
 	private int idProveedor;
 	private String fechaCompra;
 	private double precioTotal;
-	private ArrayList<HistoricoComprasDTO> listaProdPorCompra= new ArrayList<HistoricoComprasDTO>();
+	private ArrayList<LineaCompraDTO> listaProdPorCompra= new ArrayList<LineaCompraDTO>();
 	
 	
 	public CompraDTO(int idProveedor, String fechaCompra, double precioTotal) {
@@ -52,11 +52,11 @@ public class CompraDTO {
 		this.precioTotal = precioTotal;
 	}
 
-	public ArrayList<HistoricoComprasDTO> getListaProdPorCompra() {
+	public ArrayList<LineaCompraDTO> getListaProdPorCompra() {
 		return listaProdPorCompra;
 	}
 
-	public void setListaProdPorCompra(ArrayList<HistoricoComprasDTO> listaProdPorCompra) {
+	public void setListaProdPorCompra(ArrayList<LineaCompraDTO> listaProdPorCompra) {
 		this.listaProdPorCompra = listaProdPorCompra;
 	}
 	
