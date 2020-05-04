@@ -1053,7 +1053,12 @@ public class Main extends JFrame {
 				if (aulaSeleccionada != 0) {
 					try {
 						AñdirEquipoPanel frame = new AñdirEquipoPanel(aulaSeleccionada);
+						frame.setModal(true);
 						frame.setVisible(true);
+						ga.cargarEquiposAula();
+						System.out.println("que si funciona");
+						cargarEquiposAula();
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -1070,6 +1075,8 @@ public class Main extends JFrame {
 						if (!ge.desasignarAula(equipoSeleccionado.getIdEquipo())) 
 							mensaje = "Error al eliminar el equipo";
 						JOptionPane.showMessageDialog(null, mensaje);
+						ga.cargarEquiposAula();
+						ge.cargarListaEquipos();
 						cargarEquiposAula();
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -1184,6 +1191,10 @@ public class Main extends JFrame {
 	}
 
 	public void cargarEquiposAula() {
+		panel_3.removeAll();
+		panel_3.revalidate();
+		panel_3.repaint();
+		
 		int linea1 = 0;
 		int linea2 = 0;
 		int linea3 = 0;

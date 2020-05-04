@@ -13,6 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -27,7 +29,7 @@ import DTO.IncidenciaDTO;
 import Gestores.GestorEquipos;
 import Gestores.GestorSolicitudes;
 
-public class AñdirEquipoPanel extends JFrame {
+public class AñdirEquipoPanel extends JDialog {
 
 	private JPanel contentPane;
 	private GestorEquipos ge = new GestorEquipos();
@@ -90,8 +92,7 @@ public class AñdirEquipoPanel extends JFrame {
 					e1.printStackTrace();
 				}
                 JOptionPane.showMessageDialog(null, mensaje);
-                //Main m = new Main();
-                //m.cargarEquiposAula();
+                ge.cargarListaEquipos();
 				dispose();
 			}
 		});
