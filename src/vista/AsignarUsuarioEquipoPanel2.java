@@ -74,9 +74,15 @@ public class AsignarUsuarioEquipoPanel2 extends JDialog {
         listaUsuarios = gu.getList();
 
         for (UsuarioDTO e : listaUsuarios) {
-
-            Object[] fila = { e.getIdUsuario(), e.getNombre() };
-            defaultModelEquipos.addRow(fila);
+        	if(e.getEquipo()==null) {
+        		Object[] fila = { e.getIdUsuario(), e.getNombre() };
+            	defaultModelEquipos.addRow(fila);
+        	}else {
+        		if(e.getEquipo().getIdEquipo()!=idEquipo) {
+        			Object[] fila = { e.getIdUsuario(), e.getNombre() };
+	            	defaultModelEquipos.addRow(fila);
+        		}
+        	}
         }
         tableUsuarios.setModel(defaultModelEquipos);
         scrollPaneEquipos.setViewportView(tableUsuarios);
