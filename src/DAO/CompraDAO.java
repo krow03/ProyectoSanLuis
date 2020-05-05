@@ -97,7 +97,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idPorveedor"),rs.getString("ipEquipo"), rs.getDouble("precioTotal"));
+				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"));
 				lista.add(compra);
 			}
 			rs.close();

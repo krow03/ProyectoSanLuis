@@ -132,7 +132,7 @@ public class LineaCompraDAO implements PatronDAO<LineaCompraDTO>{
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				LineaCompraDTO historico = new LineaCompraDTO(rs.getInt("Stock_idStock"),rs.getInt("compras_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
+				LineaCompraDTO historico = new LineaCompraDTO(rs.getInt("Stock_idStock"),rs.getInt("Stock_idStock"),rs.getInt("unidades"),rs.getDouble("precio"));
 				lista.add(historico);
 			}
 			rs.close();
