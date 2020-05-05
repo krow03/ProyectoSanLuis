@@ -9,9 +9,17 @@ import DTO.StockDTO;
 public class GestorStock {
 	private StockDAO sdao = new StockDAO();
 	private static ArrayList<StockDTO> listaStock = new ArrayList<StockDTO>();
-	private GestorComponentes gc = new GestorComponentes();
-	private GestorEquipos ge = new GestorEquipos();
+	private GestorComponentes gc = GestorComponentes.getInstance();
+	private GestorEquipos ge = GestorEquipos.getInstance();
+	private static GestorStock instancia =null;
 	
+	public static GestorStock getInstance() {
+		if(instancia == null) instancia=new GestorStock();
+		return instancia;
+	}
+	private GestorStock() {
+		cargarListaStock();
+	}
 	public ArrayList<StockDTO> getListaStock(){
 		return listaStock;
 	}

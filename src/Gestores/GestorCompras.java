@@ -12,7 +12,16 @@ public class GestorCompras {
 	private CompraDAO cd = new CompraDAO();
 	private LineaCompraDAO hd = new LineaCompraDAO();
 	private static ArrayList<CompraDTO> listaCompras = new ArrayList<CompraDTO>();
-
+	private static GestorCompras instancia =null;
+	
+	
+	public static GestorCompras getInstance() {
+		if(instancia == null) instancia=new GestorCompras();
+		return instancia;
+	}
+	private GestorCompras() {
+		cargarListaCompras();
+	}
 	public ArrayList<CompraDTO> getListaCompras(){
 		return listaCompras;
 	}

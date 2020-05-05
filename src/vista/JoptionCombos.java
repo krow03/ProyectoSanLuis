@@ -25,8 +25,8 @@ public class JoptionCombos extends JFrame {
 
 	private JPanel contentPane;
 	private String rol = "Usuario";
-	private GestorUsuarios gu = new GestorUsuarios();
-	private GestorEquipos ge = new GestorEquipos();
+	private GestorUsuarios gu = GestorUsuarios.getInstance();
+	private GestorEquipos ge = GestorEquipos.getInstance();
 	private JComboBox comboBox = new JComboBox();
 	
 	public JoptionCombos(UsuarioDTO user) {
@@ -59,17 +59,14 @@ public class JoptionCombos extends JFrame {
 						AdministradorDTO adto = new AdministradorDTO(user.getIdUsuario(),user.getUserName(),user.getEmail(),user.getPass(), user.getNombre(), user.getApellidos(),user.getDireccion(),user.getTelefono());
 						if (!crearUsuario(adto))mensaje="!Error al crear el administrador¿½";
 						JOptionPane.showMessageDialog(null, mensaje);
-						gu.cargarListaUsuarios();
 					}else if(rol.equals("Tecnico")){
 						TecnicoDTO tdto = new TecnicoDTO(user.getIdUsuario(),user.getUserName(),user.getEmail(), user.getPass(), user.getNombre(), user.getApellidos(),user.getDireccion(),user.getTelefono());
 						if (!crearUsuario(tdto))mensaje="!Error al crear el tecnicoï¿½";
 						JOptionPane.showMessageDialog(null, mensaje);
-						gu.cargarListaUsuarios();
 					}else {
 						UsuarioDTO udto = new UsuarioDTO(user.getIdUsuario(),user.getUserName(),user.getEmail(), user.getPass(), user.getNombre(), user.getApellidos(),user.getDireccion(),user.getTelefono());	
 						if (!crearUsuario(udto))mensaje="!Error al crear el usuarioï¿½";
 						JOptionPane.showMessageDialog(null, mensaje);
-						gu.cargarListaUsuarios();
 					}
 					
 				}catch(Exception ex) {

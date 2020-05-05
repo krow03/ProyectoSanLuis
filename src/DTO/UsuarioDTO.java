@@ -10,7 +10,7 @@ import Gestores.GestorEquipos;
  * */
 public class UsuarioDTO
 {
-	private GestorEquipos ge= new GestorEquipos();
+	private GestorEquipos ge= GestorEquipos.getInstance();
 	private String idUsuario;
 	private String nombre;
 	private String apellidos;

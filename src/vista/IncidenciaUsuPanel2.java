@@ -41,7 +41,9 @@ public class IncidenciaUsuPanel2 extends JFrame {
 	private JRadioButton rdbtnNewRadioButton_1;
 	private JComboBox comboBox;
 	private JTextArea textArea;
-	private GestorComponentes gc = new GestorComponentes();
+	private GestorComponentes gc = GestorComponentes.getInstance();
+	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
+	private GestorUsuarios gu = GestorUsuarios.getInstance();
 
 	/**
 	 * Launch the application.
@@ -87,8 +89,6 @@ public class IncidenciaUsuPanel2 extends JFrame {
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
-				GestorUsuarios gu = new GestorUsuarios();
-				GestorSolicitudes gs = new GestorSolicitudes();
 
 				if (comboBox.getSelectedItem().toString() == "Sin seleccionar") {
 

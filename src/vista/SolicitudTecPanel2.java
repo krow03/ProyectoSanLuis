@@ -23,6 +23,7 @@ public class SolicitudTecPanel2 extends JFrame {
 
 	private JPanel contentPane;
 	private String dios;
+	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
 	/**
 	 * Launch the application.
 	 */
@@ -66,8 +67,6 @@ public class SolicitudTecPanel2 extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea.getText();
-				
-				GestorSolicitudes gs = new GestorSolicitudes();
 				IncidenciaDTO idto = gs.getIncidencia(id);
 				idto.setEstado("atendida");
 				gs.modificarIncidencia(idto);

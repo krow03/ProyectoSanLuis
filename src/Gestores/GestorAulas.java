@@ -10,19 +10,40 @@ import DTO.UsuarioDTO;
 public class GestorAulas {
 	private AulaDAO ad = new AulaDAO();
 	private static ArrayList <AulaDTO> listaAulas;
-	private GestorEquipos ge = new GestorEquipos();
+	private  GestorEquipos ge = GestorEquipos.getInstance();;
+	private static GestorAulas instancia =null;
 	
+	
+	public static GestorAulas getInstance() {
+		if(instancia == null) instancia=new GestorAulas();
+		return instancia;
+	}
+	private GestorAulas() {
+		cargarListaAulas();
+	}
 	/////////////////////////////////Metodos Conexiones BD///////////////////////////////
 	public boolean crearAula(AulaDTO a) throws SQLException {
-	return ad.insertar(a);
+		if(ad.insertar(a)) {
+			cargarListaAulas();
+			return true;
+		}
+		return false;
 	}
 	public boolean modificarAula(AulaDTO a) {
-	return ad.actualizar(a);
+		if(ad.actualizar(a)) {
+			listaAulas.set(listaAulas.indexOf(getAulaById(a.getIdAula())), a);
+			return true;
+		}
+		return false;
 	}
 	public boolean borrarAula(int idAula) {
-	return ad.borrar(idAula);
+		if(ad.borrar(idAula)) {
+			listaAulas.remove(getAulaById(idAula));
+			return true;
+		}
+		return false;
 	}
-	public void cargarListaAulas() {
+	private void cargarListaAulas() {
 		listaAulas = ad.listarTodos();
 		cargarEquiposAula();
 	}
@@ -39,7 +60,12 @@ public class GestorAulas {
 		}
 		return null;
 	}
-	
+	public AulaDTO getAulaById(int idAula) {
+		for(AulaDTO a : listaAulas) {
+			if(a.getIdAula()==idAula)return a;
+		}
+		return null;
+	}
 	public ArrayList<AulaDTO> getListaAulas(){
 		return listaAulas;
 	}

@@ -12,8 +12,16 @@ public class GestorEquipos {
 	private static ArrayList<EquipoDTO> listaEquiposDisp = new ArrayList<EquipoDTO>();
 	
 	private EquipoDAO edao = new EquipoDAO();
-	private GestorComponentes gc = new GestorComponentes();
+	private GestorComponentes gc = GestorComponentes.getInstance();
+	private static GestorEquipos instancia =null;
 	
+	public static GestorEquipos getInstance() {
+		if(instancia == null) instancia=new GestorEquipos();
+		return instancia;
+	}
+	private GestorEquipos() {
+		cargarListaEquipos();
+	}
 	public ArrayList<EquipoDTO> getListaEquipos(){
 		return listaEquipos;
 	}
@@ -30,7 +38,7 @@ public class GestorEquipos {
 		return edto;
 	}
 	
-	public void cargarListaEquipos() {
+	private void cargarListaEquipos() {
 		listaEquipos = edao.listarTodos();
 		listaEquiposDisp = edao.listarTodosDisponibles();
 		cargarComponentesEquipo();
@@ -54,22 +62,49 @@ public class GestorEquipos {
 	}
 	
 	public boolean crearEquipo(EquipoDTO e) throws SQLException {
-		return edao.insertar(e);
+		if(edao.insertar(e)) {
+			cargarListaEquipos();
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean asignarAula(int idEquipo,int idAula) throws SQLException {
-		return edao.asignarAula(idEquipo,idAula);
+		if(edao.asignarAula(idEquipo,idAula)) {
+			listaEquiposDisp.remove(getEquipoById(idEquipo));
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean desasignarAula(int idEquipo) throws SQLException {
-		return edao.desasignarAula(idEquipo);
+		if(edao.desasignarAula(idEquipo)) {
+			listaEquiposDisp.add(getEquipoById(idEquipo));
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean modificarEquipo(EquipoDTO e) {
-		return edao.actualizar(e);
+		if(edao.actualizar(e)) {
+			listaEquipos.set(listaEquipos.indexOf(getEquipoById(e.getIdEquipo())), e);
+			if(listaEquiposDisp.contains(getEquipoById(e.getIdEquipo()))) {
+				listaEquiposDisp.set(listaEquiposDisp.indexOf(getEquipoById(e.getIdEquipo())), e);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean borrarEquipo(int idEquipo) {
-		return edao.borrar(idEquipo);
+		if(edao.borrar(idEquipo)) {
+			listaEquipos.remove(getEquipoById(idEquipo));
+			if(listaEquiposDisp.contains(getEquipoById(idEquipo))) {
+				listaEquiposDisp.remove(getEquipoById(idEquipo));
+			}
+			
+			return true;
+		}
+		return false;
 	}
 }

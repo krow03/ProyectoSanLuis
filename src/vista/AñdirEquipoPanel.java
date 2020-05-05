@@ -32,7 +32,7 @@ import Gestores.GestorSolicitudes;
 public class AñdirEquipoPanel extends JDialog {
 
 	private JPanel contentPane;
-	private GestorEquipos ge = new GestorEquipos();
+	private GestorEquipos ge = GestorEquipos.getInstance();
 	
 	public AñdirEquipoPanel(int idAula) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -92,7 +92,6 @@ public class AñdirEquipoPanel extends JDialog {
 					e1.printStackTrace();
 				}
                 JOptionPane.showMessageDialog(null, mensaje);
-                ge.cargarListaEquipos();
 				dispose();
 			}
 		});

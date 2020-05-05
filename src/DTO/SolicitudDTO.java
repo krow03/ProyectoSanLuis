@@ -5,7 +5,7 @@ import Gestores.GestorComponentes;
 public class SolicitudDTO extends IncidenciaDTO
 {
     private ComponenteDTO componente;
-    private GestorComponentes gc = new GestorComponentes();
+    private GestorComponentes gc = GestorComponentes.getInstance();
 	public SolicitudDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
 			String fechaFin, String estado, String descripcion, int prioridad) {
 		super(codigo, idRealizadaPor, idAsignadaA, idEquipo, fechaSol, fechaFin, estado, descripcion, prioridad);

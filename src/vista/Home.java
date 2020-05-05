@@ -30,7 +30,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.awt.event.KeyAdapter;
 public class Home extends JFrame {
 
-	private GestorUsuarios gu = new GestorUsuarios();
+	private static GestorUsuarios gu = GestorUsuarios.getInstance();
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JPasswordField txtPass;

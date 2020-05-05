@@ -34,7 +34,7 @@ import Gestores.GestorUsuarios;
 public class AsignarUsuarioEquipoPanel2 extends JDialog {
 
 	private JPanel contentPane;
-	private GestorUsuarios gu = new GestorUsuarios();
+	private GestorUsuarios gu = GestorUsuarios.getInstance();
 	
 	public AsignarUsuarioEquipoPanel2(int idEquipo) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -96,7 +96,6 @@ public class AsignarUsuarioEquipoPanel2 extends JDialog {
 				if (!gu.asignarEquipo(id,idEquipo))
 					mensaje = "Error al asignar el equipo";
 				JOptionPane.showMessageDialog(null, mensaje);
-                gu.cargarListaUsuarios();
 				dispose();
 			}
 		});

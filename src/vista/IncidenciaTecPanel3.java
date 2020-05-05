@@ -38,7 +38,7 @@ public class IncidenciaTecPanel3 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextArea textArea;
-	private GestorComponentes gc = new GestorComponentes();
+	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
 	private String hardSoft;
 	/**
 	 * Launch the application.
@@ -78,7 +78,6 @@ public class IncidenciaTecPanel3 extends JFrame {
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
-				GestorSolicitudes gs = new GestorSolicitudes();
 				IncidenciaDTO idtoObj = gs.getIncidencia(idto.getCodigo());
 				idtoObj.setFechaFin(fecha);
 				idtoObj.setEstado("atendida");

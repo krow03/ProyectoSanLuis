@@ -10,7 +10,16 @@ import DTO.SoftwareDTO;;
 public class GestorComponentes {
 	private static ArrayList<ComponenteDTO> listaComponentes = new ArrayList<ComponenteDTO>();
 	private ComponenteDAO cdao = new ComponenteDAO();
+	private static GestorComponentes instancia =null;
 	
+	
+	public static GestorComponentes getInstance() {
+		if(instancia == null) instancia=new GestorComponentes();
+		return instancia;
+	}
+	private GestorComponentes() {
+		cargarLista();
+	}
 	public ArrayList<ComponenteDTO> getList(){
 		return listaComponentes;
 	}

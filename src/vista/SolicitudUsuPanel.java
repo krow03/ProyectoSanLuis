@@ -27,7 +27,8 @@ public class SolicitudUsuPanel extends JFrame {
 
 	private JPanel contentPane;
 	private String dios;
-
+	private GestorUsuarios gu = GestorUsuarios.getInstance();
+	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
 	/**
 	 * Launch the application.
 	 */
@@ -83,8 +84,7 @@ public class SolicitudUsuPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Calendar c2 = new GregorianCalendar();
 
-				GestorUsuarios gu = new GestorUsuarios();
-				GestorSolicitudes gs = new GestorSolicitudes();
+
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
 				IncidenciaDTO incidenciaInsert = new IncidenciaDTO(gu.getUserOnline().getIdUsuario(), gu.getTecnicoMenosIncidencias().getIdUsuario(),

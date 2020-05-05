@@ -16,8 +16,16 @@ import DTO.SolicitudDTO;
 public class GestorSolicitudes {
 	private ArrayList<IncidenciaDTO> listaSoli = new ArrayList<IncidenciaDTO>();
 	private IncidenciaDAO idao = new IncidenciaDAO();
-	private GestorComponentes gc = new GestorComponentes();
 
+	private static GestorSolicitudes instancia =null;
+	
+	public static GestorSolicitudes getInstance() {
+		if(instancia == null) instancia=new GestorSolicitudes();
+		return instancia;
+	}
+	private GestorSolicitudes() {
+		cargarLista();
+	}
 	
 	public ArrayList<IncidenciaDTO> getList(){
 		return listaSoli;

@@ -65,11 +65,11 @@ import java.beans.PropertyChangeEvent;
 
 public class Main extends JFrame {
 
-	private GestorUsuarios gu = new GestorUsuarios();
-	private GestorSolicitudes gs = new GestorSolicitudes();
-	private GestorComponentes gc = new GestorComponentes();
-	private GestorEquipos ge = new GestorEquipos();
-	private GestorAulas ga = new GestorAulas();
+	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
+	private GestorComponentes gc = GestorComponentes.getInstance();
+	private GestorEquipos ge = GestorEquipos.getInstance();
+	private GestorUsuarios gu = GestorUsuarios.getInstance();
+	private GestorAulas ga = GestorAulas.getInstance();
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
@@ -130,9 +130,6 @@ public class Main extends JFrame {
 	public Main() {
 		gs.cargarLista();
 		gc.cargarLista();
-		ge.cargarListaEquipos();
-		gu.cargarListaUsuarios();
-		ga.cargarListaAulas();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -699,7 +696,6 @@ public class Main extends JFrame {
 				if (!modificarusuario(user))
 					mensaje = "¡Error al modificar el usuario\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
-				gu.cargarListaUsuarios();
 			}
 		});
 		btnNewButton_2_1.setBackground(new Color(86, 101, 115));
@@ -729,7 +725,6 @@ public class Main extends JFrame {
 					if (!borrarUsuario(id))
 						mensaje = "¡Error al borrar el usuario\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
-					gu.cargarListaUsuarios();
 				}
 
 			}
@@ -771,7 +766,6 @@ public class Main extends JFrame {
 						mensaje = "¡Usuario degradado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
-				gu.cargarListaUsuarios();
 			}
 		});
 		btnDegradar.setBounds(0, 0, 117, 89);
@@ -817,7 +811,6 @@ public class Main extends JFrame {
 						mensaje = "¡Usuario promocionado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
-				gu.cargarListaUsuarios();
 			}
 		});
 		btnPromocionar.setBounds(676, 0, 117, 89);
@@ -1037,7 +1030,6 @@ public class Main extends JFrame {
 				if (!gu.desasignarEquipo(id)) 
 					mensaje = "Error al eliminar el usuario del equipo";
 				JOptionPane.showMessageDialog(null, mensaje);
-				gu.cargarListaUsuarios();
 			}
 		});
 
@@ -1069,7 +1061,6 @@ public class Main extends JFrame {
 							mensaje = "Error al eliminar el equipo";
 						JOptionPane.showMessageDialog(null, mensaje);
 						ga.cargarEquiposAula();
-						ge.cargarListaEquipos();
 						cargarEquiposAula();
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -1422,8 +1413,6 @@ public class Main extends JFrame {
 	}
 
 	private void recargarAula() {
-		ga.cargarListaAulas();
-
 		int rowCount = defaultModelAula.getRowCount();
 		System.out.println("cuanto trae la lista " + rowCount);
 		// Remove rows one by one from the end of the table
@@ -1491,7 +1480,6 @@ public class Main extends JFrame {
 				if (!crearEquipo(edto))
 					mensaje = "¡Error al crear el equipo\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
-				ge.cargarListaEquipos();
 				recargar();
 
 			}
@@ -1527,8 +1515,6 @@ public class Main extends JFrame {
 					if (!borrarEquipo(id))
 						mensaje = "¡Error al borrar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
-					ge.cargarListaEquipos();
-
 					recargar();
 
 				}
@@ -1569,7 +1555,6 @@ public class Main extends JFrame {
 					if (!modificarEquipo(edto))
 						mensaje = "¡Error al modificar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
-					ge.cargarListaEquipos();
 					recargar();
 				}
 

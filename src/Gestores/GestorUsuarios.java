@@ -13,11 +13,22 @@ import DTO.UsuarioDTO;
 import DAO.UsuarioDAO;
 
 public class GestorUsuarios {
-	private GestorSolicitudes gs = new GestorSolicitudes();
+	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
+	private GestorEquipos ge = GestorEquipos.getInstance();
 	private static final AdministradorDTO USER_ONLINE=new AdministradorDTO("1","a","a",1,"a","a","a","a","a");
 	private UsuarioDAO udao = new UsuarioDAO();
 	private static ArrayList <UsuarioDTO> listaUsers;
 	private static UsuarioDTO userOnline=USER_ONLINE;
+	
+	private static GestorUsuarios instancia =null;
+	
+	public static GestorUsuarios getInstance() {
+		if(instancia == null) instancia=new GestorUsuarios();
+		return instancia;
+	}
+	private GestorUsuarios() {
+		cargarListaUsuarios();
+	}
 	
 	public ArrayList <UsuarioDTO> getList() {
 		return listaUsers;
@@ -27,14 +38,15 @@ public class GestorUsuarios {
 		userOnline = user;
 	}
 	
-	public void cargarListaUsuarios() {
+	private void cargarListaUsuarios() {
 		listaUsers = udao.listarTodos();
 		cargarListaIncidencias();
 	}
+	
 	public UsuarioDTO getUserById(String idUsuario) {
 		UsuarioDTO udto = null;
 		for(UsuarioDTO temp : listaUsers) {
-			if(idUsuario.equals(temp.getIdUsuario())) return udto;
+			if(idUsuario.equals(temp.getIdUsuario())) return temp;
 		}
 		return udto;
 	}
@@ -93,24 +105,38 @@ public class GestorUsuarios {
 	
 	public boolean promocionarUsuario(UsuarioDTO user) {
 		if (user instanceof AdministradorDTO || !autorizarAdmin()) return false;
-		return udao.promocionar(user);
+		if(udao.promocionar(user)) {
+			listaUsers.set(listaUsers.indexOf(user), udao.buscar(user.getIdUsuario()));
+			return true;			
+		}
+		return false;
 	}
 	
 	public boolean degradarUsuario(UsuarioDTO user) {
 		if (user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin()) return false;
-		return udao.degradar(user);
+		if(udao.degradar(user)) {
+			listaUsers.set(listaUsers.indexOf(user), udao.buscar(user.getIdUsuario()));
+			return true;			
+		}
+		return false;
 	}
 	
 	public boolean borrarUsuario(String idUsuario) {
 		UsuarioDTO user = getUserById(idUsuario);
 		if(user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin() ) return false;
-		return udao.borrar(idUsuario);
+		if(udao.borrar(idUsuario)) {
+			listaUsers.remove(user);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean altaUsuario(UsuarioDTO user) {
 		try {
-			if(tienePermisos()==3)
-				return udao.insertar(user);	
+			if(tienePermisos()==3) {
+				if(udao.insertar(user)) cargarListaUsuarios();
+				return true;
+			}
 		}catch(SQLException sqle){
 			sqle.printStackTrace();
 		}	
@@ -118,16 +144,27 @@ public class GestorUsuarios {
 	}
 	
 	public boolean modificarUsuario(UsuarioDTO user) {
-		if(tienePermisos()==3)
-			return udao.actualizar(user);	
+		UsuarioDTO usuario = getUserById(user.getIdUsuario());
+		if(tienePermisos()==3) {
+			if(udao.actualizar(user)) listaUsers.set(listaUsers.indexOf(usuario), user);	
+			return true;
+		}
 		return false;
 	}
 	
 	public boolean asignarEquipo(String idUsuario, int idEquipo) {
-		return udao.asignarEquipo(idUsuario,idEquipo);
+		if(udao.asignarEquipo(idUsuario,idEquipo)){
+			getUserById(idUsuario).setEquipo(ge.getEquipoById(idEquipo));
+			return true;
+		}
+		return false;
 	}
 	public boolean desasignarEquipo(String idUsuario) {
-		return udao.asignarEquipo(idUsuario);
+		if(udao.asignarEquipo(idUsuario)){
+			getUserById(idUsuario).setEquipo(null);
+			return true;
+		}
+		return false;
 	}
 	public void cargarListaIncidencias() {
 		for(UsuarioDTO udto : listaUsers) {
