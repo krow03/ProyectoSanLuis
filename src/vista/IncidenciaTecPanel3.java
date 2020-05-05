@@ -15,8 +15,8 @@ import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
 import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
-import Gestores.GestorComponentes;
-import Gestores.GestorSolicitudes;
+import gestores.GestorComponentes;
+import gestores.GestorSolicitudes;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;

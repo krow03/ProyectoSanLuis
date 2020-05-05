@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
 import DTO.CompraDTO;
 import DTO.EquipoDTO;
+import conexion.Conexion;
 
 public class CompraDAO implements PatronDAO<CompraDTO>{
 	private static final String SQL_INSERT="INSERT INTO Compras (Proveedores_idProveedor,fechaCompra, precioTotal) VALUES (?,?,?)";

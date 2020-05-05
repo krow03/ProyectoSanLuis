@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
 import DTO.AulaDTO;
+import conexion.Conexion;
 
 public class AulaDAO implements PatronDAO<AulaDTO>{
 	

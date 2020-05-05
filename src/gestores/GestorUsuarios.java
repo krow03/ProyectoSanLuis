@@ -1,4 +1,4 @@
-package Gestores;
+package gestores;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -114,8 +114,11 @@ public class GestorUsuarios {
 	
 	public boolean degradarUsuario(UsuarioDTO user) {
 		if (user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin()) return false;
+		ArrayList<IncidenciaDTO>incidencias=user.getIncidencias();
 		if(udao.degradar(user)) {
 			listaUsers.set(listaUsers.indexOf(user), udao.buscar(user.getIdUsuario()));
+			if(user instanceof TecnicoDTO)
+				traspasarIncidencias(incidencias);
 			return true;			
 		}
 		return false;
@@ -123,9 +126,12 @@ public class GestorUsuarios {
 	
 	public boolean borrarUsuario(String idUsuario) {
 		UsuarioDTO user = getUserById(idUsuario);
+		ArrayList<IncidenciaDTO>incidencias=user.getIncidencias();
 		if(user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin() ) return false;
 		if(udao.borrar(idUsuario)) {
 			listaUsers.remove(user);
+			if(user instanceof TecnicoDTO)
+				traspasarIncidencias(incidencias);
 			return true;
 		}
 		return false;
@@ -172,15 +178,15 @@ public class GestorUsuarios {
 		}
 	}
 	
-	public void traspasarIncidencias() {
+	public void traspasarIncidencias(ArrayList<IncidenciaDTO>incidencias) {
 		UsuarioDTO udto = getTecnicoMenosIncidencias();
-		udto.setIncidencias(gs.getIncidenciasTecnico(udto.getIdUsuario()));
+		udto.setIncidencias(incidencias);
 	}
 	
 	public UsuarioDTO getTecnicoMenosIncidencias() {
 		UsuarioDTO userMenosInci = listaUsers.get(0);
 		for(UsuarioDTO udto : listaUsers) {
-			if(udto.getIncidencias().size()<userMenosInci.getIncidencias().size()) {
+			if(udto instanceof TecnicoDTO && udto.getIncidencias().size()<userMenosInci.getIncidencias().size()) {
 				userMenosInci = udto;
 			}
 		}
@@ -192,7 +198,6 @@ public class GestorUsuarios {
 		for(UsuarioDTO user : listaUsers) {
 			if(user.getEquipo()!=null) 
 				if(user.getEquipo().getIdEquipo()==idEquipo)listaAsignados.add(user);
-
 		}
 		return listaAsignados;
 	}

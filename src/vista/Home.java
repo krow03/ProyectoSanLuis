@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Gestores.GestorUsuarios;
-
 import java.awt.Color;
 import java.awt.Button;
 import java.awt.SystemColor;
@@ -27,6 +25,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import gestores.GestorUsuarios;
+
 import java.awt.event.KeyAdapter;
 public class Home extends JFrame {
 

@@ -1,4 +1,4 @@
-package Gestores;
+package gestores;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class GestorSolicitudes {
 		return listaSoli;
 	}
 	
-	public void cargarLista() {
+	private void cargarLista() {
 		listaSoli=idao.listarTodos();
 	}
 	
@@ -81,16 +81,30 @@ public class GestorSolicitudes {
 	}
 	
 	public boolean crearSolicitud(IncidenciaDTO sdto) throws SQLException {
-		return idao.insertarSolicitud(sdto);
+		if(idao.insertarSolicitud(sdto)) {
+			cargarLista();
+			return true;
+		}
+		return false;
 	}
 	public boolean crearIncidencia(IncidenciaDTO sdto) throws SQLException {
-		return idao.insertar(sdto);
+		if(idao.insertar(sdto)) {
+			cargarLista();
+			return true;
+		}
+		return false;
 	}
 	public boolean modificarIncidencia(IncidenciaDTO idto) {
-        return idao.actualizar(idto);
+        if(idao.actualizar(idto)) {
+        	listaSoli.set(listaSoli.indexOf(getIncidencia(idto.getCodigo())), idto);
+        	return true;
+        }
+        return false;
     }
-	
 	public IncidenciaDTO getIncidencia(int id) {
-		return idao.buscar(id);
+		for(IncidenciaDTO idto : listaSoli) {
+			if(idto.getCodigo()==id)return idto;
+		}
+		return null;
 	}
 }

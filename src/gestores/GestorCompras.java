@@ -1,4 +1,4 @@
-package Gestores;
+package gestores;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ public class GestorCompras {
 		return listaCompras;
 	}
 	
-	public void cargarListaCompras() {
+	private void cargarListaCompras() {
 		listaCompras = cd.listarTodos();
-		cargarHistorico();
+		cargarLineaCompra();
 	}
 	
-	private void cargarHistorico() {
+	private void cargarLineaCompra() {
 		for(CompraDTO cdto : listaCompras) {
 			cdto.setListaProdPorCompra(hd.listarTodos(cdto.getIdCompra()));
 		}
@@ -42,18 +42,39 @@ public class GestorCompras {
 	}
 	
 	public boolean borrarCompra(int idCompra) {
-		return cd.borrar(idCompra);
+		if(cd.borrar(idCompra)) {
+			listaCompras.remove(getCompraById(idCompra));
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean modificar(CompraDTO cdto) {
-		return cd.actualizar(cdto);
+		if(cd.actualizar(cdto)) {
+			listaCompras.set(listaCompras.indexOf(getCompraById(cdto.getIdCompra())), cdto);
+			return true;
+		}
+		return false;
 	}
 	
-	public boolean crearHistorico(ArrayList<LineaCompraDTO> listaProdCompra) throws SQLException {
+	public boolean crearLineaCompra(ArrayList<LineaCompraDTO> listaProdCompra) throws SQLException {
 		boolean finalizado=true;
 		for(LineaCompraDTO hdto : listaProdCompra) {
-			if(!hd.insertar(hdto)) finalizado = false;
+			if(!hd.insertar(hdto)) {
+				finalizado = false;
+			}else {
+				cargarListaCompras();
+			}
 		}
 		return finalizado;
+	}
+	
+	public CompraDTO getCompraById(int idCompra) {
+		for(CompraDTO cdto : listaCompras) {
+			if(cdto.getIdCompra()==idCompra) {
+				return cdto;
+			}
+		}
+		return null;
 	}
 }

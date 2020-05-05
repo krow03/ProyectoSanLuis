@@ -1,6 +1,6 @@
  package DTO;
 
-import Gestores.GestorComponentes;
+import gestores.GestorComponentes;
 
 public class SolicitudDTO extends IncidenciaDTO
 {

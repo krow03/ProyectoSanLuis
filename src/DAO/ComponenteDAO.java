@@ -5,11 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
-
 import DTO.ComponenteDTO;
 import DTO.HardwareDTO;
 import DTO.SoftwareDTO;
+import conexion.Conexion;
 
 
 public class ComponenteDAO implements PatronDAO<ComponenteDTO>{

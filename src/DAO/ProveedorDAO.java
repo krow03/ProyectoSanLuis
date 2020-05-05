@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
 import DTO.ProveedorDTO;
 import DTO.StockDTO;
+import conexion.Conexion;
 
 public class ProveedorDAO implements PatronDAO<ProveedorDTO>{
 	private static final String SQL_INSERT="INSERT INTO sanluisdb.proveedores (cif, nombre, email, direccion, telef) VALUES (?,?,?,?,?);";
@@ -16,6 +16,7 @@ public class ProveedorDAO implements PatronDAO<ProveedorDTO>{
 	private static final String SQL_FIND="SELECT * FROM proveedores WHERE idProveedores = ?";
 	private static final String SQL_FINDALL="SELECT * FROM proveedores";
 	private static final String SQL_FINDALLBYID="SELECT * FROM proveedores WHERE centro_idCentro = ?";
+	
 	private Conexion con = Conexion.getInstance();
 	
 	

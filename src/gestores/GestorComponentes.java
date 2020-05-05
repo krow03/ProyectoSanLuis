@@ -1,4 +1,4 @@
-package Gestores;
+package gestores;
 
 import java.util.ArrayList;
 
@@ -20,6 +20,7 @@ public class GestorComponentes {
 	private GestorComponentes() {
 		cargarLista();
 	}
+	
 	public ArrayList<ComponenteDTO> getList(){
 		return listaComponentes;
 	}
@@ -29,7 +30,7 @@ public class GestorComponentes {
 		}
 		return null;
 	}
-	public void cargarLista() {
+	private void cargarLista() {
 		listaComponentes=cdao.listarTodos();
 	}
 	
@@ -58,14 +59,25 @@ public class GestorComponentes {
 	}
 	
 	public boolean asignarStock(ComponenteDTO cdto, int idStock) {
-		return cdao.asignarStock(cdto, idStock);
+		if(cdao.asignarStock(cdto, idStock)) {
+			cargarLista();
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean asignarEquipo(ComponenteDTO cdto, int idEquipo) {
-		return cdao.asignarEquipo(cdto, idEquipo);
+		if(cdao.asignarEquipo(cdto, idEquipo)) {
+			cargarLista();
+			return true;
+		}
+		return false;
 	}
 	
 	public ComponenteDTO getComponente(int id) {
-		return cdao.buscar(id);
+		for(ComponenteDTO cdto : listaComponentes) {
+			if(cdto.getIdComponente()==id)return cdto;
+		}
+		return null;
 	}
 }

@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
+import conexion.Conexion;
 
 public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 

@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
 import DTO.StockDTO;
+import conexion.Conexion;
 
 public class StockDAO implements PatronDAO<StockDTO>{
 	private static final String SQL_INSERT="INSERT INTO sanluisdb.stock (unidadesStock, limiteInferior, descripcion, precio) VALUES (?,?,?,?,?);";
@@ -14,7 +14,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 	private static final String SQL_UPDATE="UPDATE Stock SET unidadesStock=?,limiteInferior=?,descripcion=?,precio? WHERE idStock = ?";
 	private static final String SQL_FIND="SELECT * FROM Stock WHERE idStock = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Stock";
-	private static final String SQL_FINDALLBYID="SELECT * FROM Aulas WHERE centro_idCentro = ?";
+	private static final String SQL_FINDALLBYIDPROVEEDOR="SELECT * FROM Stock WHERE Provedores_idProveedores = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	
@@ -120,7 +120,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 	public ArrayList<StockDTO> listarTodos(Object pk) {
 		ArrayList<StockDTO> lista = new ArrayList<StockDTO>();
 		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYID);
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYIDPROVEEDOR);
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){

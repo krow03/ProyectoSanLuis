@@ -5,11 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Conexion.Conexion;
 import DTO.AdministradorDTO;
 import DTO.AulaDTO;
 import DTO.EquipoDTO;
 import DTO.TecnicoDTO;
+import conexion.Conexion;
 
 public class EquipoDAO implements PatronDAO<EquipoDTO>{
 	private static final String SQL_INSERT="INSERT INTO Equipos (idEquipos,nombre,discoDuro,ram,ipEquipo) VALUES (?,?,?,?,?)";

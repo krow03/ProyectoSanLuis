@@ -13,9 +13,9 @@ import com.sun.javafx.binding.SelectBinding.AsInteger;
 import DTO.ComponenteDTO;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
-import Gestores.GestorComponentes;
-import Gestores.GestorSolicitudes;
-import Gestores.GestorUsuarios;
+import gestores.GestorComponentes;
+import gestores.GestorSolicitudes;
+import gestores.GestorUsuarios;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;

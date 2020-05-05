@@ -12,8 +12,8 @@ import DTO.AdministradorDTO;
 import DTO.EquipoDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
-import Gestores.GestorEquipos;
-import Gestores.GestorUsuarios;
+import gestores.GestorEquipos;
+import gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;

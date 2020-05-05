@@ -27,9 +27,9 @@ import javax.swing.table.DefaultTableModel;
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
 import DTO.UsuarioDTO;
-import Gestores.GestorEquipos;
-import Gestores.GestorSolicitudes;
-import Gestores.GestorUsuarios;
+import gestores.GestorEquipos;
+import gestores.GestorSolicitudes;
+import gestores.GestorUsuarios;
 
 public class AsignarUsuarioEquipoPanel2 extends JDialog {
 

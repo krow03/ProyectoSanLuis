@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import DTO.IncidenciaDTO;
-import Gestores.GestorSolicitudes;
+import gestores.GestorSolicitudes;
 
 public class SolicitudTecPanel2 extends JFrame {
 

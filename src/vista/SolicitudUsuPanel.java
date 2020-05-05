@@ -20,8 +20,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import DTO.IncidenciaDTO;
-import Gestores.GestorSolicitudes;
-import Gestores.GestorUsuarios;
+import gestores.GestorSolicitudes;
+import gestores.GestorUsuarios;
 
 public class SolicitudUsuPanel extends JFrame {
 

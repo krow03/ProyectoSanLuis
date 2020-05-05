@@ -1,4 +1,4 @@
-package Gestores;
+package gestores;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,19 +34,8 @@ public class GestorProveedores {
 	}
 	
 	private void cargarListaStock() {
-		ArrayList<CompraDTO>listaCompras = gc.getListaCompras();
-		ArrayList<StockDTO>listaStock = new ArrayList<StockDTO>();
 		for(ProveedorDTO pdto : listaProveedores) {
-			for(CompraDTO cdto : listaCompras) {
-				if(pdto.getIdProveedor()== cdto.getIdProveedor()) {
-					for(LineaCompraDTO hdto : cdto.getListaProdPorCompra()) {
-						if(gs.buscarById(hdto.getIdStock())!=null) {
-							listaStock.add(gs.buscarById(hdto.getIdStock()));
-						}
-					}
-				}
-				pdto.setListaStock(listaStock);
-			}
+			pdto.setListaStock(gs.cargarListaStockProv(pdto.getIdProveedor()));
 		}
 	}
 	

@@ -38,11 +38,11 @@ import DTO.SolicitudDTO;
 import DTO.StockDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
-import Gestores.GestorAulas;
-import Gestores.GestorComponentes;
-import Gestores.GestorEquipos;
-import Gestores.GestorSolicitudes;
-import Gestores.GestorUsuarios;
+import gestores.GestorAulas;
+import gestores.GestorComponentes;
+import gestores.GestorEquipos;
+import gestores.GestorSolicitudes;
+import gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
@@ -128,8 +128,6 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		gs.cargarLista();
-		gc.cargarLista();
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1417, 866);
@@ -1037,12 +1035,16 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (aulaSeleccionada != 0) {
 					try {
-						AñdirEquipoPanel frame = new AñdirEquipoPanel(aulaSeleccionada);
-						frame.setModal(true);
-						frame.setVisible(true);
-						ga.cargarEquiposAula();
-						System.out.println("que si funciona");
-						cargarEquiposAula();
+						if(ga.calcularDisponibilidad(ga.getAulaById(aulaSeleccionada))) {
+							AñdirEquipoPanel frame = new AñdirEquipoPanel(aulaSeleccionada);
+							frame.setModal(true);
+							frame.setVisible(true);
+							ga.cargarEquiposAula();
+							System.out.println("que si funciona");
+							cargarEquiposAula();
+						}else {
+							JOptionPane.showMessageDialog(null, "Aula llena");
+						}
 
 					} catch (Exception e) {
 						e.printStackTrace();

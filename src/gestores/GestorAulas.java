@@ -1,4 +1,4 @@
-package Gestores;
+package gestores;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ public class GestorAulas {
 	}
 	public boolean modificarAula(AulaDTO a) {
 		if(ad.actualizar(a)) {
+			a.setEquipos(getAulaById(a.getIdAula()).getEquipos());
 			listaAulas.set(listaAulas.indexOf(getAulaById(a.getIdAula())), a);
 			return true;
 		}
@@ -70,4 +71,9 @@ public class GestorAulas {
 		return listaAulas;
 	}
 
+	public boolean calcularDisponibilidad(AulaDTO adto) {
+		if(adto.getEquipos().size() < adto.getCapacidad())return true;
+		return false;
+	}
+	
 }

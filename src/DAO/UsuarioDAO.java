@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import Conexion.Conexion;
 import DTO.AdministradorDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
+import conexion.Conexion;
 
 public class UsuarioDAO implements PatronDAO<UsuarioDTO>{
 

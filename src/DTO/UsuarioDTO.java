@@ -2,7 +2,7 @@ package DTO;
 
 import java.util.ArrayList;
 
-import Gestores.GestorEquipos;
+import gestores.GestorEquipos;
 /*
  * Rol Usuario = 1
  * Rol Tecnico = 2

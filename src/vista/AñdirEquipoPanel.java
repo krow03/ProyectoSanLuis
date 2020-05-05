@@ -26,8 +26,8 @@ import javax.swing.table.DefaultTableModel;
 
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
-import Gestores.GestorEquipos;
-import Gestores.GestorSolicitudes;
+import gestores.GestorEquipos;
+import gestores.GestorSolicitudes;
 
 public class AñdirEquipoPanel extends JDialog {
 
