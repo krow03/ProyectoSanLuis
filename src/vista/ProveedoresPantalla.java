@@ -36,7 +36,7 @@ public class ProveedoresPantalla extends JDialog {
 	
 	public ProveedoresPantalla(int idAula) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 557, 374);
+		setBounds(100, 100, 905, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(Color.BLACK));
 		setContentPane(contentPane);
@@ -57,7 +57,7 @@ public class ProveedoresPantalla extends JDialog {
 		contentPane.add(lblNewLabel_1);
 		
 		JScrollPane scrollPaneEquipos = new JScrollPane();
-        scrollPaneEquipos.setBounds(39, 85, 457, 178);
+        scrollPaneEquipos.setBounds(39, 85, 717, 288);
         contentPane.add(scrollPaneEquipos);
         JTable tableEquipos = new JTable();
         tableEquipos.setFillsViewportHeight(true);
@@ -96,7 +96,7 @@ public class ProveedoresPantalla extends JDialog {
 			}
 		});
 		btnNewButton.setBackground(new Color(0x43B581));
-		btnNewButton.setBounds(140, 283, 89, 41);
+		btnNewButton.setBounds(179, 396, 89, 41);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancelar");
@@ -106,7 +106,7 @@ public class ProveedoresPantalla extends JDialog {
 			}
 		});
 		btnNewButton_1.setBackground(new Color(0xF44444));
-		btnNewButton_1.setBounds(283, 283, 89, 41);
+		btnNewButton_1.setBounds(344, 396, 89, 41);
 		contentPane.add(btnNewButton_1);
 	}
 

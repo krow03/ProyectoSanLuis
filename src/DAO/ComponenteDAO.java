@@ -19,7 +19,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 	private static final String SQL_FINDPERSONA="SELECT * FROM Componentes WHERE idComponentes = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Componentes";
 	private static final String SQL_FINDALLBYID="SELECT * FROM Componentes WHERE Equipos_idEquipos = ?";
-	private static final String SQL_FINDALLBYSTOCK="SELECT * FROM Stock WHERE Stock_idStock = ?";
+	private static final String SQL_FINDALLBYSTOCK="SELECT * FROM Componentes WHERE Stock_idStock = ?";
 	private static final String SQL_ASSIGNSTOCK="UPDATE Componentes SET Stock_idStock WHERE idComponentes = ?";
 	private static final String SQL_ASSIGNEQUIPO="UPDATE Componentes SET Equipo_idEquipos=? WHERE idComponentes = ?";
 	private Conexion con = Conexion.getInstance();

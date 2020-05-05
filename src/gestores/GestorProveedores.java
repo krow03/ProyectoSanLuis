@@ -37,7 +37,12 @@ public class GestorProveedores {
 			pdto.setListaStock(gs.cargarListaStockProv(pdto.getIdProveedor()));
 		}
 	}
-	
+	public ProveedorDTO getProvById(int idProv) {
+        for(ProveedorDTO pdto : listaProveedores) {
+            if(pdto.getIdProveedor()==idProv)return pdto;
+        }
+        return null;
+    }
 	public boolean crearProv(ProveedorDTO pdto) throws SQLException {
 		return pd.insertar(pdto);
 	}

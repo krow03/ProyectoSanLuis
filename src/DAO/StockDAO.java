@@ -14,7 +14,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 	private static final String SQL_UPDATE="UPDATE Stock SET unidadesStock=?,limiteInferior=?,descripcion=?,precio? WHERE idStock = ?";
 	private static final String SQL_FIND="SELECT * FROM Stock WHERE idStock = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Stock";
-	private static final String SQL_FINDALLBYIDPROVEEDOR="SELECT * FROM Stock WHERE Provedores_idProveedores = ?";
+	private static final String SQL_FINDALLBYIDPROVEEDOR="SELECT * FROM Stock WHERE Proveedores_idProveedores = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	
@@ -90,7 +90,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
+				stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidadesStock"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
 				return stock;
 			}
 		} catch (SQLException e) {
@@ -106,7 +106,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
+				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidadesStock"),rs.getInt("limiteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
 				lista.add(stock);
 			}
 			rs.close();
@@ -124,7 +124,7 @@ public class StockDAO implements PatronDAO<StockDTO>{
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidades"),rs.getInt("limimteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
+				StockDTO stock = new StockDTO(rs.getInt("idStock"),rs.getInt("unidadesStock"),rs.getInt("limiteInferior"),rs.getString("descripcion"),rs.getFloat("precio"));
 				lista.add(stock);
 			}
 			rs.close();

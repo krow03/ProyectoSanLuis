@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -36,6 +37,7 @@ import DTO.EquipoDTO;
 import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
 import DTO.LineaCompraDTO;
+import DTO.ProveedorDTO;
 import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
 import DTO.StockDTO;
@@ -45,6 +47,7 @@ import gestores.GestorAulas;
 import gestores.GestorComponentes;
 import gestores.GestorCompras;
 import gestores.GestorEquipos;
+import gestores.GestorProveedores;
 import gestores.GestorSolicitudes;
 import gestores.GestorUsuarios;
 
@@ -68,21 +71,27 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 public class Main extends JFrame {
-
 	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
 	private GestorComponentes gc = GestorComponentes.getInstance();
 	private GestorEquipos ge = GestorEquipos.getInstance();
 	private GestorUsuarios gu = GestorUsuarios.getInstance();
 	private GestorAulas ga = GestorAulas.getInstance();
 	private GestorCompras gcm = GestorCompras.getInstance();
+	private GestorProveedores gp = GestorProveedores.getInstance();
+	private ArrayList<HardwareDTO> hardwareLista = new ArrayList<HardwareDTO>();
+	private ArrayList<SoftwareDTO> softwareLista = new ArrayList<SoftwareDTO>();
+	private ArrayList<EquipoDTO> equipoLista = new ArrayList<EquipoDTO>();
+
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
 	private static DefaultTableModel defaultModelAula = new DefaultTableModel();
 	private static DefaultTableModel defaultModelAlumno = new DefaultTableModel();
+	private static DefaultTableModel defaultModelSoftware = new DefaultTableModel();
 	private String rol2;
 	private String idEquipo2;
 	private JComboBox comboBox;
+	private JComboBox comboBoxStock;
 	private Image img;
 	private JTable tableAula;
 	private JPanel panel_3;
@@ -436,7 +445,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 0, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -953,7 +962,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -1262,7 +1271,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1445,7 +1454,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBounds(101, 1000, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1719,6 +1728,7 @@ public class Main extends JFrame {
 
 			}
 		});
+		
 		JButton btnNewButton_1 = new JButton("Visualizar");
 		btnNewButton_1.setBounds(573, 711, 128, 45);
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -1785,16 +1795,7 @@ public class Main extends JFrame {
 		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
 		tableHardware.getColumnModel().getColumn(3).setPreferredWidth(450);
 		tableHardware.getColumnModel().getColumn(4).setPreferredWidth(450);
-		ArrayList<ComponenteDTO> arrayHardware = new ArrayList<ComponenteDTO>();
-		arrayHardware = gc.getListaHardware();
-
-		for (ComponenteDTO e : arrayHardware) {
-
-			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((HardwareDTO) e).getTipo(),
-					((HardwareDTO) e).getMarca() };
-			defaultModel2.addRow(fila);
-		}
-		tableHardware.setModel(defaultModel2);
+		
 		scrollPaneIncidencias.setViewportView(tableHardware);
 
 		scrollPaneIncidencias.setVisible(false);
@@ -1804,29 +1805,18 @@ public class Main extends JFrame {
 		JTable tableSoftware = new JTable();
 		tableSoftware.setFillsViewportHeight(true);
 		tableSoftware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {},
+		defaultModelSoftware = (new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Descripcion", "Cod licencia" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		});
-		tableSoftware.setModel(defaultModel2);
+		tableSoftware.setModel(defaultModelSoftware);
 		tableSoftware.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableSoftware.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableSoftware.getColumnModel().getColumn(2).setPreferredWidth(450);
 
-		ArrayList<ComponenteDTO> arraysoftware = new ArrayList<ComponenteDTO>();
-		arraysoftware = gc.getListaSoftware();
-		for (int i = 0; i < arraysoftware.size(); i++) {
-
-		}
-		// String rol = "";
-		// Double total;
-		for (ComponenteDTO e : arraysoftware) {
-			Object[] fila = { e.getIdComponente(), e.getDescripcion(), ((SoftwareDTO) e).getCodLiciencia() };
-			defaultModel2.addRow(fila);
-		}
-		tableSoftware.setModel(defaultModel2);
+		
 		scrollPaneSoftware.setViewportView(tableSoftware);
 		JLabel lblNewLabel_7 = new JLabel("COMPRAS Y STOCK");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 29));
@@ -1854,8 +1844,7 @@ public class Main extends JFrame {
 		tableCompras.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableCompras.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tableCompras.getColumnModel().getColumn(3).setPreferredWidth(450);
-		ArrayList<ComponenteDTO> arrayCompras = new ArrayList<ComponenteDTO>();
-		arrayCompras = gc.getListaHardware();
+
 
 		tableCompras.setModel(defaultModelCompras);
 		scrollPaneCompras.setViewportView(tableCompras);
@@ -1942,5 +1931,60 @@ public class Main extends JFrame {
 
 			}
 		});
+		comboBoxStock = new JComboBox();
+		comboBoxStock = new JComboBox();
+		comboBoxStock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				ProveedorDTO pdto = gp.getProvById(Integer.parseInt(comboBoxStock.getSelectedItem().toString()));
+				for(StockDTO stock:pdto.getListaStock()) {
+					if(stock.getComponentes().size() != 0) {
+						if(stock.getComponentes().get(0) instanceof HardwareDTO) {
+							hardwareLista.add((HardwareDTO) stock.getComponentes().get(0));
+						}
+						else if(stock.getComponentes().get(0) instanceof SoftwareDTO) {
+							softwareLista.add((SoftwareDTO) stock.getComponentes().get(0));
+						}
+
+					}
+					else {
+						if (stock.getEquipos() != null) {
+							equipoLista.add((EquipoDTO) stock.getEquipos().get(0));
+						}
+					}
+				}
+				ArrayList<ComponenteDTO> arrayHardware = new ArrayList<ComponenteDTO>();
+				arrayHardware = gc.getListaHardware();
+
+				for (ComponenteDTO componente : arrayHardware) {
+
+					Object[] fila = { componente.getIdComponente(), componente.getDescripcion(), ((HardwareDTO) componente).getTipo(),
+							((HardwareDTO) componente).getMarca() };
+					defaultModel2.addRow(fila);
+				}
+				tableHardware.setModel(defaultModel2);
+				ArrayList<ComponenteDTO> arraysoftware = new ArrayList<ComponenteDTO>();
+				arraysoftware = gc.getListaSoftware();
+				for (int i = 0; i < arraysoftware.size(); i++) {
+
+				}
+				// String rol = "";
+				// Double total;
+				for (ComponenteDTO so : arraysoftware) {
+					Object[] fila = { so.getIdComponente(), so.getDescripcion(), ((SoftwareDTO) so).getCodLiciencia() };
+					defaultModelSoftware.addRow(fila);
+				}
+				tableSoftware.setModel(defaultModelSoftware);
+			}
+		});
+		comboBoxStock.setFont(new Font("Tahoma", Font.BOLD, 15));
+		ArrayList<ProveedorDTO> listaAulas = gp.getListaProv();
+
+		for (ProveedorDTO a : listaAulas) {
+			comboBoxStock.addItem(a.getIdProveedor());
+		}
+		comboBoxStock.setBounds(59, 90, 190, 31);
+		stock.add(comboBoxStock);
 	}
+
 }
