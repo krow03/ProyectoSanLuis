@@ -69,7 +69,7 @@ public class ProveedoresPantalla extends JDialog {
         tableEquipos.getColumnModel().getColumn(1).setPreferredWidth(100);
         
         ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-        listaEquipos = ge.getEquiposDisp();
+        
 
         for (EquipoDTO e : listaEquipos) {
 
@@ -79,11 +79,11 @@ public class ProveedoresPantalla extends JDialog {
         tableEquipos.setModel(defaultModelEquipos);
         scrollPaneEquipos.setViewportView(tableEquipos);
 		
-		JButton btnNewButton = new JButton("Añadir");
+		JButton btnNewButton = new JButton("Aï¿½adir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = Integer.parseInt((String) defaultModelEquipos.getValueAt(tableEquipos.getSelectedRow(), 0).toString());
-				String mensaje = "Equipo añadido al aula";
+				String mensaje = "Equipo aï¿½adido al aula";
 				try {
 					if(!ge.asignarAula(id, idAula))
 					    mensaje = "!Error al modificar el usuarioï¿½";
