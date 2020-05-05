@@ -10,6 +10,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -30,19 +31,22 @@ import javax.swing.event.ListSelectionListener;
 import DTO.AdministradorDTO;
 import DTO.AulaDTO;
 import DTO.ComponenteDTO;
+import DTO.CompraDTO;
 import DTO.EquipoDTO;
 import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
+import DTO.LineaCompraDTO;
 import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
 import DTO.StockDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
-import gestores.GestorAulas;
-import gestores.GestorComponentes;
-import gestores.GestorEquipos;
-import gestores.GestorSolicitudes;
-import gestores.GestorUsuarios;
+import Gestores.GestorAulas;
+import Gestores.GestorComponentes;
+import Gestores.GestorCompras;
+import Gestores.GestorEquipos;
+import Gestores.GestorSolicitudes;
+import Gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
@@ -690,9 +694,9 @@ public class Main extends JFrame {
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 				UsuarioDTO user = new UsuarioDTO(id, userName, email, pass, nombre, apellidos, direccion, telefono);
-				String mensaje = "¡Usuario modificado correctamente\u0021";
+				String mensaje = "ï¿½Usuario modificado correctamente\u0021";
 				if (!modificarusuario(user))
-					mensaje = "¡Error al modificar el usuario\u0021";
+					mensaje = "ï¿½Error al modificar el usuario\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
 			}
 		});
@@ -714,14 +718,14 @@ public class Main extends JFrame {
 
 		btnNewButton_2_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String mensaje = "¡Usuario borrado correctamente\u0021";
+				String mensaje = "ï¿½Usuario borrado correctamente\u0021";
 				DefaultTableModel model = (DefaultTableModel) table2.getModel();
 				String id = model.getValueAt(table2.getSelectedRow(), 0).toString();
 				int option = JOptionPane.showConfirmDialog(null, "\u00bfBorrar usuario?", "Eliminar Usuario",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 					if (!borrarUsuario(id))
-						mensaje = "¡Error al borrar el usuario\u0021";
+						mensaje = "ï¿½Error al borrar el usuario\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 				}
 
@@ -746,22 +750,22 @@ public class Main extends JFrame {
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 
-				String mensaje = "¡Error al degradar usuario!";
+				String mensaje = "ï¿½Error al degradar usuario!";
 				if (rol.equals("admin")) {
 					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
 							direccion, telefono);
 					if (gu.degradarUsuario(admin))
-						mensaje = "¡Usuario degradado!";
+						mensaje = "ï¿½Usuario degradado!";
 				} else if (rol.equals("tecnico")) {
 					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.degradarUsuario(tec))
-						mensaje = "¡Usuario degradado!";
+						mensaje = "ï¿½Usuario degradado!";
 				} else {
 					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.degradarUsuario(user))
-						mensaje = "¡Usuario degradado!";
+						mensaje = "ï¿½Usuario degradado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 			}
@@ -796,17 +800,17 @@ public class Main extends JFrame {
 					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
 							direccion, telefono);
 					if (gu.promocionarUsuario(admin))
-						mensaje = "¡Usuario promocionado!";
+						mensaje = "ï¿½Usuario promocionado!";
 				} else if (rol.equals("tecnico")) {
 					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.promocionarUsuario(tec))
-						mensaje = "¡Usuario promocionado!";
+						mensaje = "ï¿½Usuario promocionado!";
 				} else {
 					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.promocionarUsuario(user))
-						mensaje = "¡Usuario promocionado!";
+						mensaje = "ï¿½Usuario promocionado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
 			}
@@ -1012,10 +1016,10 @@ public class Main extends JFrame {
 
 		btnAsignarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AsignarUsuarioEquipoPanel2 frame = new AsignarUsuarioEquipoPanel2(equipoSeleccionado.getIdEquipo());
-				frame.setModal(true);
-				frame.setVisible(true);
-				ga.cargarEquiposAula();
+				//AsignarUsuarioEquipoPanel2 frame = new AsignarUsuarioEquipoPanel2(equipoSeleccionado.getIdEquipo());
+				//frame.setModal(true);
+				//frame.setVisible(true);
+				//ga.cargarEquiposAula();
 			}
 		});
 
@@ -1036,7 +1040,7 @@ public class Main extends JFrame {
 				if (aulaSeleccionada != 0) {
 					try {
 						if(ga.calcularDisponibilidad(ga.getAulaById(aulaSeleccionada))) {
-							AñdirEquipoPanel frame = new AñdirEquipoPanel(aulaSeleccionada);
+							Aï¿½dirEquipoPanel frame = new Aï¿½dirEquipoPanel(aulaSeleccionada);
 							frame.setModal(true);
 							frame.setVisible(true);
 							ga.cargarEquiposAula();
@@ -1305,9 +1309,9 @@ public class Main extends JFrame {
 				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
 				AulaDTO adto = new AulaDTO(ips, nombre, descripcion, capacidad);
-				String mensaje = "¡Aula creada correctamente\u0021";
+				String mensaje = "ï¿½Aula creada correctamente\u0021";
 				if (!crearAula(adto))
-					mensaje = "¡Error al crear el aula\u0021";
+					mensaje = "ï¿½Error al crear el aula\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
 				recargarAula();
 
@@ -1341,13 +1345,13 @@ public class Main extends JFrame {
 				System.out.println("asdasdas" + tableAula.getSelectedRow());
 				System.out.println("asdasdas" + tableAula.getSelectedRow());
 
-				int option = JOptionPane.showConfirmDialog(null, "¿Borrar Aula?", "Eliminar Aula",
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar Aula?", "Eliminar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "¡Error al borrar el aula\u0021";
+					String mensaje = "ï¿½Error al borrar el aula\u0021";
 					if (eliminarAula(
 							(int) Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()))) {
-						mensaje = "¡Aula borrada correctamente\u0021";
+						mensaje = "ï¿½Aula borrada correctamente\u0021";
 						model.removeRow(tableAula.getSelectedRow());
 						nombreSeleccionado = "";
 					}
@@ -1382,13 +1386,13 @@ public class Main extends JFrame {
 				String descripcion = model.getValueAt(tableAula.getSelectedRow(), 4).toString();
 
 				AulaDTO adto = new AulaDTO(ids, ips, nombre, descripcion, capacidad);
-				int option = JOptionPane.showConfirmDialog(null, "¿Modificar aula?", "Modificar Aula",
+				int option = JOptionPane.showConfirmDialog(null, "ï¿½Modificar aula?", "Modificar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 
-					String mensaje = "¡Aula modificada correctamente\u0021";
+					String mensaje = "ï¿½Aula modificada correctamente\u0021";
 					if (!modificarAula(adto))
-						mensaje = "¡Error al modificada el aula\u0021";
+						mensaje = "ï¿½Error al modificada el aula\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 
 				}
@@ -1478,9 +1482,9 @@ public class Main extends JFrame {
 				int ram = Integer.parseInt(model.getValueAt(tableEquipo.getSelectedRow(), 4).toString());
 
 				EquipoDTO edto = new EquipoDTO(ip, nombre, discoDuro, ram);
-				String mensaje = "¡Equipo creado correctamente\u0021";
+				String mensaje = "ï¿½Equipo creado correctamente\u0021";
 				if (!crearEquipo(edto))
-					mensaje = "¡Error al crear el equipo\u0021";
+					mensaje = "ï¿½Error al crear el equipo\u0021";
 				JOptionPane.showMessageDialog(null, mensaje);
 				recargar();
 
@@ -1513,9 +1517,9 @@ public class Main extends JFrame {
 				int option = JOptionPane.showConfirmDialog(null, "\u00bfBuscar equipo?", "Eliminar Equipo",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "¡Equipo borrado correctamente\u0021";
+					String mensaje = "ï¿½Equipo borrado correctamente\u0021";
 					if (!borrarEquipo(id))
-						mensaje = "¡Error al borrar el equipo\u0021";
+						mensaje = "ï¿½Error al borrar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 					recargar();
 
@@ -1553,9 +1557,9 @@ public class Main extends JFrame {
 				int option = JOptionPane.showConfirmDialog(null, "\u00bfModificar aula?", "Modificar Aula",
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
-					String mensaje = "¡Equipo modificado correctamente\u0021";
+					String mensaje = "ï¿½Equipo modificado correctamente\u0021";
 					if (!modificarEquipo(edto))
-						mensaje = "¡Error al modificar el equipo\u0021";
+						mensaje = "ï¿½Error al modificar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 					recargar();
 				}
@@ -1858,6 +1862,15 @@ public class Main extends JFrame {
 		JButton btnNewButton_8 = new JButton("Comprar");
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				GestorCompras gc = new GestorCompras();
+				ArrayList<LineaCompraDTO> cesta = new ArrayList<LineaCompraDTO>();
+				cesta.add(new LineaCompraDTO(1, 1, 1, 10));
+				try {
+					gc.crearCompra(new CompraDTO(1,1,"2000-01-01",17,cesta));
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_8.setBounds(635, 714, 89, 23);

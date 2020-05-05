@@ -17,6 +17,15 @@ public class CompraDTO {
 		this.precioTotal = precioTotal;
 	}
 
+	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal,ArrayList<LineaCompraDTO> listaProdPorCompra) {
+		super();
+		this.idCompra = idCompra;
+		this.idProveedor = idProveedor;
+		this.fechaCompra = fechaCompra;
+		this.precioTotal = precioTotal;
+		this.listaProdPorCompra = listaProdPorCompra;
+	}
+	
 	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal) {
 		super();
 		this.idCompra = idCompra;

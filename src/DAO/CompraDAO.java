@@ -10,7 +10,7 @@ import DTO.EquipoDTO;
 import conexion.Conexion;
 
 public class CompraDAO implements PatronDAO<CompraDTO>{
-	private static final String SQL_INSERT="INSERT INTO Compras (Proveedores_idProveedor,fechaCompra, precioTotal) VALUES (?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Compras (Proveedores_idProveedores,fechaCompra, precioTotal) VALUES (?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM Compras WHERE idCompras = ?";
 	private static final String SQL_UPDATE="UPDATE Compras SET Proveedores_idProveedor=?,fechaCompra=? WHERE idCompras = ?";
 	private static final String SQL_FIND="SELECT * FROM Compras WHERE idCompras = ?";
