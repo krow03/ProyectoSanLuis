@@ -12,7 +12,6 @@ public class ProveedorDTO extends UsuarioDTO
     private String telefono;
     
     private ArrayList <StockDTO> listaStock;
-    private ArrayList<ComponenteDTO>listaProductos;
 
 	public ProveedorDTO(int idProveedor, String cif, String nombre, String email, String direccion, String telefono) {
 		super();
@@ -79,14 +78,5 @@ public class ProveedorDTO extends UsuarioDTO
 	public void setListaStock(ArrayList<StockDTO> listaStock) {
 		this.listaStock = listaStock;
 	}
-
-	public ArrayList<ComponenteDTO> getListaProductos() {
-		return listaProductos;
-	}
-
-	public void setListaProductos(ArrayList<ComponenteDTO> listaProductos) {
-		this.listaProductos = listaProductos;
-	}
-    
     
 }
