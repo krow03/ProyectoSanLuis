@@ -41,12 +41,12 @@ import DTO.SolicitudDTO;
 import DTO.StockDTO;
 import DTO.TecnicoDTO;
 import DTO.UsuarioDTO;
-import Gestores.GestorAulas;
-import Gestores.GestorComponentes;
-import Gestores.GestorCompras;
-import Gestores.GestorEquipos;
-import Gestores.GestorSolicitudes;
-import Gestores.GestorUsuarios;
+import gestores.GestorAulas;
+import gestores.GestorComponentes;
+import gestores.GestorCompras;
+import gestores.GestorEquipos;
+import gestores.GestorSolicitudes;
+import gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
 import javax.swing.border.BevelBorder;
@@ -74,6 +74,7 @@ public class Main extends JFrame {
 	private GestorEquipos ge = GestorEquipos.getInstance();
 	private GestorUsuarios gu = GestorUsuarios.getInstance();
 	private GestorAulas ga = GestorAulas.getInstance();
+	private GestorCompras gcm = GestorCompras.getInstance();
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
@@ -1040,7 +1041,7 @@ public class Main extends JFrame {
 				if (aulaSeleccionada != 0) {
 					try {
 						if(ga.calcularDisponibilidad(ga.getAulaById(aulaSeleccionada))) {
-							A�dirEquipoPanel frame = new A�dirEquipoPanel(aulaSeleccionada);
+							AnadirEquipoPanel frame = new AnadirEquipoPanel(aulaSeleccionada);
 							frame.setModal(true);
 							frame.setVisible(true);
 							ga.cargarEquiposAula();
@@ -1862,11 +1863,10 @@ public class Main extends JFrame {
 		JButton btnNewButton_8 = new JButton("Comprar");
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestorCompras gc = new GestorCompras();
 				ArrayList<LineaCompraDTO> cesta = new ArrayList<LineaCompraDTO>();
 				cesta.add(new LineaCompraDTO(1, 1, 1, 10));
 				try {
-					gc.crearCompra(new CompraDTO(1,1,"2000-01-01",17,cesta));
+					gcm.crearCompra(new CompraDTO(1,1,"2000-01-01",17,cesta));
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

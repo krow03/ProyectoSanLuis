@@ -10,7 +10,6 @@ import DTO.ProveedorDTO;
 import DTO.StockDTO;
 
 public class GestorProveedores {
-	private static GestorCompras gc =  GestorCompras.getInstance();
 	private ProveedorDAO pd = new ProveedorDAO();
 	private GestorStock gs = GestorStock.getInstance();
 	private static ArrayList<ProveedorDTO> listaProveedores = new ArrayList<ProveedorDTO>();

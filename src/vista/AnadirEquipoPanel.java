@@ -29,12 +29,12 @@ import DTO.IncidenciaDTO;
 import gestores.GestorEquipos;
 import gestores.GestorSolicitudes;
 
-public class AñdirEquipoPanel extends JDialog {
+public class AnadirEquipoPanel extends JDialog {
 
 	private JPanel contentPane;
 	private GestorEquipos ge = GestorEquipos.getInstance();
 	
-	public AñdirEquipoPanel(int idAula) {
+	public AnadirEquipoPanel(int idAula) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 557, 374);
 		contentPane = new JPanel();

@@ -26,13 +26,13 @@ import javax.swing.table.DefaultTableModel;
 
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
-import Gestores.GestorEquipos;
-import Gestores.GestorSolicitudes;
+import gestores.GestorEquipos;
+import gestores.GestorSolicitudes;
 
 public class ProveedoresPantalla extends JDialog {
 
 	private JPanel contentPane;
-	private GestorEquipos ge = new GestorEquipos();
+	private GestorEquipos ge = GestorEquipos.getInstance();
 	
 	public ProveedoresPantalla(int idAula) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -92,7 +92,6 @@ public class ProveedoresPantalla extends JDialog {
 					e1.printStackTrace();
 				}
                 JOptionPane.showMessageDialog(null, mensaje);
-                ge.cargarListaEquipos();
 				dispose();
 			}
 		});
