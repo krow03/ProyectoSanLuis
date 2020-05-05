@@ -117,6 +117,8 @@ public class Main extends JFrame {
 	private JTextField txtIp;
 	private JTextField txtDiscoDuro;
 	private JTextField txtRam;
+	private JButton btnAsignarAlumno;
+	private JButton btnDesasignarAlumno;
 
 	/**
 	 * Launch the application.
@@ -962,7 +964,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -975,10 +977,11 @@ public class Main extends JFrame {
 
 		panel_3.setLayout(null);
 
-		JButton btnAsignarAlumno = new JButton("Asignar");
+		btnAsignarAlumno = new JButton("Asignar");
 		btnAsignarAlumno.setEnabled(true);
 		btnAsignarAlumno.setBackground(Color.ORANGE);
 		btnAsignarAlumno.setBounds(768, 744, 229, 36);
+		btnAsignarAlumno.setEnabled(false);
 		aulas.add(btnAsignarAlumno);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(802, 384, 392, 340);
@@ -994,11 +997,12 @@ public class Main extends JFrame {
 		
 
 		scrollPane.setViewportView(tableAlumnos);
-		JButton btnDesasignarUsuario = new JButton("Desasignar");
-		btnDesasignarUsuario.setEnabled(true);
-		btnDesasignarUsuario.setBackground(new Color(220, 20, 60));
-		btnDesasignarUsuario.setBounds(997, 744, 229, 36);
-		aulas.add(btnDesasignarUsuario);
+		btnDesasignarAlumno = new JButton("Desasignar");
+		btnDesasignarAlumno.setEnabled(true);
+		btnDesasignarAlumno.setBackground(new Color(220, 20, 60));
+		btnDesasignarAlumno.setBounds(997, 744, 229, 36);
+		btnDesasignarAlumno.setEnabled(false);
+		aulas.add(btnDesasignarAlumno);
 
 		JButton btnAnadirEquipo = new JButton("A\u00F1adir Equipo");
 		btnAnadirEquipo.setBackground(Color.ORANGE);
@@ -1026,14 +1030,30 @@ public class Main extends JFrame {
 
 		btnAsignarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//AsignarUsuarioEquipoPanel2 frame = new AsignarUsuarioEquipoPanel2(equipoSeleccionado.getIdEquipo());
-				//frame.setModal(true);
-				//frame.setVisible(true);
-				//ga.cargarEquiposAula();
+				AsignarUsuarioEquipoPanel2 frame = new AsignarUsuarioEquipoPanel2(equipoSeleccionado.getIdEquipo());
+				frame.setModal(true);
+				frame.setVisible(true);
+				ga.cargarEquiposAula();
+				int rowCount = defaultModelAlumno.getRowCount();
+				System.out.println(""+rowCount);
+				// Remove rows one by one from the end of the table
+				for (int i = rowCount - 1; i >= 0; i--) {
+					defaultModelAlumno.removeRow(i);
+				}
+				ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+				array = gu.getListaUsuariosAsignados(equipoSeleccionado.getIdEquipo());
+
+				for (UsuarioDTO udto : array) {
+
+					Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
+					defaultModelAlumno.addRow(fila);
+				}
+				Object[] fila = { "", "" };
+				defaultModelAlumno.addRow(fila);
 			}
 		});
 
-		btnDesasignarUsuario.addActionListener(new ActionListener() {
+		btnDesasignarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAlumnos.getModel();
 				String id = model.getValueAt(tableAlumnos.getSelectedRow(), 0).toString();
@@ -1042,6 +1062,8 @@ public class Main extends JFrame {
 				if (!gu.desasignarEquipo(id)) 
 					mensaje = "Error al eliminar el usuario del equipo";
 				JOptionPane.showMessageDialog(null, mensaje);
+				model.removeRow(tableAlumnos.getSelectedRow());
+
 			}
 		});
 
@@ -1249,6 +1271,9 @@ public class Main extends JFrame {
 
 	private void cargarDatosEquipo(EquipoDTO e) {
 		txtNombreEquipo.setText(e.getNombre());
+		btnAsignarAlumno.setEnabled(true);
+		btnDesasignarAlumno.setEnabled(true);
+
 		txtIp.setText(e.getIpEquipo());
 		txtId.setText(String.valueOf(e.getIdEquipo()));
 		equipoSeleccionado = e;
@@ -1262,8 +1287,6 @@ public class Main extends JFrame {
 			Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
 			defaultModelAlumno.addRow(fila);
 		}
-		Object[] fila = { "", "" };
-		defaultModelAlumno.addRow(fila);
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
