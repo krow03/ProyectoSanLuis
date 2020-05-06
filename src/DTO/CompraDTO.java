@@ -2,9 +2,12 @@ package DTO;
 
 import java.util.ArrayList;
 
+import gestores.GestorProveedores;
+
 public class CompraDTO {
+	private GestorProveedores gp = GestorProveedores.getInstance();
 	private int idCompra;
-	private int idProveedor;
+	private ProveedorDTO proveedor;
 	private String fechaCompra;
 	private double precioTotal;
 	private ArrayList<LineaCompraDTO> listaProdPorCompra= new ArrayList<LineaCompraDTO>();
@@ -12,7 +15,7 @@ public class CompraDTO {
 	
 	public CompraDTO(int idProveedor, String fechaCompra, double precioTotal) {
 		super();
-		this.idProveedor = idProveedor;
+		this.proveedor = gp.getProvById(idProveedor);
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
 	}
@@ -20,7 +23,7 @@ public class CompraDTO {
 	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal,ArrayList<LineaCompraDTO> listaProdPorCompra) {
 		super();
 		this.idCompra = idCompra;
-		this.idProveedor = idProveedor;
+		this.proveedor = gp.getProvById(idProveedor);;
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
 		this.listaProdPorCompra = listaProdPorCompra;
@@ -29,7 +32,7 @@ public class CompraDTO {
 	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal) {
 		super();
 		this.idCompra = idCompra;
-		this.idProveedor = idProveedor;
+		this.proveedor = gp.getProvById(idProveedor);;
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
 	}
@@ -40,11 +43,11 @@ public class CompraDTO {
 	public void setIdCompra(int idCompra) {
 		this.idCompra = idCompra;
 	}
-	public int getIdProveedor() {
-		return idProveedor;
+	public ProveedorDTO getProveedor() {
+		return proveedor;
 	}
-	public void setIdProveedor(int idProveedor) {
-		this.idProveedor = idProveedor;
+	public void setProveedor(ProveedorDTO proveedor) {
+		this.proveedor = proveedor;
 	}
 	public String getFechaCompra() {
 		return fechaCompra;

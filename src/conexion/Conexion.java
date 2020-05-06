@@ -19,14 +19,17 @@ public class Conexion {
 			System.out.println("Error al abrir la conexión.");
 		}
 	}
+	
 	public static Conexion getInstance(){
 		if (instancia == null) instancia = new Conexion();
 
 		return instancia;
 	}
+	
 	public Connection getCon (){
 		return con;
 	}
+	
 	public void cerrarConexion() {
 		try {
 			con.close();

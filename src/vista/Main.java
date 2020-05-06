@@ -81,7 +81,6 @@ public class Main extends JFrame {
 	private ArrayList<HardwareDTO> hardwareLista = new ArrayList<HardwareDTO>();
 	private ArrayList<SoftwareDTO> softwareLista = new ArrayList<SoftwareDTO>();
 	private ArrayList<EquipoDTO> equipoLista = new ArrayList<EquipoDTO>();
-
 	private ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
 	private static DefaultTableModel defaultModel = new DefaultTableModel();
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
@@ -96,6 +95,7 @@ public class Main extends JFrame {
 	private JTable tableAula;
 	private JPanel panel_3;
 	private EquipoDTO equipoSeleccionado;
+	private ProveedorDTO proveedorSeleccionado;
 	private JPanel aulas;
 	private JPanel perfil;
 	private JPanel crud;
@@ -964,7 +964,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 37, 1287, 791);
+		aulas.setBounds(88, 1000, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -1664,7 +1664,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 780);
+		incidencias.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1807,7 +1807,7 @@ public class Main extends JFrame {
 		tableHardware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "Descripcion", "Tipo", "Marca", "Peso" }) {
+				new String[] { "COD", "Descripcion", "Tipo", "Marca", "Peso","Precio","Id Stock" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -1818,6 +1818,8 @@ public class Main extends JFrame {
 		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
 		tableHardware.getColumnModel().getColumn(3).setPreferredWidth(450);
 		tableHardware.getColumnModel().getColumn(4).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(5).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(6).setPreferredWidth(450);
 		
 		scrollPaneIncidencias.setViewportView(tableHardware);
 
@@ -1829,7 +1831,7 @@ public class Main extends JFrame {
 		tableSoftware.setFillsViewportHeight(true);
 		tableSoftware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModelSoftware = (new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Descripcion", "Cod licencia" }) {
+				new String[] { "ID", "Descripcion", "Cod licencia" , "Precio", "Id Stock" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -1838,6 +1840,8 @@ public class Main extends JFrame {
 		tableSoftware.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableSoftware.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableSoftware.getColumnModel().getColumn(2).setPreferredWidth(450);
+		tableSoftware.getColumnModel().getColumn(3).setPreferredWidth(450);
+		tableSoftware.getColumnModel().getColumn(4).setPreferredWidth(450);
 
 		
 		scrollPaneSoftware.setViewportView(tableSoftware);
@@ -1852,7 +1856,7 @@ public class Main extends JFrame {
 		tableCompras.setFillsViewportHeight(true);
 		tableCompras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableModel defaultModelCompras = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "Precio", "Cantidad", "Descripcion" }) {
+				new String[] { "COD", "Precio", "Cantidad", "Descripcion","idStock" }) {
 			public boolean isCellEditable(int row, int column) {
 			    if(column == 0 ||column == 1||column == 3) {
 			        return false;
@@ -1867,6 +1871,7 @@ public class Main extends JFrame {
 		tableCompras.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tableCompras.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tableCompras.getColumnModel().getColumn(3).setPreferredWidth(450);
+		tableCompras.getColumnModel().getColumn(4).setPreferredWidth(450);
 
 
 		tableCompras.setModel(defaultModelCompras);
@@ -1876,7 +1881,8 @@ public class Main extends JFrame {
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<LineaCompraDTO> cesta = new ArrayList<LineaCompraDTO>();
-				cesta.add(new LineaCompraDTO(1, 1, 1, 10));
+		
+				cesta.add(new LineaCompraDTO(1, 1, 10));
 				try {
 					gcm.crearCompra(new CompraDTO(1,1,"2000-01-01",17,cesta));
 				} catch (SQLException e1) {
@@ -1900,26 +1906,28 @@ public class Main extends JFrame {
 		JButton btnNewButton_9 = new JButton("icono");
 		btnNewButton_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				DefaultTableModel tm = (DefaultTableModel) tableCompras.getModel();
 				if(tableSoftware.getSelectedRow()!=-1) {
 					DefaultTableModel modelSoftware = (DefaultTableModel) tableSoftware.getModel();
 					System.out.println("hola"+tableSoftware.getSelectedRow());
-					String id = modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 0).toString();
+					int id = Integer.parseInt(modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 0).toString());
 					String descri = modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 2).toString();
+					float precio = Float.parseFloat(modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 3).toString());
+					int idStock = Integer.parseInt(modelSoftware.getValueAt(tableSoftware.getSelectedRow(), 4).toString());
 
-
-					Object[] fila = { id, "", 1, descri };
+					Object[] fila = { id, precio, 1, descri,idStock };
 					tm.addRow(fila);
 
 				}
 				if(tableHardware.getSelectedRow()!=-1) {
-					DefaultTableModel modelHardware = (DefaultTableModel) tableSoftware.getModel();
+					DefaultTableModel modelHardware = (DefaultTableModel) tableHardware.getModel();
 					System.out.println("hola"+tableHardware.getSelectedRow());
-					String id = modelHardware.getValueAt(tableHardware.getSelectedRow(), 0).toString();
+					int id = Integer.parseInt(modelHardware.getValueAt(tableHardware.getSelectedRow(), 0).toString());
 					String descri = modelHardware.getValueAt(tableHardware.getSelectedRow(), 1).toString();
-
-
-					Object[] fila = { id, "", 1, descri };
+					float precio = Float.parseFloat(modelHardware.getValueAt(tableHardware.getSelectedRow(), 5).toString());
+					int idStock = Integer.parseInt(modelHardware.getValueAt(tableHardware.getSelectedRow(), 6).toString());
+					Object[] fila = { id, precio, 1, descri, idStock };
 					tm.addRow(fila);
 
 				}
@@ -1958,9 +1966,8 @@ public class Main extends JFrame {
 		comboBoxStock = new JComboBox();
 		comboBoxStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				ProveedorDTO pdto = gp.getProvById(Integer.parseInt(comboBoxStock.getSelectedItem().toString()));
-				for(StockDTO stock:pdto.getListaStock()) {
+				proveedorSeleccionado =  gp.getProvById(Integer.parseInt(comboBoxStock.getSelectedItem().toString()));
+				for(StockDTO stock:proveedorSeleccionado.getListaStock()) {
 					if(stock.getComponentes().size() != 0) {
 						if(stock.getComponentes().get(0) instanceof HardwareDTO) {
 							hardwareLista.add((HardwareDTO) stock.getComponentes().get(0));
@@ -1970,19 +1977,25 @@ public class Main extends JFrame {
 						}
 
 					}
-					else {
-						if (stock.getEquipos() != null) {
-							equipoLista.add((EquipoDTO) stock.getEquipos().get(0));
-						}
+					else if (stock.getEquipos() != null && stock.getEquipos().size() != 0) {
+						equipoLista.add((EquipoDTO) stock.getEquipos().get(0));
 					}
 				}
 				ArrayList<ComponenteDTO> arrayHardware = new ArrayList<ComponenteDTO>();
 				arrayHardware = gc.getListaHardware();
-
+				float precio = 0;
+				int idStock = 0;
 				for (ComponenteDTO componente : arrayHardware) {
-
+					for(StockDTO sdto : proveedorSeleccionado.getListaStock()) {
+						for(ComponenteDTO cdto : sdto.getComponentes()) {
+							if(cdto.getIdComponente()==componente.getIdComponente()) {
+								precio = sdto.getPrecio();
+								idStock = sdto.getIdStock();
+							}
+						}
+					}
 					Object[] fila = { componente.getIdComponente(), componente.getDescripcion(), ((HardwareDTO) componente).getTipo(),
-							((HardwareDTO) componente).getMarca() };
+							((HardwareDTO) componente).getMarca(),precio,idStock };
 					defaultModel2.addRow(fila);
 				}
 				tableHardware.setModel(defaultModel2);
@@ -1994,7 +2007,15 @@ public class Main extends JFrame {
 				// String rol = "";
 				// Double total;
 				for (ComponenteDTO so : arraysoftware) {
-					Object[] fila = { so.getIdComponente(), so.getDescripcion(), ((SoftwareDTO) so).getCodLiciencia() };
+					for(StockDTO sdto : proveedorSeleccionado.getListaStock()) {
+						for(ComponenteDTO cdto : sdto.getComponentes()) {
+							if(cdto.getIdComponente()==so.getIdComponente()) {
+								precio = sdto.getPrecio();
+								idStock = sdto.getIdStock();
+							}
+						}
+					}
+					Object[] fila = { so.getIdComponente(), so.getDescripcion(), ((SoftwareDTO) so).getCodLiciencia(),precio,idStock };
 					defaultModelSoftware.addRow(fila);
 				}
 				tableSoftware.setModel(defaultModelSoftware);

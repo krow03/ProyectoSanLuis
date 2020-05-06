@@ -71,7 +71,7 @@ public class GestorEquipos {
 	
 	public boolean asignarAula(int idEquipo,int idAula) throws SQLException {
 		if(edao.asignarAula(idEquipo,idAula)) {
-			listaEquiposDisp.remove(getEquipoById(idEquipo));
+			cargarListaEquipos();
 			return true;
 		}
 		return false;
@@ -79,7 +79,7 @@ public class GestorEquipos {
 	
 	public boolean desasignarAula(int idEquipo) throws SQLException {
 		if(edao.desasignarAula(idEquipo)) {
-			listaEquiposDisp.add(getEquipoById(idEquipo));
+			cargarListaEquipos();
 			return true;
 		}
 		return false;

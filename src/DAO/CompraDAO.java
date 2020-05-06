@@ -20,7 +20,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 	public boolean insertar(CompraDTO t) throws SQLException {
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
-			ps.setInt(1, t.getIdProveedor());
+			ps.setInt(1, t.getProveedor().getIdProveedor());
 			ps.setString(2, t.getFechaCompra());
 			ps.setDouble(3, t.getPrecioTotal());
 		
@@ -52,7 +52,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 		PreparedStatement ps = null;
 		try {
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
-			ps.setInt(1, t.getIdProveedor());
+			ps.setInt(1, t.getProveedor().getIdProveedor());
 			ps.setString(2, t.getFechaCompra());
 			
 			ps.setInt(6, t.getIdCompra());

@@ -44,14 +44,27 @@ public class GestorProveedores {
         return null;
     }
 	public boolean crearProv(ProveedorDTO pdto) throws SQLException {
-		return pd.insertar(pdto);
+		if(pd.insertar(pdto)) {
+			cargarListaProv();
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean borrarProv(int idProveedor) {
-		return pd.borrar(idProveedor);
+		if(pd.borrar(idProveedor)) {
+			listaProveedores.remove(getProvById(idProveedor));
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean modificarProv(ProveedorDTO pdto) {
-		return pd.actualizar(pdto);
+		pdto.setListaStock(getProvById(pdto.getIdProveedor()).getListaStock());
+		if(pd.actualizar(pdto)) {
+			listaProveedores.set(listaProveedores.indexOf(getProvById(pdto.getIdProveedor())), pdto);
+			return true;
+		}
+		return false;
 	}
 }

@@ -50,6 +50,7 @@ public class GestorCompras {
 	}
 	
 	public boolean modificar(CompraDTO cdto) {
+		cdto.setProveedor(getCompraById(cdto.getIdCompra()).getProveedor());
 		if(cd.actualizar(cdto)) {
 			listaCompras.set(listaCompras.indexOf(getCompraById(cdto.getIdCompra())), cdto);
 			return true;

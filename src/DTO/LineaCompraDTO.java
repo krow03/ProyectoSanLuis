@@ -1,32 +1,27 @@
 package DTO;
 
+import gestores.GestorStock;
+
 public class LineaCompraDTO {
-	private int idStock;
-	private int idCompra;
+	private GestorStock gs = GestorStock.getInstance();
+	private StockDTO stock;
 	private int unidades;
 	private double precio;
 	
-	
-	public LineaCompraDTO(int idStock, int idCompra, int unidades, double precio) {
+	public LineaCompraDTO(int idStock, int unidades, double precio) {
 		super();
-		this.idStock = idStock;
-		this.idCompra = idCompra;
+		this.stock = gs.getStockById(idStock);
 		this.unidades = unidades;
 		this.precio=precio;
 	}
 	
-	public int getIdStock() {
-		return idStock;
+	public StockDTO getStock() {
+		return stock;
 	}
-	public void setIdStock(int idStock) {
-		this.idStock = idStock;
+	public void setStock(StockDTO idStock) {
+		this.stock = idStock;
 	}
-	public int getIdCompra() {
-		return idCompra;
-	}
-	public void setIdCompra(int idCompra) {
-		this.idCompra = idCompra;
-	}
+
 	public int getUnidades() {
 		return unidades;
 	}

@@ -66,6 +66,8 @@ public class GestorStock {
 	}
 	
 	public boolean modificarStock(StockDTO sdto) {
+		sdto.setComponentes(getStockById(sdto.getIdStock()).getComponentes());
+		sdto.setEquipos(getStockById(sdto.getIdStock()).getEquipos());
 		if(sdao.actualizar(sdto)) {
 			listaStock.set(listaStock.indexOf(getStockById(sdto.getIdStock())), sdto);
 			return true;

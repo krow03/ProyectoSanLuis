@@ -95,6 +95,7 @@ public class GestorSolicitudes {
 		return false;
 	}
 	public boolean modificarIncidencia(IncidenciaDTO idto) {
+		((SolicitudDTO)idto).setComponente(((SolicitudDTO)getIncidencia(idto.getCodigo())).getComponente());
         if(idao.actualizar(idto)) {
         	listaSoli.set(listaSoli.indexOf(getIncidencia(idto.getCodigo())), idto);
         	return true;

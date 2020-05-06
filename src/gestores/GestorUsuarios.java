@@ -151,6 +151,8 @@ public class GestorUsuarios {
 	
 	public boolean modificarUsuario(UsuarioDTO user) {
 		UsuarioDTO usuario = getUserById(user.getIdUsuario());
+		user.setEquipo(usuario.getEquipo());
+		user.setIncidencias(usuario.getIncidencias());
 		if(tienePermisos()==3) {
 			if(udao.actualizar(user)) listaUsers.set(listaUsers.indexOf(usuario), user);	
 			return true;

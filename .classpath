@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.14.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/krow0/Downloads/mongo-java-driver-3.12.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
