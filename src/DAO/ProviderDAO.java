@@ -16,30 +16,29 @@ import org.bson.Document;
 
 import com.mongodb.DB;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 
 import DTO.PdfDTO;
 import conexion.ConexionNoSQL;
 
 public class ProviderDAO {
 	private static ConexionNoSQL con = ConexionNoSQL.getInstance();
-	private static MongoDatabase db; 
+	private static DB db; 
 	
 	public ProviderDAO() {
 		con.setDatabase("CatalogoProv");
-		this.db = (MongoDatabase) con.getDataBase();
+		this.db = con.getDataBase();
 	}
-	
-	public static MongoDatabase getDb() {
+	public static DB getDb() {
 		return db;
 	}
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
 			ProviderDAO pdao = new ProviderDAO();
 			System.out.println("connected to database");
 			pdao.getDb().getCollection("productos");
+			
+			
 			System.out.println("Coleccion obtenida");
 			ins(new PdfDTO("ad","afae","daaaef"));
 		} catch (Exception e) {
@@ -62,8 +61,6 @@ public class ProviderDAO {
 			            reader = null;
 			            File file=jFileChooser.getSelectedFile();
 			            reader=new FileReader(file);
-			            if(file == null)
-			            	System.out.println("que no es nulo");
 			            //AQUI TENEMOS LA RUTA
 			            String filePath = file.toString();
 			            System.out.println(filePath);

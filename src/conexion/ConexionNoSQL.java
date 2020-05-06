@@ -4,13 +4,12 @@ import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
-import com.mongodb.client.MongoDatabase;
 
 public class ConexionNoSQL {
 	private static ConexionNoSQL instancia = null;
 	private static MongoClientURI mcURI = null;
 	private static MongoClient mongoClient = null;
-	private static MongoDatabase db = null;
+	private static DB db = null;
 	private static final String user = "krow";
 	private static final String pass = "1234";
 	private static final String host0 = "proyectosl-shard-00-00-tjv0p.mongodb.net:27017";
@@ -42,12 +41,12 @@ public class ConexionNoSQL {
 		return mongoClient;
 	}
 	
-	public MongoDatabase getDataBase() {
+	public DB getDataBase() {
 		return db;
 	}
 	
 	public void setDatabase(String dataBase) {
-		db = (MongoDatabase) mongoClient.getDB(dataBase);
+		db = mongoClient.getDB(dataBase);
 	}
 	
 	public static void closeConnection() {
