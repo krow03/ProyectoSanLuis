@@ -12,6 +12,10 @@ public class PdfDTO {
 		this.contenido = contenido;
 	}
 	
+	public PdfDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getDniProveedor() {
 		return dniProveedor;
 	}
