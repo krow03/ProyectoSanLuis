@@ -23,7 +23,7 @@ public class CompraDTO {
 	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal,ArrayList<LineaCompraDTO> listaProdPorCompra) {
 		super();
 		this.idCompra = idCompra;
-		this.proveedor = gp.getProvById(idProveedor);;
+		this.proveedor = gp.getProvById(idProveedor);
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
 		this.listaProdPorCompra = listaProdPorCompra;

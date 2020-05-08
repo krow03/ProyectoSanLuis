@@ -106,7 +106,7 @@ public class GestorUsuarios {
 	public boolean promocionarUsuario(UsuarioDTO user) {
 		if (user instanceof AdministradorDTO || !autorizarAdmin()) return false;
 		if(udao.promocionar(user)) {
-			listaUsers.set(listaUsers.indexOf(user), udao.buscar(user.getIdUsuario()));
+			cargarListaUsuarios();
 			return true;			
 		}
 		return false;
@@ -116,7 +116,7 @@ public class GestorUsuarios {
 		if (user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin()) return false;
 		ArrayList<IncidenciaDTO>incidencias=user.getIncidencias();
 		if(udao.degradar(user)) {
-			listaUsers.set(listaUsers.indexOf(user), udao.buscar(user.getIdUsuario()));
+			cargarListaUsuarios();
 			if(user instanceof TecnicoDTO)
 				traspasarIncidencias(incidencias);
 			return true;			

@@ -129,7 +129,7 @@ public class ProviderDAO {
 			System.out.println(ex);
 			return null;
 		} finally {
-			//MongoDB.cerrarConexion();
+			con.closeConnection();
 		}
 	}
 

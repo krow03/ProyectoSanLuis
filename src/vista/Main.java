@@ -12,6 +12,9 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -447,7 +450,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 37, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -1881,10 +1884,25 @@ public class Main extends JFrame {
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<LineaCompraDTO> cesta = new ArrayList<LineaCompraDTO>();
+				CompraDTO compra = null;
+				int unidadesTotales = tableCompras.getRowCount();
+				float precioTotal = 0;
+				String fechaActual = getFechaActual();
 		
-				cesta.add(new LineaCompraDTO(1, 1, 10));
+				for(int i = 0; i < unidadesTotales; i++) {
+					int id = Integer.parseInt(tableCompras.getValueAt(i, 0).toString());
+					//String descri = tableCompras.getValueAt(i, 2).toString();
+					float precio = Float.parseFloat(tableCompras.getValueAt(i, 1).toString());
+					precioTotal += precio;
+					int cant = Integer.parseInt(tableCompras.getValueAt(i, 2).toString());
+					int idStock = Integer.parseInt(tableCompras.getValueAt(i, 4).toString());
+					cesta.add(new LineaCompraDTO(idStock,cant,precio));
+				}
+					
 				try {
-					gcm.crearCompra(new CompraDTO(1,1,"2000-01-01",17,cesta));
+					compra = new CompraDTO(0,proveedorSeleccionado.getIdProveedor(),fechaActual,precioTotal,cesta);
+					gcm.crearCompra(compra);
+					gcm.crearLineaCompra(cesta,gcm.getListaCompras().size());
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -2029,6 +2047,15 @@ public class Main extends JFrame {
 		}
 		comboBoxStock.setBounds(59, 90, 190, 31);
 		stock.add(comboBoxStock);
+	}
+	private String getFechaActual() {
+		Calendar c2 = new GregorianCalendar();
+	
+	
+	    String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
+	            + "-" + Integer.toString(c2.get(Calendar.DATE));
+	    
+	    return fecha;
 	}
 
 }

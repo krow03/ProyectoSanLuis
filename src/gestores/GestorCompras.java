@@ -38,7 +38,11 @@ public class GestorCompras {
 	}
 	
 	public boolean crearCompra(CompraDTO cdto) throws SQLException {
-		return cd.insertar(cdto);
+		if(cd.insertar(cdto)) {
+			cargarListaCompras();
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean borrarCompra(int idCompra) {
@@ -58,10 +62,10 @@ public class GestorCompras {
 		return false;
 	}
 	
-	public boolean crearLineaCompra(ArrayList<LineaCompraDTO> listaProdCompra) throws SQLException {
+	public boolean crearLineaCompra(ArrayList<LineaCompraDTO> listaProdCompra,int idCompra) throws SQLException {
 		boolean finalizado=true;
 		for(LineaCompraDTO hdto : listaProdCompra) {
-			if(!hd.insertar(hdto)) {
+			if(!hd.insertar(hdto,idCompra)) {
 				finalizado = false;
 			}else {
 				cargarListaCompras();

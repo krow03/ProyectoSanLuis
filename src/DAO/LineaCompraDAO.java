@@ -36,6 +36,24 @@ public class LineaCompraDAO implements PatronDAO<LineaCompraDTO>{
 		}
 		return false;
 	}
+	
+	public boolean insertar(LineaCompraDTO t, int idCompra) throws SQLException {
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
+			ps.setInt(1, t.getStock().getIdStock());
+			ps.setInt(2, idCompra);
+			ps.setInt(3, t.getUnidades());
+			ps.setDouble(4, t.getPrecio());
+			
+			if (ps.executeUpdate()>0) {
+				ps.close();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	@Override
 	public boolean borrar(Object pk) {
 		try {
