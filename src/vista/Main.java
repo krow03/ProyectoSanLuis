@@ -90,7 +90,10 @@ public class Main extends JFrame {
 	private static DefaultTableModel defaultModelAula = new DefaultTableModel();
 	private static DefaultTableModel defaultModelAlumno = new DefaultTableModel();
 	private static DefaultTableModel defaultModelSoftware = new DefaultTableModel();
+	private static DefaultTableModel defaultModelUsuarios = new DefaultTableModel();
 	private String rol2;
+	private JTable table2;
+	
 	private String idEquipo2;
 	private JComboBox comboBox;
 	private JComboBox comboBoxStock;
@@ -114,6 +117,9 @@ public class Main extends JFrame {
 	private JTable table_1;
 	private JTextField txtNombreOnline;
 	private JTextField txtId;
+	private JTextField txtTelefono;
+	private JTextField txtApellidos;
+	private JTextField txtDireccion;
 	private JTextField txtEmailOnline;
 	private JTextField txtEquipoOnline;
 	private JTextField txtNombreEquipo;
@@ -122,6 +128,9 @@ public class Main extends JFrame {
 	private JTextField txtRam;
 	private JButton btnAsignarAlumno;
 	private JButton btnDesasignarAlumno;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -450,7 +459,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 37, 1311, 878);
+		perfil.setBounds(64, 1000, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -479,12 +488,6 @@ public class Main extends JFrame {
 		lblEquipoAsociado.setBounds(20, 451, 155, 14);
 		panel_2_1.add(lblEquipoAsociado);
 
-		JLabel lblInstPendientes = new JLabel("Instalaciones Pendientes");
-		lblInstPendientes.setForeground(Color.WHITE);
-		lblInstPendientes.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblInstPendientes.setBounds(20, 614, 188, 14);
-		panel_2_1.add(lblInstPendientes);
-
 		JButton btnSolicitud = new JButton("Solicitud");
 		btnSolicitud.setBackground(new Color(51, 204, 153));
 		btnSolicitud.setForeground(Color.BLACK);
@@ -508,6 +511,8 @@ public class Main extends JFrame {
 		panel_2_1.add(bntModificarPerfil);
 		// txtNombreOnline = new JTextField(gu.getUserOnline().getUserName());
 		txtNombreOnline = new JTextField();
+		txtNombreOnline.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtNombreOnline.setForeground(Color.WHITE);
 		txtNombreOnline.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -533,9 +538,12 @@ public class Main extends JFrame {
 		txtNombreOnline.setColumns(10);
 
 		txtEmailOnline = new JTextField();
+		txtEmailOnline.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtEmailOnline.setForeground(Color.WHITE);
 		txtEmailOnline.setBackground(new Color(0x566573));
 		txtEmailOnline.setColumns(10);
-		txtEmailOnline.setBounds(20, 403, 118, 22);
+		txtEmailOnline.setBounds(20, 403, 218, 22);
+		
 		txtEmailOnline.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -559,6 +567,8 @@ public class Main extends JFrame {
 		panel_2_1.add(txtEmailOnline);
 
 		txtEquipoOnline = new JTextField();
+		txtEquipoOnline.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtEquipoOnline.setForeground(Color.WHITE);
 		txtEquipoOnline.setBackground(new Color(0x566573));
 		txtEquipoOnline.setColumns(10);
 		txtEquipoOnline.setBounds(20, 478, 118, 22);
@@ -585,6 +595,107 @@ public class Main extends JFrame {
 			// implement the methods
 		});
 		panel_2_1.add(txtEquipoOnline);
+		
+		txtTelefono = new JTextField();
+		txtTelefono.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtTelefono.setForeground(Color.WHITE);
+		txtTelefono.setColumns(10);
+		txtTelefono.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+
+				bntModificarPerfil.setVisible(true);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+
+				bntModificarPerfil.setVisible(true);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+
+		});
+		txtTelefono.setBackground(new Color(86, 101, 115));
+		txtTelefono.setBounds(20, 564, 118, 22);
+		panel_2_1.add(txtTelefono);
+		
+		JLabel lblTelefono = new JLabel("Telefono");
+		lblTelefono.setForeground(Color.WHITE);
+		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTelefono.setBounds(20, 527, 155, 14);
+		panel_2_1.add(lblTelefono);
+		
+		JLabel lblDireccion = new JLabel("Direccion");
+		lblDireccion.setForeground(Color.WHITE);
+		lblDireccion.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblDireccion.setBounds(20, 619, 155, 14);
+		panel_2_1.add(lblDireccion);
+		
+		txtDireccion = new JTextField();
+		txtDireccion.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtDireccion.setForeground(Color.WHITE);
+		txtDireccion.setColumns(10);
+		txtDireccion.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				bntModificarPerfil.setVisible(true);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				bntModificarPerfil.setVisible(true);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+			// implement the methods
+		});
+		txtDireccion.setBackground(new Color(86, 101, 115));
+		txtDireccion.setBounds(20, 658, 218, 22);
+		panel_2_1.add(txtDireccion);
+		
+		JLabel lblApellidos = new JLabel("Apellidos");
+		lblApellidos.setForeground(Color.WHITE);
+		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblApellidos.setBounds(237, 300, 118, 14);
+		panel_2_1.add(lblApellidos);
+		
+		txtApellidos = new JTextField();
+		txtApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
+		txtApellidos.setForeground(Color.WHITE);
+		txtApellidos.setColumns(10);
+		txtApellidos.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+
+				bntModificarPerfil.setVisible(true);
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+
+				bntModificarPerfil.setVisible(true);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+
+		});
+		txtApellidos.setBackground(new Color(86, 101, 115));
+		txtApellidos.setBounds(237, 330, 118, 22);
+		panel_2_1.add(txtApellidos);
 		// Oculto el btn despues de los inputs
 		bntModificarPerfil.setVisible(false);
 
@@ -596,10 +707,10 @@ public class Main extends JFrame {
 		JScrollPane scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(506, 300, 795, 500);
 		perfil.add(scrollPane2);
-		JTable table2 = new JTable();
+		table2 = new JTable();
 		table2.setFillsViewportHeight(true);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		defaultModel2 = (new DefaultTableModel(new Object[][] {}, new String[] { "DNI", "Rol", "Nombre", "Apellidos",
+		defaultModelUsuarios = (new DefaultTableModel(new Object[][] {}, new String[] { "DNI", "Rol", "Nombre", "Apellidos",
 				"Email", "Direccion", "Telefono", "User Name", "Password", "Nombre Equipo" }) {
 			public boolean isCellEditable(int row, int column) {
 			    if(column == 1 || column == 9) {
@@ -610,7 +721,7 @@ public class Main extends JFrame {
 			    }
 			}
 		});
-		table2.setModel(defaultModel2);
+		table2.setModel(defaultModelUsuarios);
 		table2.getColumnModel().getColumn(0).setPreferredWidth(86);
 		table2.getColumnModel().getColumn(1).setPreferredWidth(106);
 		table2.getColumnModel().getColumn(2).setPreferredWidth(86);
@@ -638,17 +749,13 @@ public class Main extends JFrame {
 				nombreEquipo = udto.getEquipo().getNombre();
 			Object[] fila = { udto.getIdUsuario(), rol, udto.getNombre(), udto.getApellidos(), udto.getEmail(),
 					udto.getDireccion(), udto.getTelefono(), udto.getUserName(), udto.getPass(), nombreEquipo };
-			defaultModel2.addRow(fila);
+			defaultModelUsuarios.addRow(fila);
 		}
 		Object[] filaBlanca = { "", "", "", "", "", "", "", "", "", "" };
-		defaultModel2.addRow(filaBlanca);
-		table2.setModel(defaultModel2);
+		defaultModelUsuarios.addRow(filaBlanca);
+		table2.setModel(defaultModelUsuarios);
 		scrollPane2.setViewportView(table2);
-		table2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent event) {
-				nombreSeleccionado = table2.getValueAt(table2.getSelectedRow(), 0).toString();
-			}
-		});
+
 
 		JButton btnNewButton_2 = new JButton("A\u00F1adir");
 		// btnNewButton_2.setForeground(new Color(0x43B581));
@@ -678,10 +785,14 @@ public class Main extends JFrame {
 					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					JoptionCombos frame = new JoptionCombos(user);
+					Object[] filaBlanca = { "", "", "", "", "", "", "", "", "", "" };
+					defaultModelUsuarios.addRow(filaBlanca);
+					table2.setModel(defaultModelUsuarios);
 					frame.setVisible(true);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
+				
 			}
 		});
 		btnNewButton_2.setBounds(488, 0, 188, 89);
@@ -740,10 +851,12 @@ public class Main extends JFrame {
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 					if (!borrarUsuario(id))
-						mensaje = "ï¿½Error al borrar el usuario\u0021";
+						mensaje = "¡Error al borrar el usuario\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
+					DefaultTableModel model22 = (DefaultTableModel) table2.getModel();
+					model22.removeRow(table2.getSelectedRow());
 				}
-
+				
 			}
 		});
 		btnNewButton_2_2.setBackground(new Color(86, 101, 115));
@@ -770,19 +883,20 @@ public class Main extends JFrame {
 					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
 							direccion, telefono);
 					if (gu.degradarUsuario(admin))
-						mensaje = "ï¿½Usuario degradado!";
+						mensaje = "¡Usuario degradado!";
 				} else if (rol.equals("tecnico")) {
 					TecnicoDTO tec = new TecnicoDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.degradarUsuario(tec))
-						mensaje = "ï¿½Usuario degradado!";
+						mensaje = "¡Usuario degradado!";
 				} else {
 					UsuarioDTO user = new UsuarioDTO(id, userName, email, 0, pass, nombre, apellidos, direccion,
 							telefono);
 					if (gu.degradarUsuario(user))
-						mensaje = "ï¿½Usuario degradado!";
+						mensaje = "¡Usuario degradado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
+				cargarTabla();
 			}
 		});
 		btnDegradar.setBounds(0, 0, 117, 89);
@@ -828,6 +942,7 @@ public class Main extends JFrame {
 						mensaje = "ï¿½Usuario promocionado!";
 				}
 				JOptionPane.showMessageDialog(null, mensaje);
+				cargarTabla();
 			}
 		});
 		btnPromocionar.setBounds(676, 0, 117, 89);
@@ -891,13 +1006,47 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///***************************************************************METODOS PERFIL***********************************************************************///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private void cargarTabla() {
+		System.out.println("hola?");
+		int rowCount = defaultModelUsuarios.getRowCount();
+		System.out.println(rowCount);
+		// Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			defaultModelUsuarios.removeRow(i);
+		}
+		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+		array = gu.getList();
+		String rol = "";
+		String nombreEquipo = "";
+		for (UsuarioDTO udto : array) {
+			if (udto instanceof AdministradorDTO) {
+				rol = "admin";
+			} else if (udto instanceof TecnicoDTO) {
+				rol = "tecnico";
+			} else {
+				rol = "usuario";
+			}
 
+			if (udto.getEquipo() != null)
+				nombreEquipo = udto.getEquipo().getNombre();
+			Object[] fila = { udto.getIdUsuario(), rol, udto.getNombre(), udto.getApellidos(), udto.getEmail(),
+					udto.getDireccion(), udto.getTelefono(), udto.getUserName(), udto.getPass(), nombreEquipo };
+			defaultModelUsuarios.addRow(fila);
+
+		}
+		Object[] filaBlanca = { "", "", "", "", "", "", "", "", "", "" };
+		defaultModelUsuarios.addRow(filaBlanca);
+		table2.setModel(defaultModelUsuarios);
+	}
 	private void cargarUsuarioOnline() {
 		UsuarioDTO udto = gu.getUserOnline();
 		try {
 			if (udto != null) {
 				txtNombreOnline.setText(udto.getUserName());
 				txtEmailOnline.setText(udto.getEmail());
+				txtApellidos.setText(udto.getApellidos());
+				txtTelefono.setText(udto.getTelefono());
+				txtDireccion.setText(udto.getDireccion());
 				if (udto.getEquipo() != null)
 					txtEquipoOnline.setText((udto.getEquipo().getNombre()));
 				if (udto.getIncidencias() != null)
@@ -917,6 +1066,7 @@ public class Main extends JFrame {
 		this.dispose();
 		Home h = new Home();
 		h.setUndecorated(true);
+		h.setLocationRelativeTo(null);
 		h.setVisible(true);
 	}
 
@@ -987,7 +1137,7 @@ public class Main extends JFrame {
 		btnAsignarAlumno.setEnabled(false);
 		aulas.add(btnAsignarAlumno);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(802, 384, 392, 340);
+		scrollPane.setBounds(802, 547, 392, 177);
 		aulas.add(scrollPane);
 		JTable tableAlumnos = new JTable();
 		tableAlumnos.setFillsViewportHeight(true);
@@ -1142,12 +1292,8 @@ public class Main extends JFrame {
 		lblNewLabel_1_1_1.setForeground(Color.WHITE);
 
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1_1.setBounds(10, 319, 188, 14);
+		lblNewLabel_1_1_1.setBounds(10, 475, 188, 14);
 		panel_2.add(lblNewLabel_1_1_1);
-
-		JLabel lblCaracteristicas_3 = new JLabel("");
-		lblCaracteristicas_3.setBounds(20, 353, 408, 63);
-		panel_2.add(lblCaracteristicas_3);
 
 		txtNombreEquipo = new JTextField();
 		txtNombreEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1197,6 +1343,16 @@ public class Main extends JFrame {
 		txtRam.setBackground(new Color(0x566573));
 		txtRam.setBounds(10, 201, 434, 22);
 		panel_2.add(txtRam);
+		
+		JLabel lblNewLabel_1_1_2 = new JLabel("Software");
+		lblNewLabel_1_1_2.setForeground(Color.WHITE);
+		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1_1_2.setBounds(10, 330, 82, 14);
+		panel_2.add(lblNewLabel_1_1_2);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(34, 355, 392, 111);
+		panel_2.add(scrollPane_1);
 
 		btnDeleteEquipo.setBackground(Color.ORANGE);
 		btnDeleteEquipo.setBounds(502, 45, 229, 31);
@@ -1297,7 +1453,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 37, 1278, 767);
+		crud.setBounds(101, 1000, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1378,8 +1534,6 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAula.getModel();
 				// String nombre = model.getValueAt(tableAula.getSelectedRow(), 0);
-				System.out.println("asdasdas" + tableAula.getSelectedRow());
-				System.out.println("asdasdas" + tableAula.getSelectedRow());
 
 				int option = JOptionPane.showConfirmDialog(null, "ï¿½Borrar Aula?", "Eliminar Aula",
 						JOptionPane.OK_OPTION);
@@ -1480,7 +1634,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 37, 1278, 767);
+		crudEquipo.setBounds(101, 1000, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1667,7 +1821,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 37, 1287, 780);
+		incidencias.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1794,11 +1948,10 @@ public class Main extends JFrame {
 		ArrayList<StockDTO> listaCompra = new ArrayList<StockDTO>();
 		
 		stock = new JPanel();
-		stock.setBounds(88, 37, 1157, 744);
 		contentPane.add(stock);
 
 		stock.setBackground(Color.WHITE);
-		stock.setBounds(88, 37, 1287, 780);
+		stock.setBounds(88, 1000, 1287, 780);
 		contentPane.add(incidencias);
 		stock.setLayout(null);
 
@@ -2057,5 +2210,4 @@ public class Main extends JFrame {
 	    
 	    return fecha;
 	}
-
 }
