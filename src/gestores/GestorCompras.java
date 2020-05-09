@@ -30,6 +30,9 @@ public class GestorCompras {
 		listaCompras = cd.listarTodos();
 		cargarLineaCompra();
 	}
+	public ArrayList<CompraDTO> getComprasProveedor(int idProveedor) {
+		return cd.listarTodos(idProveedor);
+	}
 	
 	private void cargarLineaCompra() {
 		for(CompraDTO cdto : listaCompras) {

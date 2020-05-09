@@ -1900,7 +1900,7 @@ public class Main extends JFrame {
 				}
 					
 				try {
-					compra = new CompraDTO(0,proveedorSeleccionado.getIdProveedor(),fechaActual,precioTotal,cesta);
+					compra = new CompraDTO(0,proveedorSeleccionado.getIdProveedor(),fechaActual,precioTotal,cesta,3);
 					gcm.crearCompra(compra);
 					gcm.crearLineaCompra(cesta,gcm.getListaCompras().size());
 				} catch (SQLException e1) {
@@ -2052,7 +2052,7 @@ public class Main extends JFrame {
 		Calendar c2 = new GregorianCalendar();
 	
 	
-	    String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
+	    String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH+1))
 	            + "-" + Integer.toString(c2.get(Calendar.DATE));
 	    
 	    return fecha;

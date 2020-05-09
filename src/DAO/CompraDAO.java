@@ -10,11 +10,12 @@ import DTO.EquipoDTO;
 import conexion.Conexion;
 
 public class CompraDAO implements PatronDAO<CompraDTO>{
-	private static final String SQL_INSERT="INSERT INTO Compras (Proveedores_idProveedores,fechaCompra, precioTotal) VALUES (?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO Compras (Proveedores_idProveedores,fechaCompra, precioTotal,estado) VALUES (?,?,?,3)";
 	private static final String SQL_DELETE="DELETE FROM Compras WHERE idCompras = ?";
-	private static final String SQL_UPDATE="UPDATE Compras SET Proveedores_idProveedor=?,fechaCompra=? WHERE idCompras = ?";
+	private static final String SQL_UPDATE="UPDATE Compras SET Proveedores_idProveedor=?,fechaCompra=?,idEstados=? WHERE idCompras = ?";
 	private static final String SQL_FIND="SELECT * FROM Compras WHERE idCompras = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Compras";
+	private static final String SQL_FINDALLBYID="SELECT * FROM Compras WHERE Proveedores_idProveedores = ?";
 	private Conexion con = Conexion.getInstance();
 	@Override
 	public boolean insertar(CompraDTO t) throws SQLException {
@@ -54,8 +55,8 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 			ps = con.getCon().prepareStatement(SQL_UPDATE);
 			ps.setInt(1, t.getProveedor().getIdProveedor());
 			ps.setString(2, t.getFechaCompra());
-			
-			ps.setInt(6, t.getIdCompra());
+			ps.setInt(3, t.getEstado());
+			ps.setInt(4, t.getIdCompra());
 
 			if (ps.executeUpdate()>0) return true;
 			
@@ -82,7 +83,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idPorveedor"),rs.getString("ipEquipo"), rs.getDouble("precioTotal"));
+				compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idPorveedor"),rs.getString("ipEquipo"), rs.getDouble("precioTotal"), rs.getInt("idEstado"));
 				return compra;
 			}
 		} catch (SQLException e) {
@@ -97,7 +98,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"));
+				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"), rs.getInt("idEstado"));
 				lista.add(compra);
 			}
 			rs.close();
@@ -108,8 +109,20 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 	}
 	@Override
 	public ArrayList<CompraDTO> listarTodos(Object pk) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<CompraDTO> lista = new ArrayList<CompraDTO>();
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALLBYID);
+			ps.setInt(1, (int)pk);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"), rs.getInt("idEstado"));
+				lista.add(compra);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
 	}
 	
 	

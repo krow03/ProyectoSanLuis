@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import com.sun.javafx.binding.SelectBinding.AsInteger;
 
 import DTO.ComponenteDTO;
+import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
 import DTO.SolicitudDTO;
 import gestores.GestorComponentes;
@@ -86,6 +87,11 @@ public class IncidenciaUsuPanel2 extends JFrame {
 		JButton btnNewButton = new JButton("Enviar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				EquipoDTO edto= gu.getUserOnline().getEquipo();
+				for(ComponenteDTO cdto : edto.getComponentes()) {
+					
+				}
+				//if(e)
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));

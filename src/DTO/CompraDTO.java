@@ -3,38 +3,46 @@ package DTO;
 import java.util.ArrayList;
 
 import gestores.GestorProveedores;
-
+/*
+ * Estados posibles
+ * 1 = aceptada
+ * 2 = denegada
+ * 3 = pendiente
+ * */
 public class CompraDTO {
 	private GestorProveedores gp = GestorProveedores.getInstance();
 	private int idCompra;
 	private ProveedorDTO proveedor;
 	private String fechaCompra;
 	private double precioTotal;
+	private int estado;
 	private ArrayList<LineaCompraDTO> listaProdPorCompra= new ArrayList<LineaCompraDTO>();
 	
-	
-	public CompraDTO(int idProveedor, String fechaCompra, double precioTotal) {
+	public CompraDTO(int idProveedor, String fechaCompra, double precioTotal,int estado) {
 		super();
 		this.proveedor = gp.getProvById(idProveedor);
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
+		this.estado = estado;
 	}
 
-	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal,ArrayList<LineaCompraDTO> listaProdPorCompra) {
+	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal,ArrayList<LineaCompraDTO> listaProdPorCompra,int estado) {
 		super();
 		this.idCompra = idCompra;
 		this.proveedor = gp.getProvById(idProveedor);
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
 		this.listaProdPorCompra = listaProdPorCompra;
+		this.estado = estado;
 	}
 	
-	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal) {
+	public CompraDTO(int idCompra, int idProveedor, String fechaCompra, double precioTotal,int estado) {
 		super();
 		this.idCompra = idCompra;
 		this.proveedor = gp.getProvById(idProveedor);;
 		this.fechaCompra = fechaCompra;
 		this.precioTotal = precioTotal;
+		this.estado = estado;
 	}
 	
 	public int getIdCompra() {
@@ -62,6 +70,14 @@ public class CompraDTO {
 
 	public void setPrecioTotal(double precioTotal) {
 		this.precioTotal = precioTotal;
+	}
+	
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 
 	public ArrayList<LineaCompraDTO> getListaProdPorCompra() {
