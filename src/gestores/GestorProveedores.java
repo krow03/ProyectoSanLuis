@@ -12,13 +12,18 @@ import DTO.StockDTO;
 public class GestorProveedores {
 	private ProveedorDAO pd = new ProveedorDAO();
 	private GestorStock gs = GestorStock.getInstance();
-	private GestorCompras gc = GestorCompras.getInstance();
 	private static ArrayList<ProveedorDTO> listaProveedores = new ArrayList<ProveedorDTO>();
 	private static GestorProveedores instancia =null;
-	
+	private ProveedorDTO userOnline;
 	public static GestorProveedores getInstance() {
 		if(instancia == null) instancia=new GestorProveedores();
 		return instancia;
+	}
+	
+	public boolean login(String cif, String pass) {
+		userOnline = pd.login(cif, pass);
+		if(userOnline!=null)return true;
+		return false;
 	}
 	
 	private GestorProveedores() {

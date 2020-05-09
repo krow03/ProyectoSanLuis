@@ -98,7 +98,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"), rs.getInt("idEstado"));
+				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"), rs.getInt("idEstados"));
 				lista.add(compra);
 			}
 			rs.close();
@@ -115,7 +115,7 @@ public class CompraDAO implements PatronDAO<CompraDTO>{
 			ps.setInt(1, (int)pk);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"), rs.getInt("idEstado"));
+				CompraDTO compra = new CompraDTO(rs.getInt("idCompras"),rs.getInt("Proveedores_idProveedores"),rs.getDate("fechaCompra").toString(), rs.getDouble("precioTotal"), rs.getInt("idEstados"));
 				lista.add(compra);
 			}
 			rs.close();

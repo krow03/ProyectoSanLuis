@@ -5,8 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
+import DTO.AdministradorDTO;
 import DTO.ProveedorDTO;
 import DTO.StockDTO;
+import DTO.TecnicoDTO;
+import DTO.UsuarioDTO;
 import conexion.Conexion;
 
 public class ProveedorDAO implements PatronDAO<ProveedorDTO>{
@@ -16,10 +21,27 @@ public class ProveedorDAO implements PatronDAO<ProveedorDTO>{
 	private static final String SQL_FIND="SELECT * FROM proveedores WHERE idProveedores = ?";
 	private static final String SQL_FINDALL="SELECT * FROM proveedores";
 	private static final String SQL_FINDALLBYID="SELECT * FROM proveedores WHERE centro_idCentro = ?";
-	
+	private static final String SQL_LOGIN="SELECT * FROM Proveedores WHERE cif like ? and pass like ?;";
 	private Conexion con = Conexion.getInstance();
 	
-	
+	public ProveedorDTO login(String cif, String pass) {
+		ProveedorDTO prov=null;
+		pass =  DigestUtils.sha256Hex(pass);
+		try {
+			PreparedStatement ps = con.getCon().prepareStatement(SQL_LOGIN);
+			ps.setString(1, cif);
+			ps.setString(2, pass);
+			
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()==true){
+				prov = new ProveedorDTO(rs.getInt("idProveedores"),rs.getString("cif"),rs.getString("nombre"),rs.getString("Email"),rs.getString("direccion"),rs.getString("telefono"));
+				return prov;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return prov;
+	}
 	@Override
 	public boolean insertar(ProveedorDTO t) throws SQLException {
 		  try {

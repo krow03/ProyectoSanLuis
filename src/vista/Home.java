@@ -26,12 +26,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import gestores.GestorProveedores;
 import gestores.GestorUsuarios;
 
 import java.awt.event.KeyAdapter;
 public class Home extends JFrame {
 
 	private static GestorUsuarios gu = GestorUsuarios.getInstance();
+	private static GestorProveedores gp = GestorProveedores.getInstance();
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JPasswordField txtPass;
@@ -167,7 +169,7 @@ public class Home extends JFrame {
 		contentPane.add(lbl_close);
 	}
 	public void login() {
-		if(gu.login(txtUser.getText(), txtPass.getText())) {
+		if(gu.login(txtUser.getText(), txtPass.getText()) || gp.login(txtUser.getText(), txtPass.getText())) {
 			try {
 				Main main = new Main();
 				main.setUndecorated(true);
