@@ -89,6 +89,7 @@ public class Main extends JFrame {
 	private static DefaultTableModel defaultModel2 = new DefaultTableModel();
 	private static DefaultTableModel defaultModelAula = new DefaultTableModel();
 	private static DefaultTableModel defaultModelAlumno = new DefaultTableModel();
+	private static DefaultTableModel defaultModelAlumnoSoftware = new DefaultTableModel();
 	private static DefaultTableModel defaultModelSoftware = new DefaultTableModel();
 	private static DefaultTableModel defaultModelUsuarios = new DefaultTableModel();
 	private String rol2;
@@ -1144,12 +1145,22 @@ public class Main extends JFrame {
 		tableAlumnos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		defaultModelAlumno = (new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Nombre" }));
 		tableAlumnos.setModel(defaultModelAlumno);
-
 		tableAlumnos.getColumnModel().getColumn(0).setPreferredWidth(86);
 		tableAlumnos.getColumnModel().getColumn(1).setPreferredWidth(86);
-		
-
 		scrollPane.setViewportView(tableAlumnos);
+		
+		JScrollPane scrollPane_software = new JScrollPane();
+		scrollPane_software.setBounds(802, 400, 392, 100);
+		aulas.add(scrollPane_software);
+		JTable tableAlumnos_software = new JTable();
+		tableAlumnos_software.setFillsViewportHeight(true);
+		tableAlumnos_software.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		defaultModelAlumnoSoftware = (new DefaultTableModel(new Object[][] {}, new String[] { "ID", "Nombre" }));
+		tableAlumnos_software.setModel(defaultModelAlumnoSoftware);
+		tableAlumnos_software.getColumnModel().getColumn(0).setPreferredWidth(86);
+		tableAlumnos_software.getColumnModel().getColumn(1).setPreferredWidth(86);
+		scrollPane_software.setViewportView(tableAlumnos_software);
+		
 		btnDesasignarAlumno = new JButton("Desasignar");
 		btnDesasignarAlumno.setEnabled(true);
 		btnDesasignarAlumno.setBackground(new Color(220, 20, 60));
@@ -1199,10 +1210,10 @@ public class Main extends JFrame {
 				for (UsuarioDTO udto : array) {
 
 					Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
-					defaultModelAlumno.addRow(fila);
+					defaultModelAlumnoSoftware.addRow(fila);
 				}
 				Object[] fila = { "", "" };
-				defaultModelAlumno.addRow(fila);
+				defaultModelAlumnoSoftware.addRow(fila);
 			}
 		});
 
@@ -1350,9 +1361,6 @@ public class Main extends JFrame {
 		lblNewLabel_1_1_2.setBounds(10, 330, 82, 14);
 		panel_2.add(lblNewLabel_1_1_2);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(34, 355, 392, 111);
-		panel_2.add(scrollPane_1);
 
 		btnDeleteEquipo.setBackground(Color.ORANGE);
 		btnDeleteEquipo.setBounds(502, 45, 229, 31);
@@ -1446,6 +1454,21 @@ public class Main extends JFrame {
 			Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
 			defaultModelAlumno.addRow(fila);
 		}
+		ArrayList<ComponenteDTO> componentesPC = new ArrayList<ComponenteDTO>();
+		
+		for (int i = 0; i < e.getComponentes().size(); i++) {
+			System.out.println(e.getComponentes().get(i).getDescripcion());
+			if (e.getComponentes().get(i) instanceof SoftwareDTO) {
+				componentesPC.add(e.getComponentes().get(i));
+				
+			}
+		}
+		for (ComponenteDTO udto : componentesPC) {
+
+			Object[] fila = { udto.getIdComponente(), udto.getDescripcion() };
+			defaultModelAlumno.addRow(fila);
+		}
+		
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

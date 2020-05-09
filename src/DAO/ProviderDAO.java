@@ -42,7 +42,7 @@ public class ProviderDAO {
 		// TODO Auto-generated method stub
 		try {
 			ProviderDAO pdao = new ProviderDAO();
-			insertarPdf(new PdfDTO("1", "1", "1"));
+			insertarPdf();
 			getPdf("12022");
 		} catch (Exception e) {
 			System.out.println(e);
@@ -50,7 +50,7 @@ public class ProviderDAO {
 		System.out.println("Server is ready");
 	}
 
-	public static boolean insertarPdf(PdfDTO e) {
+	public static boolean insertarPdf() {
 		String encodedString = null;
 		String nombre = null;
 		File file = null;

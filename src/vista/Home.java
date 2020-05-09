@@ -30,6 +30,7 @@ import gestores.GestorProveedores;
 import gestores.GestorUsuarios;
 
 import java.awt.event.KeyAdapter;
+
 public class Home extends JFrame {
 
 	private static GestorUsuarios gu = GestorUsuarios.getInstance();
@@ -37,8 +38,8 @@ public class Home extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JPasswordField txtPass;
-	
-	int xx,xy;
+
+	int xx, xy;
 
 	/**
 	 * Launch the application.
@@ -56,10 +57,8 @@ public class Home extends JFrame {
 			}
 		});
 	}
-	
-	
+
 	// going to borrow code from a gist to move frame.
-	
 
 	/**
 	 * Create the frame.
@@ -78,87 +77,87 @@ public class Home extends JFrame {
 		panel.setBounds(0, 0, 346, 490);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("KeepToo");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setForeground(new Color(240, 248, 255));
 		lblNewLabel.setBounds(139, 305, 84, 27);
 		panel.add(lblNewLabel);
-		
+
 		JLabel label = new JLabel("");
-		
+
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
-				 xx = e.getX();
-			     xy = e.getY();
+
+				xx = e.getX();
+				xy = e.getY();
 			}
 		});
 		label.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent arg0) {
-				
+
 				int x = arg0.getXOnScreen();
-	            int y = arg0.getYOnScreen();
-	            Home.this.setLocation(x - xx, y - xy);  
+				int y = arg0.getYOnScreen();
+				Home.this.setLocation(x - xx, y - xy);
 			}
 		});
 		label.setBounds(-38, 0, 420, 275);
 		label.setVerticalAlignment(SwingConstants.TOP);
 		label.setIcon(new ImageIcon(Home.class.getResource("/images/bg.jpg")));
 		panel.add(label);
-		
+
 		JLabel lblWeGotYou = new JLabel("....We got you....");
 		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWeGotYou.setForeground(new Color(240, 248, 255));
 		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblWeGotYou.setBounds(111, 343, 141, 27);
 		panel.add(lblWeGotYou);
-		
+
 		Button btnSign = new Button("SignUp");
 		btnSign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				login();
 			}
 		});
-		
+
 		btnSign.setForeground(Color.WHITE);
 		btnSign.setBackground(new Color(241, 57, 83));
 		btnSign.setBounds(395, 257, 283, 36);
 		contentPane.add(btnSign);
-		
+
 		txtUser = new JTextField();
 		txtUser.setBounds(395, 119, 283, 36);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
-		
+
 		JLabel lblUsername = new JLabel("USERNAME");
 		lblUsername.setBounds(395, 92, 114, 14);
 		contentPane.add(lblUsername);
-		
+
 		JLabel lblPassword = new JLabel("PASSWORD");
 		lblPassword.setBounds(395, 168, 96, 14);
 		contentPane.add(lblPassword);
-		
+
 		txtPass = new JPasswordField();
 		txtPass.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					login();
 				}
 			}
 		});
 		txtPass.setBounds(395, 195, 283, 36);
 		contentPane.add(txtPass);
-		
+
 		JLabel lbl_close = new JLabel("X");
 		lbl_close.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 				System.exit(0);
 			}
 		});
@@ -168,19 +167,29 @@ public class Home extends JFrame {
 		lbl_close.setBounds(693, 0, 37, 27);
 		contentPane.add(lbl_close);
 	}
+
 	public void login() {
-		if(gu.login(txtUser.getText(), txtPass.getText()) || gp.login(txtUser.getText(), txtPass.getText())) {
+		System.out.println(txtPass.getText());
+		if (gu.login(txtUser.getText(), txtPass.getText()) || gp.login(txtUser.getText(), txtPass.getText())) {
 			try {
-				Main main = new Main();
-				main.setUndecorated(true);
-				main.setVisible(true);
 				
-			}catch(Exception e) {
-				e.printStackTrace();	
+				//System.out.println(gu.getUserOnline().getApellidos());
+				if (gu.getUserOnline() != null) {
+					Main main = new Main();
+					main.setUndecorated(true);
+					main.setVisible(true);
+				}
+				if (gp.getProvOnline() != null) {
+					ProveedoresPantalla pp = new ProveedoresPantalla();
+					pp.setUndecorated(true);
+					pp.setVisible(true);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		}else {
-			JOptionPane.showMessageDialog(null, "User or password error","Error login", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, "User or password error", "Error login", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 }

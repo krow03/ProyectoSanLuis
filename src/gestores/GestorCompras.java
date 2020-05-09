@@ -31,8 +31,12 @@ public class GestorCompras {
 		cargarLineaCompra();
 	}
 	public ArrayList<CompraDTO> getComprasProveedor(int idProveedor) {
-		return cd.listarTodos(idProveedor);
-	}
+        ArrayList<CompraDTO> compras = cd.listarTodos(idProveedor);
+        for(CompraDTO cdto : compras) {
+            cdto.setListaProdPorCompra(hd.listarTodos(cdto.getIdCompra()));
+        }
+        return compras;
+    }
 	
 	private void cargarLineaCompra() {
 		for(CompraDTO cdto : listaCompras) {

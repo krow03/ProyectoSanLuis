@@ -27,6 +27,7 @@ public class ProveedorDAO implements PatronDAO<ProveedorDTO>{
 	public ProveedorDTO login(String cif, String pass) {
 		ProveedorDTO prov=null;
 		pass =  DigestUtils.sha256Hex(pass);
+		System.out.println(pass);
 		try {
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_LOGIN);
 			ps.setString(1, cif);
@@ -34,7 +35,7 @@ public class ProveedorDAO implements PatronDAO<ProveedorDTO>{
 			
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()==true){
-				prov = new ProveedorDTO(rs.getInt("idProveedores"),rs.getString("cif"),rs.getString("nombre"),rs.getString("Email"),rs.getString("direccion"),rs.getString("telefono"));
+				prov = new ProveedorDTO(rs.getInt("idProveedores"),rs.getString("cif"),rs.getString("nombre"),rs.getString("Email"),rs.getString("direccion"),rs.getString("telef"));
 				return prov;
 			}
 		} catch (SQLException e) {

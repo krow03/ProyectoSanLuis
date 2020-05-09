@@ -24,90 +24,139 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.ProviderDAO;
+import DTO.CompraDTO;
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
+import gestores.GestorCompras;
 import gestores.GestorEquipos;
+import gestores.GestorProveedores;
 import gestores.GestorSolicitudes;
 
 public class ProveedoresPantalla extends JDialog {
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ProveedoresPantalla frame = new ProveedoresPantalla();
+					frame.setUndecorated(true);
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
 
 	private JPanel contentPane;
-	private GestorEquipos ge = GestorEquipos.getInstance();
-	
-	public ProveedoresPantalla(int idAula) {
+	private GestorCompras gc = GestorCompras.getInstance();
+	private GestorProveedores gp = GestorProveedores.getInstance();
+
+	public ProveedoresPantalla() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 905, 504);
+		setBounds(100, 100, 965, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(Color.BLACK));
 		setContentPane(contentPane);
 		contentPane.setBackground(new Color(0x566573));
 
 		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Seleccione un equipo: ");
+
+		System.out.println();
+		JLabel lblNewLabel = new JLabel("Bienvenido:");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(171, 11, 231, 26);
+		lblNewLabel.setBounds(39, 11, 231, 26);
 		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Equipos disponibles");
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(10, 48, 152, 24);
-		contentPane.add(lblNewLabel_1);
-		
+
 		JScrollPane scrollPaneEquipos = new JScrollPane();
-        scrollPaneEquipos.setBounds(39, 85, 717, 288);
-        contentPane.add(scrollPaneEquipos);
-        JTable tableEquipos = new JTable();
-        tableEquipos.setFillsViewportHeight(true);
-        tableEquipos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        DefaultTableModel defaultModelEquipos = (new DefaultTableModel(new Object[][] {},
-                new String[] { "Id", "Nombre" }));
-        tableEquipos.setModel(defaultModelEquipos);
-        tableEquipos.getColumnModel().getColumn(0).setPreferredWidth(100);
-        tableEquipos.getColumnModel().getColumn(1).setPreferredWidth(100);
-        
-        ArrayList<EquipoDTO> listaEquipos = new ArrayList<EquipoDTO>();
-        
+		scrollPaneEquipos.setBounds(39, 85, 717, 288);
+		contentPane.add(scrollPaneEquipos);
+		JTable tableEquipos = new JTable();
+		tableEquipos.setFillsViewportHeight(true);
+		tableEquipos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		DefaultTableModel defaultModelEquipos = (new DefaultTableModel(new Object[][] {},
+				new String[] { "Id", "Fecha", "Precio" }));
+		tableEquipos.setModel(defaultModelEquipos);
+		tableEquipos.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableEquipos.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tableEquipos.getColumnModel().getColumn(2).setPreferredWidth(100);
+		ArrayList<CompraDTO> comprasLista = new ArrayList<CompraDTO>();
+		comprasLista = gc.getComprasProveedor(gp.getProvOnline().getIdProveedor());
 
-        for (EquipoDTO e : listaEquipos) {
+		for (CompraDTO e : comprasLista) {
 
-            Object[] fila = { e.getIdEquipo(), e.getNombre() };
-            defaultModelEquipos.addRow(fila);
-        }
-        tableEquipos.setModel(defaultModelEquipos);
-        scrollPaneEquipos.setViewportView(tableEquipos);
-		
-		JButton btnNewButton = new JButton("Aï¿½adir");
+			Object[] fila = { e.getIdCompra(), e.getFechaCompra(), e.getPrecioTotal() };
+			defaultModelEquipos.addRow(fila);
+		}
+		tableEquipos.setModel(defaultModelEquipos);
+		scrollPaneEquipos.setViewportView(tableEquipos);
+
+		JButton btnNewButton = new JButton("Añadir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt((String) defaultModelEquipos.getValueAt(tableEquipos.getSelectedRow(), 0).toString());
-				String mensaje = "Equipo aï¿½adido al aula";
-				try {
-					if(!ge.asignarAula(id, idAula))
-					    mensaje = "!Error al modificar el usuarioï¿½";
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                JOptionPane.showMessageDialog(null, mensaje);
-				dispose();
+				int id = Integer
+						.parseInt((String) defaultModelEquipos.getValueAt(tableEquipos.getSelectedRow(), 0).toString());
+				CompraDTO cdto = gc.getCompraById(id);
+				cdto.setEstado(1);
+				gc.modificar(cdto);
+
 			}
 		});
 		btnNewButton.setBackground(new Color(0x43B581));
-		btnNewButton.setBounds(179, 396, 89, 41);
+		btnNewButton.setBounds(39, 384, 89, 41);
 		contentPane.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Cancelar");
+
+		JButton btnNewButton_1 = new JButton("Denegar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				int id = Integer
+						.parseInt((String) defaultModelEquipos.getValueAt(tableEquipos.getSelectedRow(), 0).toString());
+				CompraDTO cdto = gc.getCompraById(id);
+				cdto.setEstado(2);
+				gc.modificar(cdto);
 			}
 		});
 		btnNewButton_1.setBackground(new Color(0xF44444));
-		btnNewButton_1.setBounds(344, 396, 89, 41);
+		btnNewButton_1.setBounds(171, 384, 89, 41);
 		contentPane.add(btnNewButton_1);
-	}
 
+		JButton btnNewButton_1_1 = new JButton("Visualizar");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int id = Integer
+						.parseInt((String) defaultModelEquipos.getValueAt(tableEquipos.getSelectedRow(), 0).toString());
+				CompraDTO cdto = gc.getCompraById(id);
+
+				ProveedoresPantallaCompras frame = new ProveedoresPantallaCompras(cdto.getListaProdPorCompra());
+				frame.setUndecorated(true);
+				frame.setLocationRelativeTo(null);
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton_1_1.setBackground(new Color(244, 68, 68));
+		btnNewButton_1_1.setBounds(305, 384, 89, 41);
+		contentPane.add(btnNewButton_1_1);
+
+		JButton btnNewButton_2 = new JButton("A\u00F1adir catalogo");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gp.insertarPdf();
+			}
+		});
+		btnNewButton_2.setBounds(778, 88, 129, 50);
+		contentPane.add(btnNewButton_2);
+
+		JButton btnNewButton_2_1 = new JButton("Descargar Catalogo");
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnNewButton_2_1.setBounds(778, 149, 129, 50);
+		contentPane.add(btnNewButton_2_1);
+	}
 }
