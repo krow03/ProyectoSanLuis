@@ -765,7 +765,7 @@ public class Main extends JFrame {
 				String userName = model.getValueAt(table2.getSelectedRow(), 7).toString();
 				String pass = model.getValueAt(table2.getSelectedRow(), 8).toString();
 
-				String mensaje = "ï¿½Error al degradar usuario!";
+				String mensaje = "¡Error al degradar usuario!";
 				if (rol.equals("admin")) {
 					AdministradorDTO admin = new AdministradorDTO(id, userName, email, 0, pass, nombre, apellidos,
 							direccion, telefono);
@@ -967,7 +967,7 @@ public class Main extends JFrame {
 	private void visualizarAulas() {
 		aulas = new JPanel();
 		aulas.setBackground(Color.WHITE);
-		aulas.setBounds(88, 1000, 1287, 791);
+		aulas.setBounds(88, 37, 1287, 791);
 		contentPane.add(aulas);
 		aulas.setLayout(null);
 		aulas.setVisible(false);
@@ -1297,7 +1297,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1480,7 +1480,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 1000, 1278, 767);
+		crudEquipo.setBounds(101, 37, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1555,7 +1555,7 @@ public class Main extends JFrame {
 				if (option == JOptionPane.OK_OPTION) {
 					String mensaje = "ï¿½Equipo borrado correctamente\u0021";
 					if (!borrarEquipo(id))
-						mensaje = "ï¿½Error al borrar el equipo\u0021";
+						mensaje = "¡Error al borrar el equipo\u0021";
 					JOptionPane.showMessageDialog(null, mensaje);
 					recargar();
 
@@ -1667,7 +1667,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 780);
+		incidencias.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
