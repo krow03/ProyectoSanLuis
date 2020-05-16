@@ -17,9 +17,11 @@ public class GestorStock {
 		if(instancia == null) instancia=new GestorStock();
 		return instancia;
 	}
+	
 	private GestorStock() {
 		cargarListaStock();
 	}
+	
 	public ArrayList<StockDTO> getListaStock(){
 		return listaStock;
 	}
@@ -27,15 +29,18 @@ public class GestorStock {
 	private void cargarListaStock() {
 		listaStock = sdao.listarTodos();
 	}
+	
 	public void cargarConponentesStock(){
 		for(StockDTO sdto : listaStock) {
 			sdto.setComponentes(gc.getComponentesStock(sdto.getIdStock()));
 		}
 	}
+	
 	public ArrayList<StockDTO> cargarListaStockProv(int idProveedor) {
 		ArrayList<StockDTO>listaStockProv =  sdao.listarTodos(idProveedor);
 		return cargarConponentesStockProveedor(listaStockProv);
 	}
+	
 	public ArrayList<StockDTO> cargarConponentesStockProveedor(ArrayList<StockDTO> listaStockProv){
 		for(StockDTO sdto : listaStockProv) {
 			sdto.setComponentes(gc.getComponentesStock(sdto.getIdStock()));

@@ -47,9 +47,11 @@ public class GestorEquipos {
 	public void cargarComponentesEquipo() {
 		for(EquipoDTO edto : listaEquipos) {
 			 edto.setComponentes(gc.getComponentesEquipo(edto.getIdEquipo()));
+			 edto.calcularDisponibleHD();
 		}
 		for(EquipoDTO edto : listaEquiposDisp) {
 			 edto.setComponentes(gc.getComponentesEquipo(edto.getIdEquipo()));
+			 edto.calcularDisponibleHD();
 		}
 	}
 	

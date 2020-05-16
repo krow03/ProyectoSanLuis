@@ -13,8 +13,11 @@ import com.sun.javafx.binding.SelectBinding.AsInteger;
 import DTO.ComponenteDTO;
 import DTO.EquipoDTO;
 import DTO.IncidenciaDTO;
+import DTO.RequisitoDTO;
+import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
 import gestores.GestorComponentes;
+import gestores.GestorEquipos;
 import gestores.GestorSolicitudes;
 import gestores.GestorUsuarios;
 import javafx.scene.control.ComboBox;
@@ -35,7 +38,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 
-public class IncidenciaUsuPanel2 extends JFrame {
+public class SolicitudUsuarioPanel extends JFrame {
 
 	private JPanel contentPane;
 	private JRadioButton rdbtnNewRadioButton;
@@ -43,31 +46,18 @@ public class IncidenciaUsuPanel2 extends JFrame {
 	private JComboBox comboBox;
 	private JTextArea textArea;
 	private GestorComponentes gc = GestorComponentes.getInstance();
+	private GestorEquipos ge = GestorEquipos.getInstance();
 	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
 	private GestorUsuarios gu = GestorUsuarios.getInstance();
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IncidenciaUsuPanel2 frame = new IncidenciaUsuPanel2();
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
-	public IncidenciaUsuPanel2() {
+	public SolicitudUsuarioPanel() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 557, 374);
 		contentPane = new JPanel();
@@ -91,7 +81,7 @@ public class IncidenciaUsuPanel2 extends JFrame {
 				for(ComponenteDTO cdto : edto.getComponentes()) {
 					
 				}
-				//if(e)
+
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
@@ -102,22 +92,36 @@ public class IncidenciaUsuPanel2 extends JFrame {
 					SolicitudDTO solicitud;
 					if (rdbtnNewRadioButton.isSelected()) {
 						int part1 = 0;
+						ComponenteDTO temp = null;
 						if (!comboBox.getSelectedItem().equals("Sin seleccionar")) {
 							String[] parts = ((String) comboBox.getSelectedItem()).split(" -");
 							part1 = Integer.parseInt(parts[0]);
+							temp = gc.getComponenteId(part1);
 						}
-
+						
 						solicitud = new SolicitudDTO(gu.getUserOnline().getIdUsuario(),
 								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
 						try {
-							gs.crearSolicitud(solicitud);
+							boolean req = false;
+							boolean peso =false;
+							for(ComponenteDTO cdto : gu.getUserOnline().getEquipo().getComponentes()) {
+								for(RequisitoDTO rdto : temp.getRequisitos()) {
+									if(rdto.getClave().equals(cdto.getDescripcion())) req=true;
+								}
+								if((gu.getUserOnline().getEquipo().getDisponibleHDD()-((SoftwareDTO)cdto).getPeso())>=0) peso =true;					
+							}
+							if(req && peso) {
+								gs.crearSolicitud(solicitud);
+								ge.cargarComponentesEquipo();
+							}
+
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
 					if (rdbtnNewRadioButton_1.isSelected()) {
-						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha, fecha, "Incompleta",
+						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha,null, "Incompleta",
 								textArea.getText(), 0, 1);
 					}
 

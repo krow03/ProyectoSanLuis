@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 
-public class IncidenciaTecPanel3 extends JFrame {
+public class SolicitudTecnicoPanel extends JFrame {
 
 	private JPanel contentPane;
 	private JTextArea textArea;
@@ -43,14 +43,12 @@ public class IncidenciaTecPanel3 extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		
-	}
+	
 
 	/**
 	 * Create the frame.
 	 */
-	public IncidenciaTecPanel3(SolicitudDTO idto) {
+	public SolicitudTecnicoPanel(SolicitudDTO idto) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 557, 374);
 		contentPane = new JPanel();
