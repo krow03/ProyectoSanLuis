@@ -1408,7 +1408,10 @@ public class Main extends JFrame {
 
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
+						
+						
 						cargarDatosEquipo(listaEquipos.get(e));
+						
 					}
 				});
 				if (i < 6) {
@@ -1446,28 +1449,40 @@ public class Main extends JFrame {
 		equipoSeleccionado = e;
 		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
 		txtRam.setText(((Integer) e.getRam()).toString());
-		ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
-		array = gu.getListaUsuariosAsignados(equipoSeleccionado.getIdEquipo());
-
-		for (UsuarioDTO udto : array) {
-
-			Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
-			defaultModelAlumno.addRow(fila);
-		}
-		ArrayList<ComponenteDTO> componentesPC = new ArrayList<ComponenteDTO>();
-		
-		for (int i = 0; i < e.getComponentes().size(); i++) {
-			System.out.println(e.getComponentes().get(i).getDescripcion());
-			if (e.getComponentes().get(i) instanceof SoftwareDTO) {
-				componentesPC.add(e.getComponentes().get(i));
-				
+		int rowCount = defaultModelAlumno.getRowCount();
+		try {
+			System.out.println(""+rowCount);
+			// Remove rows one by one from the end of the table
+			for (int i = rowCount - 1; i >= 0; i--) {
+				defaultModelAlumno.removeRow(i);
 			}
-		}
-		for (ComponenteDTO udto : componentesPC) {
+			ArrayList<UsuarioDTO> array = new ArrayList<UsuarioDTO>();
+			array = gu.getListaUsuariosAsignados(equipoSeleccionado.getIdEquipo());
 
-			Object[] fila = { udto.getIdComponente(), udto.getDescripcion() };
-			defaultModelAlumno.addRow(fila);
+			for (UsuarioDTO udto : array) {
+
+				Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
+				defaultModelAlumno.addRow(fila);
+			}
+			ArrayList<ComponenteDTO> componentesPC = new ArrayList<ComponenteDTO>();
+			
+			for (int i = 0; i < e.getComponentes().size(); i++) {
+				
+				if (e.getComponentes().get(i) instanceof SoftwareDTO) {
+					componentesPC.add(e.getComponentes().get(i));
+					
+				}
+			}
+			for (ComponenteDTO udto : componentesPC) {
+
+				Object[] fila = { udto.getIdComponente(), udto.getDescripcion() };
+				defaultModelAlumno.addRow(fila);
+			}
+		} catch (Exception e2) {
+			// TODO: handle exception
 		}
+		
+		
 		
 	}
 

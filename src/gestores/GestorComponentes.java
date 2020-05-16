@@ -54,6 +54,7 @@ public class GestorComponentes {
 		ArrayList<ComponenteDTO> listaHard = new ArrayList<ComponenteDTO>();
 		for(ComponenteDTO cdto : listaComponentes) {
 			if(cdto instanceof HardwareDTO) listaHard.add(cdto);
+			System.out.println("Trae algo?"+cdto.getDescripcion());
 		}
 		return listaHard;
 	}

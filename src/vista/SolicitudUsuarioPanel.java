@@ -85,9 +85,10 @@ public class SolicitudUsuarioPanel extends JFrame {
 				Calendar c2 = new GregorianCalendar();
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
-
-				if (comboBox.getSelectedItem().toString() == "Sin seleccionar") {
-
+				System.out.println(comboBox.getSelectedItem().toString());
+				if (comboBox.getSelectedItem().toString().equals("Sin seleccion")) {
+					JOptionPane.showMessageDialog(null, "Seleccione un componente");
+					return;
 				} else {
 					SolicitudDTO solicitud;
 					if (rdbtnNewRadioButton.isSelected()) {
@@ -121,17 +122,21 @@ public class SolicitudUsuarioPanel extends JFrame {
 						}
 					}
 					if (rdbtnNewRadioButton_1.isSelected()) {
-						solicitud = new SolicitudDTO(0, "realizado", "asignada", 0, fecha,null, "Incompleta",
-								textArea.getText(), 0, 1);
+						int part1 = 0;
+						ComponenteDTO temp = null;
+						if (!comboBox.getSelectedItem().equals("Sin seleccionar")) {
+							String[] parts = ((String) comboBox.getSelectedItem()).split(" -");
+							part1 = Integer.parseInt(parts[0]);
+							temp = gc.getComponenteId(part1);
+						}
+						
+						solicitud = new SolicitudDTO(gu.getUserOnline().getIdUsuario(),
+								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
 					}
+					JOptionPane.showMessageDialog(null, "Solicitud creada correctamente");
 
 				}
-				// LLAMAMOS AL GESTOR DE SOLICITUDES
-				// LLAMAMOS AL GESTOR DE INCIDENCIAS QUE HACE LA LOGICA DE ASIGNAR
-				// LLAMAMOS AL DAO PARA HACER LA INSERT
-				// String mensaje = "!Equipo creado correctamente�";
-				// if (!crearAula(adto))mensaje="!Error al crear el equipo�";
-				// JOptionPane.showMessageDialog(null, mensaje);
+
 				dispose();
 			}
 		});
@@ -151,6 +156,17 @@ public class SolicitudUsuarioPanel extends JFrame {
 		ButtonGroup bg = new ButtonGroup();
 
 		rdbtnNewRadioButton = new JRadioButton("Hardware");
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboBox.removeAllItems();
+
+				for (ComponenteDTO componente : gc.getListaHardware()) {
+					comboBox.addItem(componente.getIdComponente() + " -" + componente.getDescripcion());
+				
+				}
+
+			}
+		});
 		rdbtnNewRadioButton.setForeground(Color.WHITE);
 		rdbtnNewRadioButton.setBounds(147, 58, 109, 23);
 		rdbtnNewRadioButton.setBackground(new Color(0x566573));
@@ -161,6 +177,16 @@ public class SolicitudUsuarioPanel extends JFrame {
 		rdbtnNewRadioButton_1.setForeground(Color.WHITE);
 		rdbtnNewRadioButton_1.setBounds(273, 58, 109, 23);
 		rdbtnNewRadioButton_1.setBackground(new Color(0x566573));
+		rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboBox.removeAllItems();
+				for (ComponenteDTO componente : gc.getListaSoftware()) {
+					comboBox.addItem(componente.getIdComponente() + " -" + componente.getDescripcion());
+				
+				}
+
+			}
+		});
 
 		contentPane.add(rdbtnNewRadioButton_1);
 		bg.add(rdbtnNewRadioButton_1);
@@ -170,9 +196,7 @@ public class SolicitudUsuarioPanel extends JFrame {
 		comboBox.setBounds(10, 99, 521, 33);
 		comboBox.setBackground(new Color(0x566573));
 		comboBox.addItem("Sin seleccion");
-		for (ComponenteDTO componente : gc.getListaHardware()) {
-			comboBox.addItem(componente.getIdComponente() + " - " + componente.getDescripcion());
-		}
+
 		contentPane.add(comboBox);
 
 		textArea = new JTextArea();
