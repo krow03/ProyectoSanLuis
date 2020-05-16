@@ -460,7 +460,7 @@ public class Main extends JFrame {
 	private void visualizarPerfil() {
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
-		perfil.setBounds(64, 1000, 1311, 878);
+		perfil.setBounds(64, 0, 1311, 878);
 		contentPane.add(perfil);
 		perfil.setLayout(null);
 
@@ -1476,7 +1476,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudAulas() {
 		crud = new JPanel();
-		crud.setBounds(101, 1000, 1278, 767);
+		crud.setBounds(101, 37, 1278, 767);
 		crud.setBackground(Color.WHITE);
 
 		contentPane.add(crud);
@@ -1657,7 +1657,7 @@ public class Main extends JFrame {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void visualizarCrudEquipos() {
 		crudEquipo = new JPanel();
-		crudEquipo.setBounds(101, 1000, 1278, 767);
+		crudEquipo.setBounds(101, 37, 1278, 767);
 		crudEquipo.setBackground(Color.WHITE);
 
 		contentPane.add(crudEquipo);
@@ -1844,7 +1844,7 @@ public class Main extends JFrame {
 	private void visualizarIncidencias() {
 		incidencias = new JPanel();
 		incidencias.setBackground(Color.WHITE);
-		incidencias.setBounds(88, 1000, 1287, 780);
+		incidencias.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		incidencias.setLayout(null);
 		JScrollPane scrollPaneIncidencias = new JScrollPane();
@@ -1974,7 +1974,7 @@ public class Main extends JFrame {
 		contentPane.add(stock);
 
 		stock.setBackground(Color.WHITE);
-		stock.setBounds(88, 1000, 1287, 780);
+		stock.setBounds(88, 37, 1287, 780);
 		contentPane.add(incidencias);
 		stock.setLayout(null);
 
