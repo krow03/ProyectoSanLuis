@@ -3,6 +3,7 @@ package gestores;
 import java.util.ArrayList;
 
 import DAO.ComponenteDAO;
+import DAO.RequisitoDAO;
 import DTO.ComponenteDTO;
 import DTO.HardwareDTO;
 import DTO.SoftwareDTO;;
@@ -10,6 +11,7 @@ import DTO.SoftwareDTO;;
 public class GestorComponentes {
 	private static ArrayList<ComponenteDTO> listaComponentes = new ArrayList<ComponenteDTO>();
 	private ComponenteDAO cdao = new ComponenteDAO();
+	private RequisitoDAO rdao = new RequisitoDAO();
 	private static GestorComponentes instancia =null;
 	
 	
@@ -19,8 +21,14 @@ public class GestorComponentes {
 	}
 	private GestorComponentes() {
 		cargarLista();
+		cargarRequisitos();
 	}
 	
+	private void cargarRequisitos() {
+		for(ComponenteDTO cdto : listaComponentes) {
+			cdto.setRequisitos(rdao.listarTodos(cdto.getIdComponente()));
+		}
+	}
 	public ArrayList<ComponenteDTO> getList(){
 		return listaComponentes;
 	}

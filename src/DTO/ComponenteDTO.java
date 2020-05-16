@@ -1,11 +1,13 @@
 package DTO;
 
+import java.util.ArrayList;
+
 public class ComponenteDTO
 {
 	private int idComponente;
     private String descripcion;
     private int udsDisponibles;
-    
+    private ArrayList<RequisitoDTO> requisitos= new ArrayList<RequisitoDTO>();
 	public ComponenteDTO(int idComponente, String descripcion) {
 		super();
 		this.idComponente = idComponente;
@@ -34,6 +36,14 @@ public class ComponenteDTO
 
 	public void setUdsDisponibles(int udsDisponibles) {
 		this.udsDisponibles = udsDisponibles;
+	}
+
+	public ArrayList<RequisitoDTO> getRequisitos() {
+		return requisitos;
+	}
+
+	public void setRequisitos(ArrayList<RequisitoDTO> requisitos) {
+		this.requisitos = requisitos;
 	}
     
 } 

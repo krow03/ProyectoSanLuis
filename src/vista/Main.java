@@ -977,7 +977,7 @@ public class Main extends JFrame {
 		JButton btnNewButton_2_2_1 = new JButton("Solicitud");
 		btnNewButton_2_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IncidenciaUsuPanel2 upanel = new IncidenciaUsuPanel2();
+				SolicitudUsuarioPanel upanel = new SolicitudUsuarioPanel();
 				upanel.setUndecorated(true);
 				upanel.setLocationRelativeTo(null);
 
@@ -991,7 +991,7 @@ public class Main extends JFrame {
 		JButton btnNewButton_2_2_2 = new JButton("Incidencia");
 		btnNewButton_2_2_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SolicitudUsuPanel soPanel = new SolicitudUsuPanel();
+				IncidenciaUsuarioPanel soPanel = new IncidenciaUsuarioPanel();
 				soPanel.setUndecorated(true);
 				soPanel.setLocationRelativeTo(null);
 
@@ -1940,7 +1940,7 @@ public class Main extends JFrame {
 					SolicitudDTO sdto = (SolicitudDTO) gs.getIncidencia(Integer
 							.parseInt(tableSolicitudes.getValueAt(tableSolicitudes.getSelectedRow(), 0).toString()));
 
-					IncidenciaTecPanel3 intec = new IncidenciaTecPanel3(sdto);
+					SolicitudTecnicoPanel intec = new SolicitudTecnicoPanel(sdto);
 
 					intec.setUndecorated(true);
 					intec.setLocationRelativeTo(null);
@@ -1949,7 +1949,7 @@ public class Main extends JFrame {
 
 				}
 				if (tableIncidencias.getSelectedRow() != -1) {
-					SolicitudTecPanel2 sotec = new SolicitudTecPanel2(
+					IncidenciaTecnicoPanel sotec = new IncidenciaTecnicoPanel(
 							Integer.parseInt(
 									tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 0).toString()),
 							tableIncidencias.getValueAt(tableIncidencias.getSelectedRow(), 2).toString());
