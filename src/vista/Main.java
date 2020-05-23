@@ -800,10 +800,10 @@ public class Main extends JFrame {
 		JPanel panel_4_1 = new JPanel();
 		panel_4_1.setLayout(null);
 		panel_4_1.setBounds(506, 75, 793, 89);
-		//if(gu.getUserOnline() instanceof AdministradorDTO) {
-		//	perfil.add(panel_4_1);
-		//}
-		perfil.add(panel_4_1);
+		if(gu.getUserOnline() instanceof AdministradorDTO) {
+			perfil.add(panel_4_1);
+		}
+		
 
 		JScrollPane scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(506, 200, 795, 500);
