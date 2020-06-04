@@ -1184,12 +1184,6 @@ public class Main extends JFrame {
 				txtDireccion.setText(udto.getDireccion());
 				if (udto.getEquipo() != null)
 					txtEquipoOnline.setText((udto.getEquipo().getNombre()));
-				if (udto.getIncidencias() != null)
-					for (IncidenciaDTO inci : udto.getIncidencias()) {
-						if (inci instanceof SolicitudDTO) {
-
-						}
-					}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1222,7 +1216,7 @@ public class Main extends JFrame {
 		UsuarioDTO u = gu.getUserOnline();
 		u.setUserName(txtNombreOnline.getText());
 		u.setEmail(txtEmailOnline.getText());
-		return gu.modificarUsuario(u);
+		return gu.modificarPerfil(u);
 	}
 
 	private boolean cambiarPass() {
@@ -1235,8 +1229,7 @@ public class Main extends JFrame {
 		try {
 			if (DigestUtils.sha256Hex(oldPass.getText()).equals(u.getPass())) {
 				if (newPass.getText().equals(repeatNewPass.getText()) && !newPass.getText().equals(oldPass.getText())) {
-					u.setPass(newPass.getText());
-					return gu.modificarUsuario(u);
+					return gu.modificarPerfil(u);
 				}
 			}
 		} catch (Exception e) {
@@ -2028,12 +2021,16 @@ public class Main extends JFrame {
 		tableIncidencias.getColumnModel().getColumn(2).setPreferredWidth(450);
 
 		ArrayList<IncidenciaDTO> array = new ArrayList<IncidenciaDTO>();
-		array = gs.getListaAsignadasA(gu.getUserOnline().getIdUsuario());
+		if(gu.getUserOnline() instanceof AdministradorDTO)
+			array = gs.getListaInci();
+		else if(gu.getUserOnline() instanceof TecnicoDTO)
+			array = ((TecnicoDTO)gu.getUserOnline()).getIncidenciasAsignadas();
+		if(array!=null) {
+			for (IncidenciaDTO e : array) {
 
-		for (IncidenciaDTO e : array) {
-
-			Object[] fila = { e.getCodigo(), e.getFechaSol(), e.getDescripcion() };
-			defaultModelinc.addRow(fila);
+				Object[] fila = { e.getCodigo(), e.getFechaSol(), e.getDescripcion() };
+				defaultModelinc.addRow(fila);
+			}
 		}
 		tableIncidencias.setModel(defaultModelinc);
 		scrollPaneIncidencias.setViewportView(tableIncidencias);

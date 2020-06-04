@@ -1,10 +1,11 @@
 package DTO;
 
+
+
 public class IncidenciaDTO
 {
     private int codigo;
-    private String idRealizadaPor;
-    private String idAsignadaA;
+    private UsuarioDTO realizadaPor;
     private int idEquipo;
     private String fechaSol;
     private String fechaFin;
@@ -12,12 +13,10 @@ public class IncidenciaDTO
     private String descripcion;
     private int prioridad;
     
-	public IncidenciaDTO(int codigo, String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
+	public IncidenciaDTO(int codigo, String idAsignadaA, int idEquipo, String fechaSol,
 			String fechaFin, String estado, String descripcion, int prioridad) {
 		super();
 		this.codigo = codigo;
-		this.idRealizadaPor = idRealizadaPor;
-		this.idAsignadaA = idAsignadaA;
 		this.idEquipo = idEquipo;
 		this.fechaSol = fechaSol;
 		this.fechaFin = fechaFin;
@@ -26,21 +25,33 @@ public class IncidenciaDTO
 		this.prioridad = prioridad;
 	}
 	
-	public IncidenciaDTO(String idRealizadaPor, int idEquipo, String fechaSol, String estado, String descripcion) {
+	public IncidenciaDTO(int codigo, UsuarioDTO realizadaPor, String idAsignadaA, int idEquipo, String fechaSol,
+			String fechaFin, String estado, String descripcion, int prioridad) {
 		super();
-		this.idRealizadaPor = idRealizadaPor;
+		this.codigo = codigo;
+		this.realizadaPor = realizadaPor;
+		this.idEquipo = idEquipo;
+		this.fechaSol = fechaSol;
+		this.fechaFin = fechaFin;
+		this.estado = estado;
+		this.descripcion = descripcion;
+		this.prioridad = prioridad;
+	}
+	
+	public IncidenciaDTO( int idEquipo, String fechaSol, String estado, String descripcion) {
+		super();
 		this.idEquipo = idEquipo;
 		this.fechaSol = fechaSol;
 		this.estado = estado;
 		this.descripcion = descripcion;
 	}
 
-	public IncidenciaDTO(String idRealizadaPor, String idAsignadaA, int idEquipo, String fechaSol, String descripcion) {
+	public IncidenciaDTO( UsuarioDTO realizadaPor, int idEquipo, String fechaSol,String estado, String descripcion) {
 		super();
-		this.idRealizadaPor = idRealizadaPor;
-		this.idAsignadaA = idAsignadaA;
+		this.realizadaPor = realizadaPor;
 		this.idEquipo = idEquipo;
 		this.fechaSol = fechaSol;
+		this.estado = estado;
 		this.descripcion = descripcion;
 		
 	}
@@ -51,18 +62,13 @@ public class IncidenciaDTO
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	public String getIdRealizadaPor() {
-		return idRealizadaPor;
+	public UsuarioDTO getIdRealizadaPor() {
+		return realizadaPor;
 	}
-	public void setIdRealizadaPor(String idRealizadaPor) {
-		this.idRealizadaPor = idRealizadaPor;
+	public void setIdRealizadaPor(UsuarioDTO idRealizadaPor) {
+		this.realizadaPor = idRealizadaPor;
 	}
-	public String getIdAsignadaA() {
-		return idAsignadaA;
-	}
-	public void setIdAsignadaA(String idAsignadaA) {
-		this.idAsignadaA = idAsignadaA;
-	}
+
 	public int getIdEquipo() {
 		return idEquipo;
 	}

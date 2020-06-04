@@ -74,10 +74,10 @@ public class IncidenciaUsuarioPanel extends JFrame {
 
 				String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH))
 						+ "-" + Integer.toString(c2.get(Calendar.DATE));
-				IncidenciaDTO incidenciaInsert = new IncidenciaDTO(gu.getUserOnline().getIdUsuario(), gu.getTecnicoMenosIncidencias().getIdUsuario(),
-						gu.getUserOnline().getEquipo().getIdEquipo(), fecha, textArea.getText());
+				IncidenciaDTO incidenciaInsert = new IncidenciaDTO(gu.getUserOnline(),
+						gu.getUserOnline().getEquipo().getIdEquipo(), fecha,"pendiente", textArea.getText());
 				try {
-					gs.crearIncidencia(incidenciaInsert);
+					gs.crearIncidencia(incidenciaInsert,gu.getTecnicoMenosIncidencias().getIdUsuario());
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

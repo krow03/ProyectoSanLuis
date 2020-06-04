@@ -20,8 +20,6 @@ public class UsuarioDTO
     private String email;
     private EquipoDTO equipo;
     private String pass;
-    private ArrayList<IncidenciaDTO> incidenciasRealizadas;
-	
 
 	public UsuarioDTO(String idUsuario, String userName, String email, int idEquipo, String pass, String nombre,String apellidos,String direccion,String telefono) {
 		super();
@@ -96,14 +94,6 @@ public class UsuarioDTO
 
 	public void setPass(String pass) {
 		this.pass = pass;
-	}
-
-	public ArrayList<IncidenciaDTO> getIncidencias() {
-		return incidenciasRealizadas;
-	}
-
-	public void setIncidencias(ArrayList<IncidenciaDTO> incidencias) {
-		this.incidenciasRealizadas = incidencias;
 	}
 
 	public String getNombre() {

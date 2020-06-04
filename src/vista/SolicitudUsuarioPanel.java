@@ -100,7 +100,7 @@ public class SolicitudUsuarioPanel extends JFrame {
 							temp = gc.getComponenteId(part1);
 						}
 						
-						solicitud = new SolicitudDTO(gu.getUserOnline().getIdUsuario(),
+						solicitud = new SolicitudDTO(gu.getUserOnline(),
 								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
 						try {
 							boolean req = false;
@@ -130,7 +130,7 @@ public class SolicitudUsuarioPanel extends JFrame {
 							temp = gc.getComponenteId(part1);
 						}
 						
-						solicitud = new SolicitudDTO(gu.getUserOnline().getIdUsuario(),
+						solicitud = new SolicitudDTO(gu.getUserOnline(),
 								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
 					}
 					JOptionPane.showMessageDialog(null, "Solicitud creada correctamente");

@@ -36,7 +36,7 @@ public class GestorSolicitudes {
 	}
 	
 	public ArrayList<IncidenciaDTO> getIncidenciasTecnico(String idTecnico) {
-		return idao.listarPorAsignadoA(idTecnico);
+		return idao.listarTodos(idTecnico);
 	}
 	
 	public ArrayList<IncidenciaDTO> getListaNoAtendidas() {
@@ -63,19 +63,10 @@ public class GestorSolicitudes {
 		return listaInci;
 	}
 	
-	public ArrayList<IncidenciaDTO> getListaAsignadasA(String id) {
-		ArrayList<IncidenciaDTO> listaAsignadas = new ArrayList<IncidenciaDTO>();
-		for(IncidenciaDTO idto : listaSoli) {
-			if(!(idto instanceof SolicitudDTO) && !idto.getEstado().equals("atendida"))
-				if(idto.getIdAsignadaA().equals(id)) listaAsignadas.add(idto);
-		}
-		return listaAsignadas;
-	}
-	
 	public ArrayList<IncidenciaDTO> getListaRealizadasPor(String id) {
 		ArrayList<IncidenciaDTO> listaRealizadas = new ArrayList<IncidenciaDTO>();
 		for(IncidenciaDTO idto : listaSoli) {
-			if(idto.getIdRealizadaPor().equals(id)) listaRealizadas.add(idto);
+			if(idto.getIdRealizadaPor().getIdUsuario().equals(id)) listaRealizadas.add(idto);
 		}
 		return listaRealizadas;
 	}
@@ -87,8 +78,8 @@ public class GestorSolicitudes {
 		}
 		return false;
 	}
-	public boolean crearIncidencia(IncidenciaDTO sdto) throws SQLException {
-		if(idao.insertar(sdto)) {
+	public boolean crearIncidencia(IncidenciaDTO sdto,String idTecnico) throws SQLException {
+		if(idao.insertar(sdto,idTecnico)) {
 			cargarLista();
 			return true;
 		}
