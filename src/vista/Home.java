@@ -85,9 +85,9 @@ public class Home extends JFrame {
 		lblNewLabel.setBounds(139, 305, 84, 27);
 		panel.add(lblNewLabel);
 
-		JLabel label = new JLabel("");
+		JLabel movimiento = new JLabel("");
 
-		label.addMouseListener(new MouseAdapter() {
+		movimiento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 
@@ -95,7 +95,7 @@ public class Home extends JFrame {
 				xy = e.getY();
 			}
 		});
-		label.addMouseMotionListener(new MouseMotionAdapter() {
+		movimiento.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent arg0) {
 
@@ -104,10 +104,10 @@ public class Home extends JFrame {
 				Home.this.setLocation(x - xx, y - xy);
 			}
 		});
-		label.setBounds(-38, 0, 420, 275);
-		label.setVerticalAlignment(SwingConstants.TOP);
-		label.setIcon(new ImageIcon(Home.class.getResource("/images/bg.jpg")));
-		panel.add(label);
+		movimiento.setBounds(-38, 0, 420, 275);
+		movimiento.setVerticalAlignment(SwingConstants.TOP);
+		movimiento.setIcon(new ImageIcon(Home.class.getResource("/images/bg.jpg")));
+		panel.add(movimiento);
 
 		JLabel lblWeGotYou = new JLabel("....We got you....");
 		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);

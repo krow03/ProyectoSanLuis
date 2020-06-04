@@ -32,6 +32,8 @@ import gestores.GestorCompras;
 import gestores.GestorEquipos;
 import gestores.GestorProveedores;
 import gestores.GestorSolicitudes;
+import gestores.GestorUsuarios;
+import javax.swing.SwingConstants;
 
 public class ProveedoresPantalla extends JDialog {
 	public static void main(String[] args) {
@@ -54,6 +56,7 @@ public class ProveedoresPantalla extends JDialog {
 	private JPanel contentPane;
 	private GestorCompras gc = GestorCompras.getInstance();
 	private GestorProveedores gp = GestorProveedores.getInstance();
+	private GestorProveedores gu = GestorProveedores.getInstance();
 
 	public ProveedoresPantalla() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -69,7 +72,7 @@ public class ProveedoresPantalla extends JDialog {
 		JLabel lblNewLabel = new JLabel("Bienvenido:");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(39, 11, 231, 26);
+		lblNewLabel.setBounds(39, 11, 135, 26);
 		contentPane.add(lblNewLabel);
 
 		JScrollPane scrollPaneEquipos = new JScrollPane();
@@ -124,7 +127,7 @@ public class ProveedoresPantalla extends JDialog {
 		btnNewButton_1.setBounds(171, 384, 89, 41);
 		contentPane.add(btnNewButton_1);
 
-		JButton btnNewButton_1_1 = new JButton("Visualizar");
+		JButton btnNewButton_1_1 = new JButton("Visualizar compra");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = Integer
@@ -137,8 +140,8 @@ public class ProveedoresPantalla extends JDialog {
 				frame.setVisible(true);
 			}
 		});
-		btnNewButton_1_1.setBackground(new Color(244, 68, 68));
-		btnNewButton_1_1.setBounds(305, 384, 89, 41);
+		btnNewButton_1_1.setBackground(new Color(153, 204, 153));
+		btnNewButton_1_1.setBounds(305, 384, 257, 41);
 		contentPane.add(btnNewButton_1_1);
 
 		JButton btnNewButton_2 = new JButton("A\u00F1adir catalogo");
@@ -147,7 +150,7 @@ public class ProveedoresPantalla extends JDialog {
 				gp.insertarPdf();
 			}
 		});
-		btnNewButton_2.setBounds(778, 88, 129, 50);
+		btnNewButton_2.setBounds(778, 88, 149, 50);
 		contentPane.add(btnNewButton_2);
 
 		JButton btnNewButton_2_1 = new JButton("Descargar Catalogo");
@@ -156,7 +159,19 @@ public class ProveedoresPantalla extends JDialog {
 				
 			}
 		});
-		btnNewButton_2_1.setBounds(778, 149, 129, 50);
+		btnNewButton_2_1.setBounds(778, 149, 149, 50);
 		contentPane.add(btnNewButton_2_1);
+		JLabel lblNewLabel_1 = new JLabel(gu.getProvOnline().getNombre());
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(193, 11, 135, 26);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lbl_close = new JLabel("X");
+		lbl_close.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_close.setForeground(new Color(241, 57, 83));
+		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl_close.setBounds(925, 0, 37, 27);
+		contentPane.add(lbl_close);
 	}
 }

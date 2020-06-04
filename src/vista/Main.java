@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -133,7 +134,6 @@ public class Main extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-
 	/**
 	 * Launch the application.
 	 */
@@ -165,9 +165,33 @@ public class Main extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
 		contentPane.setLayout(null);
+		
+		
+		JLabel movimiento = new JLabel("");
+		movimiento.setBounds(526, 0, 849, 27);
+		
 
+		movimiento.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
+		movimiento.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+
+				int x = arg0.getXOnScreen();
+				int y = arg0.getYOnScreen();
+				Main.this.setLocation(x - xx, y - xy);
+			}
+		});
+		movimiento.setVerticalAlignment(SwingConstants.TOP);
+		contentPane.add(movimiento);
+		
 		visualizarPerfil();
 		visualizarCrudAulas();
 		visualizarAulas();
@@ -500,8 +524,9 @@ public class Main extends JFrame {
 		lblCuentaVerde.setBounds(10, 10, 46, 64);
 		panel.add(lblCuentaVerde);
 		
+
 		
-		lblPedidosVerde.setVisible(false);
+				lblPedidosVerde.setVisible(false);
 		lblEquiposVerde.setVisible(false);
 		lvlSalida_1.setVisible(false);
 		lblCuentaVerde.setVisible(true);
