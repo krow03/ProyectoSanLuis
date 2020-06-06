@@ -73,7 +73,7 @@ public class Home extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.DARK_GRAY);
+		panel.setBackground(new Color(64,64,64));
 		panel.setBounds(0, 0, 346, 490);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -104,7 +104,7 @@ public class Home extends JFrame {
 				Home.this.setLocation(x - xx, y - xy);
 			}
 		});
-		movimiento.setBounds(-38, 0, 420, 275);
+		movimiento.setBounds(0, 0, 346, 275);
 		movimiento.setVerticalAlignment(SwingConstants.TOP);
 		movimiento.setIcon(new ImageIcon(Home.class.getResource("/images/bg.jpg")));
 		panel.add(movimiento);
@@ -175,11 +175,13 @@ public class Home extends JFrame {
 				
 				//System.out.println(gu.getUserOnline().getApellidos());
 				if (gu.getUserOnline() != null) {
+					this.dispose();
 					Main main = new Main();
 					main.setUndecorated(true);
 					main.setVisible(true);
 				}
 				if (gp.getProvOnline() != null) {
+					this.dispose();
 					ProveedoresPantalla pp = new ProveedoresPantalla();
 					pp.setUndecorated(true);
 					pp.setVisible(true);

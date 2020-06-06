@@ -90,37 +90,8 @@ public class SolicitudUsuarioPanel extends JFrame {
 					JOptionPane.showMessageDialog(null, "Seleccione un componente");
 					return;
 				} else {
+					System.out.println("holaa?");
 					SolicitudDTO solicitud;
-					if (rdbtnNewRadioButton.isSelected()) {
-						int part1 = 0;
-						ComponenteDTO temp = null;
-						if (!comboBox.getSelectedItem().equals("Sin seleccionar")) {
-							String[] parts = ((String) comboBox.getSelectedItem()).split(" -");
-							part1 = Integer.parseInt(parts[0]);
-							temp = gc.getComponenteId(part1);
-						}
-						
-						solicitud = new SolicitudDTO(gu.getUserOnline(),
-								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
-						try {
-							boolean req = false;
-							boolean peso =false;
-							for(ComponenteDTO cdto : gu.getUserOnline().getEquipo().getComponentes()) {
-								for(RequisitoDTO rdto : temp.getRequisitos()) {
-									if(rdto.getClave().equals(cdto.getDescripcion())) req=true;
-								}
-								if((gu.getUserOnline().getEquipo().getDisponibleHDD()-((SoftwareDTO)cdto).getPeso())>=0) peso =true;					
-							}
-							if(req && peso) {
-								gs.crearSolicitud(solicitud);
-								ge.cargarComponentesEquipo();
-							}
-
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
 					if (rdbtnNewRadioButton_1.isSelected()) {
 						int part1 = 0;
 						ComponenteDTO temp = null;
@@ -129,11 +100,50 @@ public class SolicitudUsuarioPanel extends JFrame {
 							part1 = Integer.parseInt(parts[0]);
 							temp = gc.getComponenteId(part1);
 						}
+						System.out.println("aqui entra0?");
+						solicitud = new SolicitudDTO(gu.getUserOnline(),
+								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
+						try {
+							System.out.println("aqui entra1?");
+							boolean req = false;
+							boolean peso =false;
+							for(ComponenteDTO cdto : gu.getUserOnline().getEquipo().getComponentes()) {
+								System.out.println("aqui entra1?");
+								for(RequisitoDTO rdto : temp.getRequisitos()) {
+									System.out.println("aqui entra1?");
+									if(rdto.getClave().equals(cdto.getDescripcion())) req=true;
+								}
+								if((gu.getUserOnline().getEquipo().getDisponibleHDD()-((SoftwareDTO)cdto).getPeso())>=0) peso =true;	
+								if(req == false) JOptionPane.showMessageDialog(null, "Se requiere "+temp.getRequisitos());
+							}
+							
+							if(req && peso) {
+								gs.crearSolicitud(solicitud);
+								ge.cargarComponentesEquipo();
+								System.out.println("aqui entra2?");
+								JOptionPane.showMessageDialog(null, "Solicitud creada correctamente");
+							}
+
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					if (rdbtnNewRadioButton.isSelected()) {
+						System.out.println("aqui si");
+						int part1 = 0;
+						ComponenteDTO temp = null;
+						if (!comboBox.getSelectedItem().equals("Sin seleccionar")) {
+							String[] parts = ((String) comboBox.getSelectedItem()).split(" -");
+							part1 = Integer.parseInt(parts[0]);
+							temp = gc.getComponenteId(part1);
+						}
 						
 						solicitud = new SolicitudDTO(gu.getUserOnline(),
 								gu.getUserOnline().getEquipo().getIdEquipo(), fecha, "pendiente", textArea.getText(), part1);
+						JOptionPane.showMessageDialog(null, "Solicitud creada correctamente");
 					}
-					JOptionPane.showMessageDialog(null, "Solicitud creada correctamente");
+					
 
 				}
 

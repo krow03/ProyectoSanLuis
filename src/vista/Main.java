@@ -628,6 +628,8 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Cambios realizados correctamente");
 				bntModificarPerfil.setVisible(false);
+				//gu.modificarPerfil(new UsuarioDTO(gu.getUserOnline().getIdUsuario(),txtNombreOnline,txtDireccion,txtApellidos,txtEmailOnline));
+				//TODO
 			}
 		});
 		bntModificarPerfil.setBackground(new Color(0x43B581));

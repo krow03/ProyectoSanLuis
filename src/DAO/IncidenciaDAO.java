@@ -13,7 +13,7 @@ import conexion.Conexion;
 
 public class IncidenciaDAO implements PatronDAO<IncidenciaDTO>{
 
-	private static final String SQL_INSERT_SOLICITUD="INSERT INTO SolInci (idSolInci,Realizada,Equipos_idEquipos,tipo,fechaSol,estado,descripcion,prioridad,Componentes_idComponentes) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	private static final String SQL_INSERT_SOLICITUD="INSERT INTO SolInci (idSolInci,Realizada,Equipos_idEquipos,tipo,fechaSol,estado,descripcion,prioridad,Componentes_idComponentes) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_INSERT_INCIDENCIA="INSERT INTO SolInci (idSolInci,Realizada,Asignada,Equipos_idEquipos,tipo,fechaSol,estado,descripcion,prioridad) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM SolInci WHERE idSolInci = ?";
 	private static final String SQL_UPDATE="UPDATE SolInci SET fechaFin = ?,estado = ?,descripcion = ?,prioridad = ? WHERE idSolInci = ?";
