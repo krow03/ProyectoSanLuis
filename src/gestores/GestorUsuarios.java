@@ -231,7 +231,8 @@ public class GestorUsuarios {
 	 */
 	public boolean borrarUsuario(String idUsuario) {
 		UsuarioDTO user = getUserById(idUsuario);
-		ArrayList<IncidenciaDTO>incidencias=((TecnicoDTO)user).getIncidenciasAsignadas();
+		ArrayList<IncidenciaDTO>incidencias=null;
+		if(user instanceof TecnicoDTO)incidencias=((TecnicoDTO)user).getIncidenciasAsignadas();
 		if(user instanceof AdministradorDTO && comprobarUltimoAdmin() || !autorizarAdmin() ) return false;
 		if(udao.borrar(idUsuario)) {
 			listaUsers.remove(user);

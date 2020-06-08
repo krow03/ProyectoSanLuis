@@ -39,6 +39,7 @@ public class LineaCompraDAO implements PatronDAO<LineaCompraDTO>{
 	
 	public boolean insertar(LineaCompraDTO t, int idCompra) throws SQLException {
 		try {
+			System.out.println(idCompra);
 			PreparedStatement ps = con.getCon().prepareStatement(SQL_INSERT);
 			ps.setInt(1, t.getStock().getIdStock());
 			ps.setInt(2, idCompra);

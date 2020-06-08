@@ -79,7 +79,7 @@ public class GestorEquipos {
 		return false;
 	}
 	
-	public boolean desasignarAula(int idEquipo) throws SQLException {
+	public boolean desasignarAula(int idEquipo) {
 		if(edao.desasignarAula(idEquipo)) {
 			cargarListaEquipos();
 			return true;

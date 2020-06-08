@@ -1720,6 +1720,10 @@ public class Main extends JFrame {
 						JOptionPane.OK_OPTION);
 				if (option == JOptionPane.OK_OPTION) {
 					String mensaje = "�Error al borrar el aula\u0021";
+					AulaDTO adto = ga.getAulaById((int) Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()));
+					for(EquipoDTO edto : adto.getEquipos()) {
+						ge.desasignarAula(edto.getIdEquipo());
+					}
 					if (eliminarAula(
 							(int) Integer.parseInt(model.getValueAt(tableAula.getSelectedRow(), 0).toString()))) {
 						mensaje = "�Aula borrada correctamente\u0021";
@@ -2225,7 +2229,7 @@ public class Main extends JFrame {
 				CompraDTO compra = null;
 				int unidadesTotales = tableCompras.getRowCount();
 				float precioTotal = 0;
-				String fechaActual = getFechaActual();
+				String fechaActual = getFechaHoraActual();
 		
 				for(int i = 0; i < unidadesTotales; i++) {
 					int id = Integer.parseInt(tableCompras.getValueAt(i, 0).toString());
@@ -2411,6 +2415,17 @@ public class Main extends JFrame {
 	
 	    String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH+1))
 	            + "-" + Integer.toString(c2.get(Calendar.DATE));
+	    
+	    return fecha;
+	}
+	
+	private String getFechaHoraActual() {
+		Calendar c2 = new GregorianCalendar();
+
+	
+	    String fecha = Integer.toString(c2.get(Calendar.YEAR)) + "-" + Integer.toString(c2.get(Calendar.MONTH)+1)
+	            + "-" + Integer.toString(c2.get(Calendar.DATE)) + " " + Integer.toString(c2.get(Calendar.HOUR)) +
+	            ":" + Integer.toString(c2.get(Calendar.MINUTE)) + ":" + Integer.toString(c2.get(Calendar.SECOND));
 	    
 	    return fecha;
 	}
