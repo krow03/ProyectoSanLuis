@@ -86,8 +86,10 @@ public class GestorSolicitudes {
 		return false;
 	}
 	public boolean modificarIncidencia(IncidenciaDTO idto) {
-		((SolicitudDTO)idto).setComponente(((SolicitudDTO)getIncidencia(idto.getCodigo())).getComponente());
+		
+		if(idto instanceof SolicitudDTO)((SolicitudDTO)idto).setComponente(((SolicitudDTO)getIncidencia(idto.getCodigo())).getComponente());
         if(idao.actualizar(idto)) {
+        	System.out.println("hola? modificar incidenca");
         	listaSoli.set(listaSoli.indexOf(getIncidencia(idto.getCodigo())), idto);
         	return true;
         }

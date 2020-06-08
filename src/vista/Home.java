@@ -78,11 +78,11 @@ public class Home extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("KeepToo");
+		JLabel lblNewLabel = new JLabel("Bienvenido");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setForeground(new Color(240, 248, 255));
-		lblNewLabel.setBounds(139, 305, 84, 27);
+		lblNewLabel.setBounds(129, 305, 113, 27);
 		panel.add(lblNewLabel);
 
 		JLabel movimiento = new JLabel("");
@@ -106,10 +106,10 @@ public class Home extends JFrame {
 		});
 		movimiento.setBounds(0, 0, 346, 275);
 		movimiento.setVerticalAlignment(SwingConstants.TOP);
-		movimiento.setIcon(new ImageIcon(Home.class.getResource("/images/bg.jpg")));
+		movimiento.setIcon(new ImageIcon(Home.class.getResource("/images/Escudos.jpg")));
 		panel.add(movimiento);
 
-		JLabel lblWeGotYou = new JLabel("....We got you....");
+		JLabel lblWeGotYou = new JLabel("Centro Sanluis");
 		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWeGotYou.setForeground(new Color(240, 248, 255));
 		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 13));
