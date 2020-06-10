@@ -2030,9 +2030,9 @@ public class Main extends JFrame {
 
 		ArrayList<IncidenciaDTO> array = new ArrayList<IncidenciaDTO>();
 		if(gu.getUserOnline() instanceof AdministradorDTO)
-			array = gs.getListaInci();
+			array = gs.getListaNoAtendidas();
 		else if(gu.getUserOnline() instanceof TecnicoDTO)
-			array = ((TecnicoDTO)gu.getUserOnline()).getIncidenciasAsignadas();
+			array = ((TecnicoDTO)gu.getUserOnline()).getIncidenciasAsignadasNoAtendidas();
 		if(array!=null) {
 			for (IncidenciaDTO e : array) {
 

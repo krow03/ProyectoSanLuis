@@ -104,15 +104,18 @@ public class GestorStock {
 		return null;
 	}
 	public StockDTO getStockByIdComponente(int idComponente) {
-		for(StockDTO sdto : listaStock) {
-			for(ComponenteDTO cdto : sdto.getComponentes()) {
-				if(cdto.getIdComponente()==idComponente) {
-					return sdto;
-				}
-			}
-		}
-		return null;
-	}
+        for(StockDTO sdto : listaStock) {
+            if(sdto.getComponentes()!=null) {
+            	System.out.println("entra?");
+                for(ComponenteDTO cdto : sdto.getComponentes()) {
+                    if(cdto.getIdComponente()==idComponente) {
+                        return sdto;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 	public void restarStock(int idStock, int cantidad) {
 		StockDTO sdto = getStockById(idStock);
 		sdto.setUnidades(sdto.getUnidades()-cantidad);

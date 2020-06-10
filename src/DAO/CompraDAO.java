@@ -12,7 +12,7 @@ import conexion.Conexion;
 public class CompraDAO implements PatronDAO<CompraDTO>{
 	private static final String SQL_INSERT="INSERT INTO Compras (Proveedores_idProveedores,fechaCompra, precioTotal,idEstados) VALUES (?,?,?,3)";
 	private static final String SQL_DELETE="DELETE FROM Compras WHERE idCompras = ?";
-	private static final String SQL_UPDATE="UPDATE Compras SET Proveedores_idProveedor=?,fechaCompra=?,idEstados=? WHERE idCompras = ?";
+	private static final String SQL_UPDATE="UPDATE Compras SET Proveedores_idProveedores=?,fechaCompra=?,idEstados=? WHERE idCompras = ?";
 	private static final String SQL_FIND="SELECT * FROM Compras WHERE idCompras = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Compras";
 	private static final String SQL_FINDALLBYID="SELECT * FROM Compras WHERE Proveedores_idProveedores = ?";

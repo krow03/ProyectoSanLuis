@@ -179,7 +179,9 @@ public class GestorUsuarios {
 	 */
 	public boolean  login(String user,String pass){
 		userOnline = udao.login(user, pass);
+		if(userOnline instanceof TecnicoDTO)((TecnicoDTO)userOnline).setIncidenciasAsignadas(gs.getIncidenciasTecnico(userOnline.getIdUsuario()));
 		if(userOnline!=null) return true;
+		
 		return false;
 	}
 	
