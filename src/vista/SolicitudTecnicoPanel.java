@@ -15,8 +15,10 @@ import DTO.HardwareDTO;
 import DTO.IncidenciaDTO;
 import DTO.SoftwareDTO;
 import DTO.SolicitudDTO;
+import DTO.StockDTO;
 import gestores.GestorComponentes;
 import gestores.GestorSolicitudes;
+import gestores.GestorStock;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;
@@ -39,6 +41,7 @@ public class SolicitudTecnicoPanel extends JFrame {
 	private JPanel contentPane;
 	private JTextArea textArea;
 	private GestorSolicitudes gs = GestorSolicitudes.getInstance();
+	private GestorStock gst = GestorStock.getInstance();
 	private String hardSoft;
 	/**
 	 * Launch the application.
@@ -80,8 +83,11 @@ public class SolicitudTecnicoPanel extends JFrame {
 				idtoObj.setFechaFin(fecha);
 				idtoObj.setEstado("atendida");
 				gs.modificarIncidencia(idtoObj);
+				StockDTO sdto =null;
+				if(((SolicitudDTO)idtoObj).getComponente() != null)
+					sdto = gst.getStockByIdComponente(((SolicitudDTO)idtoObj).getComponente().getIdComponente());
+				if(sdto != null)gst.restarStock(sdto.getIdStock(), 1);
 				dispose();
-				
 			}
 		});
 		btnNewButton.setBackground(new Color(0x43B581));

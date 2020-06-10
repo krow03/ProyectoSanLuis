@@ -54,6 +54,7 @@ import gestores.GestorCompras;
 import gestores.GestorEquipos;
 import gestores.GestorProveedores;
 import gestores.GestorSolicitudes;
+import gestores.GestorStock;
 import gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
@@ -83,6 +84,7 @@ public class Main extends JFrame {
 	private GestorAulas ga = GestorAulas.getInstance();
 	private GestorCompras gcm = GestorCompras.getInstance();
 	private GestorProveedores gp = GestorProveedores.getInstance();
+	private GestorStock gst = GestorStock.getInstance();
 	private ArrayList<HardwareDTO> hardwareLista = new ArrayList<HardwareDTO>();
 	private ArrayList<SoftwareDTO> softwareLista = new ArrayList<SoftwareDTO>();
 	private ArrayList<EquipoDTO> equipoLista = new ArrayList<EquipoDTO>();
@@ -2245,6 +2247,9 @@ public class Main extends JFrame {
 					compra = new CompraDTO(0,proveedorSeleccionado.getIdProveedor(),fechaActual,precioTotal,cesta,3);
 					gcm.crearCompra(compra);
 					gcm.crearLineaCompra(cesta,gcm.getListaCompras().size());
+					for(LineaCompraDTO lcdto : cesta) {
+						gst.sumarStock(lcdto.getStock().getIdStock(), lcdto.getUnidades());
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

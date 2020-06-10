@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.StockDAO;
+import DTO.ComponenteDTO;
 import DTO.StockDTO;
 
 public class GestorStock {
@@ -87,6 +88,12 @@ public class GestorStock {
 		}
 		return productosBajoMinimos;
 	}
+	//Devuelve false si no hay stock suficiente para realizar la solicitud
+	public boolean comprobarStock(int idStock) {
+		StockDTO sdto = getStockById(idStock);
+		if(sdto.getUnidades()<5)return false;
+		return true;
+	}
 	
 	public StockDTO getStockById(int idStock) {
 		for(StockDTO sdto : listaStock) {
@@ -95,5 +102,26 @@ public class GestorStock {
 			}
 		}
 		return null;
+	}
+	public StockDTO getStockByIdComponente(int idComponente) {
+		for(StockDTO sdto : listaStock) {
+			for(ComponenteDTO cdto : sdto.getComponentes()) {
+				if(cdto.getIdComponente()==idComponente) {
+					return sdto;
+				}
+			}
+		}
+		return null;
+	}
+	public void restarStock(int idStock, int cantidad) {
+		StockDTO sdto = getStockById(idStock);
+		sdto.setUnidades(sdto.getUnidades()-cantidad);
+		modificarStock(sdto);
+	}
+	
+	public void sumarStock(int idStock, int cantidad) {
+		StockDTO sdto = getStockById(idStock);
+		sdto.setUnidades(sdto.getUnidades()+cantidad);
+		modificarStock(sdto);
 	}
 }
