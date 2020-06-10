@@ -83,6 +83,14 @@ public class GestorComponentes {
 		return false;
 	}
 	
+	public boolean desasignarEquipo(int idEquipo) {
+		if(cdao.desasignarEquipo(idEquipo)) {
+			cargarLista();
+			return true;
+		}
+		return false;
+	}
+	
 	public ComponenteDTO getComponente(int id) {
 		for(ComponenteDTO cdto : listaComponentes) {
 			if(cdto.getIdComponente()==id)return cdto;

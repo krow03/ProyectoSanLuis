@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAO.EquipoDAO;
+import DTO.ComponenteDTO;
 import DTO.EquipoDTO;
 
 
@@ -104,6 +105,7 @@ public class GestorEquipos {
 	}
 	
 	public boolean borrarEquipo(int idEquipo) {
+		gc.desasignarEquipo(idEquipo);
 		if(edao.borrar(idEquipo)) {
 			listaEquipos.remove(getEquipoById(idEquipo));
 			if(listaEquiposDisp.contains(getEquipoById(idEquipo))) {

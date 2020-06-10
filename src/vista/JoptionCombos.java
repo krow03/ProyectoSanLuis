@@ -16,12 +16,13 @@ import gestores.GestorEquipos;
 import gestores.GestorUsuarios;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class JoptionCombos extends JFrame {
+public class JoptionCombos extends JDialog {
 
 	private JPanel contentPane;
 	private String rol = "Usuario";
@@ -46,7 +47,7 @@ public class JoptionCombos extends JFrame {
 		contentPane.add(comboBox);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (comboBox.getSelectedItem().equals(null)) rol = comboBox.getSelectedItem().toString();
+				if (!comboBox.getSelectedItem().equals(null)) rol = comboBox.getSelectedItem().toString();
 			}
 		});
 		
@@ -58,14 +59,17 @@ public class JoptionCombos extends JFrame {
 					if(rol.equals("Administrador")) {
 						AdministradorDTO adto = new AdministradorDTO(user.getIdUsuario(),user.getUserName(),user.getEmail(),user.getPass(), user.getNombre(), user.getApellidos(),user.getDireccion(),user.getTelefono());
 						if (!crearUsuario(adto))mensaje="!Error al crear el administrador¿½";
+						System.out.println("ad");
 						JOptionPane.showMessageDialog(null, mensaje);
 					}else if(rol.equals("Tecnico")){
 						TecnicoDTO tdto = new TecnicoDTO(user.getIdUsuario(),user.getUserName(),user.getEmail(), user.getPass(), user.getNombre(), user.getApellidos(),user.getDireccion(),user.getTelefono());
 						if (!crearUsuario(tdto))mensaje="!Error al crear el tecnicoï¿½";
+						System.out.println("tec");
 						JOptionPane.showMessageDialog(null, mensaje);
 					}else {
 						UsuarioDTO udto = new UsuarioDTO(user.getIdUsuario(),user.getUserName(),user.getEmail(), user.getPass(), user.getNombre(), user.getApellidos(),user.getDireccion(),user.getTelefono());	
 						if (!crearUsuario(udto))mensaje="!Error al crear el usuarioï¿½";
+						System.out.println("usu");
 						JOptionPane.showMessageDialog(null, mensaje);
 					}
 					

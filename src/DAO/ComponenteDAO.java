@@ -22,6 +22,7 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 	private static final String SQL_FINDALLBYSTOCK="SELECT * FROM Componentes WHERE Stock_idStock = ?";
 	private static final String SQL_ASSIGNSTOCK="UPDATE Componentes SET Stock_idStock WHERE idComponentes = ?";
 	private static final String SQL_ASSIGNEQUIPO="UPDATE Componentes SET Equipo_idEquipos=? WHERE idComponentes = ?";
+	private static final String SQL_UNASSIGNEQUIPO="UPDATE Componentes SET Equipos_idEquipos=null WHERE Equipos_idEquipos = ?";
 	private Conexion con = Conexion.getInstance();
 	
 	@Override
@@ -119,6 +120,29 @@ public class ComponenteDAO implements PatronDAO<ComponenteDTO>{
 			ps.setInt(1, idEquipo);
 			
 			ps.setInt(2, t.getIdComponente());
+
+			if (ps.executeUpdate()>0) return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			try {
+				if (ps != null) ps.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return false;
+	}
+	
+	public boolean desasignarEquipo(int idEquipo) {
+		PreparedStatement ps = null;
+		try {
+			ps = con.getCon().prepareStatement(SQL_UNASSIGNEQUIPO);
+			ps.setInt(1, idEquipo);
 
 			if (ps.executeUpdate()>0) return true;
 			

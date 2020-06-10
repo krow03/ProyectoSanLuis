@@ -95,6 +95,16 @@ public class GestorUsuarios {
 		return udto;
 	}
 	
+	public ArrayList<UsuarioDTO> getUsersByIdEquipo(int idEquipo) {
+		ArrayList<UsuarioDTO> usuariosEquipo = new ArrayList<UsuarioDTO>();
+		
+		for(UsuarioDTO temp : listaUsers) {
+			if(temp.getEquipo()!=null)
+				if(idEquipo == temp.getEquipo().getIdEquipo()) usuariosEquipo.add(temp);
+		}
+		return usuariosEquipo;
+	}
+	
 	/**
 	 * Gets the user online.
 	 *
