@@ -11,7 +11,7 @@ import conexion.Conexion;
 public class StockDAO implements PatronDAO<StockDTO>{
 	private static final String SQL_INSERT="INSERT INTO sanluisdb.stock (unidadesStock, limiteInferior, descripcion, precio) VALUES (?,?,?,?,?);";
 	private static final String SQL_DELETE="DELETE FROM Stock WHERE idStock = ?";
-	private static final String SQL_UPDATE="UPDATE Stock SET unidadesStock=?,limiteInferior=?,descripcion=?,precio? WHERE idStock = ?";
+	private static final String SQL_UPDATE="UPDATE Stock SET unidadesStock=?,limiteInferior=?,descripcion=?,precio=? WHERE idStock = ?";
 	private static final String SQL_FIND="SELECT * FROM Stock WHERE idStock = ?";
 	private static final String SQL_FINDALL="SELECT * FROM Stock";
 	private static final String SQL_FINDALLBYIDPROVEEDOR="SELECT * FROM Stock WHERE Proveedores_idProveedores = ?";

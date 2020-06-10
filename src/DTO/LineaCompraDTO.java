@@ -14,7 +14,12 @@ public class LineaCompraDTO {
 		this.unidades = unidades;
 		this.precio=precio;
 	}
-	
+	public LineaCompraDTO(StockDTO sdto, int unidades, double precio) {
+        super();
+        this.stock = sdto;
+        this.unidades = unidades;
+        this.precio=precio;
+    }
 	public StockDTO getStock() {
 		return stock;
 	}

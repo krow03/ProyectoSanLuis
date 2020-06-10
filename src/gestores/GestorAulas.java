@@ -53,6 +53,7 @@ public class GestorAulas {
 		for(AulaDTO adto : listaAulas) {
 			 adto.setEquipos(ge.getEquiposAula(adto.getIdAula()));
 		}
+		
 	}
 	
 	public AulaDTO getAulaByNombre(String nombre) {

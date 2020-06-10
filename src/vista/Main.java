@@ -352,7 +352,7 @@ public class Main extends JFrame {
 				lblEquiposVerde.setVisible(false);
 				lblCrudAulas.setVisible(true);
 				lblCrudAulaVerde.setVisible(false);
-				if(!(gu.getUserOnline() instanceof AdministradorDTO)) {
+				if(!((gu.getUserOnline() instanceof AdministradorDTO) || (gu.getUserOnline() instanceof TecnicoDTO))) {
 					System.out.println("UsuarioDTO");
 					lblCrudAulas.setVisible(false);
 					lblCrudAulaVerde.setVisible(false);
@@ -394,7 +394,7 @@ public class Main extends JFrame {
 				lblEquiposVerde.setVisible(false);
 				lblCrudAulas.setVisible(true);
 				lblCrudAulaVerde.setVisible(false);
-				if(!(gu.getUserOnline() instanceof AdministradorDTO)) {
+				if(!((gu.getUserOnline() instanceof AdministradorDTO) || (gu.getUserOnline() instanceof TecnicoDTO))) {
 					System.out.println("UsuarioDTO");
 					lblCrudAulas.setVisible(false);
 					lblCrudAulaVerde.setVisible(false);
@@ -1352,10 +1352,8 @@ public class Main extends JFrame {
 				for (UsuarioDTO udto : array) {
 
 					Object[] fila = { udto.getIdUsuario(), udto.getNombre() };
-					defaultModelAlumnoSoftware.addRow(fila);
+					defaultModelAlumno.addRow(fila);
 				}
-				Object[] fila = { "", "" };
-				defaultModelAlumnoSoftware.addRow(fila);
 			}
 		});
 
@@ -1396,6 +1394,8 @@ public class Main extends JFrame {
 		});
 
 		JButton btnDeleteEquipo = new JButton("Quitar Equipo");
+		btnDeleteEquipo.setBackground(new Color(220, 20, 60));
+
 		btnDeleteEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (equipoSeleccionado != null) {
@@ -1504,7 +1504,6 @@ public class Main extends JFrame {
 		panel_2.add(lblNewLabel_1_1_2);
 		
 
-		btnDeleteEquipo.setBackground(Color.ORANGE);
 		btnDeleteEquipo.setBounds(502, 45, 229, 31);
 		if((gu.getUserOnline() instanceof AdministradorDTO) || (gu.getUserOnline() instanceof TecnicoDTO)) {
 			aulas.add(btnDeleteEquipo);
@@ -1595,9 +1594,13 @@ public class Main extends JFrame {
 		txtDiscoDuro.setText(((Integer) e.getDiscoDuro()).toString());
 		txtRam.setText(((Integer) e.getRam()).toString());
 		int rowCount = defaultModelAlumno.getRowCount();
+		int rowCount2 = defaultModelAlumnoSoftware.getRowCount();
+
 		try {
-			System.out.println(""+rowCount);
 			// Remove rows one by one from the end of the table
+			for (int i = rowCount2 - 1; i >= 0; i--) {
+				defaultModelAlumnoSoftware.removeRow(i);
+			}
 			for (int i = rowCount - 1; i >= 0; i--) {
 				defaultModelAlumno.removeRow(i);
 			}
@@ -1610,18 +1613,20 @@ public class Main extends JFrame {
 				defaultModelAlumno.addRow(fila);
 			}
 			ArrayList<ComponenteDTO> componentesPC = new ArrayList<ComponenteDTO>();
-			
+			System.out.println("componentes pc¿");
+			System.out.println(e.toString());
+			System.out.println("--"+e.getComponentes().size());
 			for (int i = 0; i < e.getComponentes().size(); i++) {
-				
+				System.out.println(e.getComponentes().get(i).getDescripcion());
 				if (e.getComponentes().get(i) instanceof SoftwareDTO) {
 					componentesPC.add(e.getComponentes().get(i));
 					
 				}
 			}
 			for (ComponenteDTO udto : componentesPC) {
-
+				System.out.println(udto.toString());
 				Object[] fila = { udto.getIdComponente(), udto.getDescripcion() };
-				defaultModelAlumno.addRow(fila);
+				defaultModelAlumnoSoftware.addRow(fila);
 			}
 		} catch (Exception e2) {
 			// TODO: handle exception
@@ -2154,19 +2159,18 @@ public class Main extends JFrame {
 		tableHardware.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		defaultModel2 = (new DefaultTableModel(new Object[][] {},
-				new String[] { "COD", "Descripcion", "Tipo", "Marca", "Peso","Precio","Id Stock" }) {
+				new String[] { "COD", "Descripcion", "Tipo", "Marca","Precio","Id Stock" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		});
 		tableHardware.setModel(defaultModel2);
 		tableHardware.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tableHardware.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(1).setPreferredWidth(450);
+		tableHardware.getColumnModel().getColumn(2).setPreferredWidth(100);
 		tableHardware.getColumnModel().getColumn(3).setPreferredWidth(450);
 		tableHardware.getColumnModel().getColumn(4).setPreferredWidth(450);
 		tableHardware.getColumnModel().getColumn(5).setPreferredWidth(450);
-		tableHardware.getColumnModel().getColumn(6).setPreferredWidth(450);
 		
 		scrollPaneIncidencias.setViewportView(tableHardware);
 
@@ -2246,14 +2250,40 @@ public class Main extends JFrame {
 				try {
 					compra = new CompraDTO(0,proveedorSeleccionado.getIdProveedor(),fechaActual,precioTotal,cesta,3);
 					gcm.crearCompra(compra);
-					gcm.crearLineaCompra(cesta,gcm.getListaCompras().size());
+					ArrayList<LineaCompraDTO> lineaCompra = new ArrayList<LineaCompraDTO>();
+                    int unidades = 0;
+                    LineaCompraDTO producto = new LineaCompraDTO(new StockDTO(0,0,"",0),0,0);
+                    for(LineaCompraDTO lcdto : cesta) {
+                        if(lcdto.getStock().getIdStock()!=producto.getStock().getIdStock()) {
+                            lineaCompra.add(lcdto);
+                        }
+                        producto = lcdto;
+                    }
+                    for(LineaCompraDTO lcdto : lineaCompra) {
+                        for(LineaCompraDTO lc : cesta) {
+                            if(lcdto.getStock().getIdStock()==lc.getStock().getIdStock()) {
+                                unidades++;
+                            }
+                        }
+                        lcdto.setUnidades(unidades);
+                        unidades = 0;
+                    }
+
+                    gcm.crearLineaCompra(lineaCompra,gcm.getListaCompras().size());
 					for(LineaCompraDTO lcdto : cesta) {
 						gst.sumarStock(lcdto.getStock().getIdStock(), lcdto.getUnidades());
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
+				int rowCount2 = tableCompras.getRowCount();
+				DefaultTableModel tm = (DefaultTableModel) tableCompras.getModel();
+				
+					// Remove rows one by one from the end of the table
+					for (int i = rowCount2 - 1; i >= 0; i--) {
+						tm.removeRow(i);
+					}
+					JOptionPane.showMessageDialog(null, "Compra realizada con exito");
 			}
 		});
 		btnNewButton_8.setBounds(1000, 714, 100, 64);
@@ -2263,12 +2293,11 @@ public class Main extends JFrame {
 			btnNewButton_8.setIcon(new ImageIcon(img));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 		btnNewButton_8.setBorder(null);
 
 		stock.add(btnNewButton_8);
-		JButton btnNewButton_5 = new JButton("Hardware");
+		JButton btnNewButton_5 = new JButton("Software");
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scrollPaneIncidencias.setVisible(false);
@@ -2300,8 +2329,8 @@ public class Main extends JFrame {
 					System.out.println("hola"+tableHardware.getSelectedRow());
 					int id = Integer.parseInt(modelHardware.getValueAt(tableHardware.getSelectedRow(), 0).toString());
 					String descri = modelHardware.getValueAt(tableHardware.getSelectedRow(), 1).toString();
-					float precio = Float.parseFloat(modelHardware.getValueAt(tableHardware.getSelectedRow(), 5).toString());
-					int idStock = Integer.parseInt(modelHardware.getValueAt(tableHardware.getSelectedRow(), 6).toString());
+					float precio = Float.parseFloat(modelHardware.getValueAt(tableHardware.getSelectedRow(), 4).toString());
+					int idStock = Integer.parseInt(modelHardware.getValueAt(tableHardware.getSelectedRow(), 5).toString());
 					Object[] fila = { id, precio, 1, descri, idStock };
 					tm.addRow(fila);
 
@@ -2320,7 +2349,7 @@ public class Main extends JFrame {
 		btnNewButton_9.setBorder(null);
 		stock.add(btnNewButton_9);
 
-		JButton btnNewButton_6 = new JButton("Software");
+		JButton btnNewButton_6 = new JButton("Hardware");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scrollPaneIncidencias.setVisible(true);

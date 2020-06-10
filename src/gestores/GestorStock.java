@@ -21,6 +21,8 @@ public class GestorStock {
 	
 	private GestorStock() {
 		cargarListaStock();
+		cargarConponentesStock();
+		cargarEquiposStock();
 	}
 	
 	public ArrayList<StockDTO> getListaStock(){

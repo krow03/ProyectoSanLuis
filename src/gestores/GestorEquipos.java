@@ -60,7 +60,12 @@ public class GestorEquipos {
 	}
 	
 	public ArrayList<EquipoDTO> getEquiposAula(int idAula) {
-		return edao.listarTodos(idAula);
+		ArrayList<EquipoDTO> equipos = edao.listarTodos(idAula);
+		for(EquipoDTO edto : equipos) {
+			 edto.setComponentes(gc.getComponentesEquipo(edto.getIdEquipo()));
+			 edto.calcularDisponibleHD();
+		}
+		return equipos;
 	}
 	
 	public boolean crearEquipo(EquipoDTO e) throws SQLException {

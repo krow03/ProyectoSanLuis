@@ -18,6 +18,8 @@ import javax.swing.JDialog;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -172,6 +174,12 @@ public class ProveedoresPantalla extends JDialog {
 		lbl_close.setForeground(new Color(241, 57, 83));
 		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbl_close.setBounds(925, 0, 37, 27);
+		lbl_close.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.exit(0);
+			}
+		});
 		contentPane.add(lbl_close);
 	}
 }
